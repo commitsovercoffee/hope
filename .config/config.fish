@@ -13,3 +13,5 @@ if status is-login
         exec startx -- -keeptty
     end
 end
+
+theme_gruvbox dark medium

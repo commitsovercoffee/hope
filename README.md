@@ -70,10 +70,10 @@ curl https://raw.githubusercontent.com/commitsovercoffee/hope/main/1-install.sh 
 <br>
 
 The script installs [fish shell](https://fishshell.com/) with [fisher](https://github.com/jorgebucaran/fisher) plugin manager and
-[tokyonight theme](https://github.com/vitallium/tokyonight-fish). If you don't like that theme. You can remove it :
+[gruvbox theme](https://github.com/Jomik/fish-gruvbox). If you don't like that theme. You can remove it :
 
 ```bash
-fish -c "fisher remove vitallium/tokyonight-fish"; sudo pacman -Rns fisher
+fish -c "fisher remove jomik/fish-gruvbox"; sudo pacman -Rns fisher
 ```
 
 And (maybe) opt for an alternative such as :

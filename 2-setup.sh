@@ -198,7 +198,7 @@ cd $HOME/.config/suckless/st
 make clean install; cd "$current_dir"
 
 # set theme for fish shell.
-fish -c "fisher install vitallium/tokyonight-fish"
+fish -c "fisher install jomik/fish-gruvbox"
 
 # set defaults.
 chsh --shell /bin/fish "$userName"
