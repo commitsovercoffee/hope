@@ -177,7 +177,7 @@ set.relativenumber = false
 -- highlight current line.
 set.cursorline = true
 
--- color column to indicate optimal line length. test
+-- color column to indicate optimal line length.
 set.colorcolumn = "75"
 
 -- disable line wrapping
@@ -201,7 +201,7 @@ set.autoindent = true
 set.swapfile = false
 set.backup = false
 set.undofile = true
-set.undodir = "/home/singh/.config/nvim/undodir"
+set.undodir = "$HOME/.config/nvim/undodir"
 
 -- set search options
 set.incsearch = true

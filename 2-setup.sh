@@ -111,6 +111,8 @@ pacman -S pipewire lib32-pipewire wireplumber pipewire-audio pipewire-alsa pipew
 
 chipset () {
 
+# install microcode for amd.
+
 vendor="$(lscpu | grep 'Model name')"
 
 if [[ "$vendor" == *"AMD"* ]]; then
@@ -376,7 +378,6 @@ current_dir=$PWD
 # setup ...
 
 multilib
-
 timezone
 locale
 users
@@ -385,11 +386,12 @@ network
 bluetooth
 audio
 chipset
+gpu
 
 tui
 gui
-grub
 
+grub
 config
 misc
 
