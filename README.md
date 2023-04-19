@@ -1,15 +1,19 @@
 # Hope
 
-**H.O.P.E** stands for `Highly Optimised Productivity Environment`. This project is a collection of scripts and dot files to setup ( and document ) my ever evolving arch work environment.
+Scripts and dot files to setup ( and document ) my ever evolving arch setup i.e **H**ighly **O**ptimised **P**roductivity **E**nvironment.
 
-- Installs base arch.
-- Sets up timezone and locale. - Installs fonts ( supports foreign languages, emojis & symbols ).
-- Sets up audio, bluetooth, network & firewall.
-- Creates normal user with sudo priviledges.
-- Sets up GRUB bootloader
-- Enables multilib packages (for 32 bit apps) & installs paru (for AUR apps).
-- Sets up a friendly default terminal environment. ( st, fish)
-- Sets up a minimalist graphical environment. (dwm, dmenu, feh, amd drivers etc)
+Installs base arch and sets up ...
+
+- multilib for 32-bit apps.
+- timezone and locale.
+- user with sudo priviledges.
+- network, bluetooth, audio and graphics.
+- a friendly terminal (st, fish, tldr, neovim etc).
+- a minimal graphical environment. (dwm, dmenu, picom, dunst etc).
+- GRUB bootloader.
+- dot files for xinitrc, picom, fish, neovim and touchpad,
+
+and installs my recommended apps, if you reply `yes` to the suit prompt.
 
 |      Screenshot 01      |      Screenshot 02      |
 | :---------------------: | :---------------------: |
@@ -18,19 +22,21 @@
 ## Usage
 
 > **Note :**
-> The scripts are hardcoded for my hardware _(amd cpu and gpu + nvme ssd)_, since this is an automation script, not an arch installer.
+> - It installs drivers for AMD builds only.
+> - It wipes the first NVMe SSD for installation.
 
-> **Warning :**
-> Wipes first nvme ssd for installation. READ/EDIT THE SCRIPT BEFORE USING IT !
+Since, This is an automation script, not an installer.
 
-- You can follow the steps below to install **my** work enviroment.
+> READ/EDIT THE SCRIPT BEFORE USING IT !
+
+- Follow the steps below to install **my** setup.
 - Or fork it, and use it as reference for your own remix.
 
 ## Pre-installation
 
 - Download the arch iso from [this](https://archlinux.org/download/) page and [verify](https://wiki.archlinux.org/title/Installation_guide#Verify_signature) the signature of your download.
 - Prepare the [USB flash installation medium](https://wiki.archlinux.org/title/USB_flash_installation_medium). (Do not use [these](https://wiki.archlinux.org/title/USB_flash_installation_medium#Inadvisable_methods) methods.)
-- Boot the live environment in UEFI mode. Disable Secure boot as Arch linux images do not support secure boot.
+- Disable `secure boot`. Boot the live environment in UEFI mode.
 - Connect to the internet using one of following techniques :
   - Plug in an ethernet cable.
   - Authenticate to a wireless network using [iwctl](https://wiki.archlinux.org/title/Iwd#iwctl).
@@ -52,29 +58,11 @@ curl https://raw.githubusercontent.com/commitsovercoffee/hope/main/1-install.sh 
 
 ## What Next ?
 
-<details><summary>Install Apps</summary>
-<br>
-
-The script installs a minimal arch setup (no media player, screenshot utility, etc).
-
-- Reply `yes` to the suite option, to install recommended apps. Or ...
-- Manually install whatever apps/packages you see fit.
-
-> Want to use [AUR](https://wiki.archlinux.org/title/Arch_User_Repository) packages ? Use [paru](https://github.com/Morganamilo/paru) !!
-
-</details>
-
 <details><summary>Change Appearance</summary>
 <br>
 
-- Using `lxappearance` to tweak the theme, icon, font, cursor etc.
-
-</details>
-
-<details><summary>Manage Fonts</summary>
-<br>
-
-- Using `font-manager` app to download/install/uninstall fonts ( including ones from [google fonts](https://fonts.google.com/) ).
+- Use `lxappearance` to tweak the theme, icon, font, cursor etc.
+- Use `font-manager` to download/install/uninstall fonts (including ones from [google fonts](https://fonts.google.com/)).
 
 </details>
 
@@ -100,19 +88,12 @@ And (maybe) opt for an alternative such as :
 
 The script installs [PcManFM](https://wiki.lxde.org/en/PCManFM) file manager. To enable terminal support (say) `st` in it :
 
-- Open file manager by pressing `Shift + Alt + F`.
+- Open file manager by pressing `Alt + Shift + K`.
 - Click on `Edit > Preferences > Advanced`.
 - Type **st** in the `Terminal emulator` text field.
 - Close the `Preferences` dialog box.
 
 Now, you can press `F4` to open the current directory of the file manager in a terminal.
-
-</details>
-
-<details><summary>Neovim</summary>
-<br>
-
-The installation also sets up my neovim config. The first time you open nvim, it will setup everything.
 
 </details>
 
@@ -156,4 +137,3 @@ You can reach out to me on reddit : u/commitsovercoffee
 ## Status
 
 This project is my daily driver. I contribute to this project if and when I come across something useful or to add bugfixes.
-
