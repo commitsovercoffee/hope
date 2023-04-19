@@ -81,13 +81,13 @@ require('lazy').setup({
     end,
   },
 
-
   {
     -- Theme
-    'folke/tokyonight.nvim',
+    'ellisonleao/gruvbox.nvim',
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme 'tokyonight-night'
+      vim.o.background = "dark"
+      vim.cmd.colorscheme 'gruvbox'
     end,
   },
 
@@ -98,7 +98,7 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = false,
-        theme = 'tokyonight',
+        theme = 'gruvbox_dark',
         component_separators = '|',
         section_separators = '',
       },
@@ -495,5 +495,4 @@ cmp.setup {
     { name = "calc" }, -- math calculations cmp
   },
 }
-
 
