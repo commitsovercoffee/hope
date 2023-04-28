@@ -170,6 +170,7 @@ apps=(
 
     'git'                   # version control
     'neovim'                # text editor
+    'xclip'                 # clipboard manipulation tool
  
     'fd'                    # file search
     'ripgrep'               # search tool that combines the usability of ag with the raw speed of grep
@@ -191,10 +192,10 @@ for app in "${apps[@]}"; do
 done
 
 # clone suckless fork. (this command also creates .config dir as root)
-git clone https://github.com/commitsovercoffee/suckless.git "$HOME"/.config/suckless
+git clone https://github.com/commitsovercoffee/suckless.git /home/"$userName"/.config/suckless
 
 # install suckless terminal
-cd $HOME/.config/suckless/st
+cd  /home/"$userName"/.config/suckless/st
 make clean install; cd "$current_dir"
 
 # set theme for fish shell.
@@ -242,7 +243,7 @@ for app in "${apps[@]}"; do
 done
 
 # install dynamic window manager.
-cd $HOME/.config/suckless/dwm
+cd /home/"$userName"/.config/suckless/dwm
 make clean install; cd "$current_dir"
 
 }
