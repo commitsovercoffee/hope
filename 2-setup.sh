@@ -30,7 +30,7 @@ hwclock --systohc
 locale () {
 
 # install fonts.
-pacman -S nerd-fonts noto-fonts noto-fonts-extra noto-fonts-emoji font-manager --noconfirm
+pacman -S ttf-liberation nerd-fonts noto-fonts noto-fonts-extra noto-fonts-emoji font-manager --noconfirm
 
 # uncomment required locales from '/etc/locale.gen'.
 sed -i 's/#en_US.UTF-8/en_US.UTF-8/' /etc/locale.gen
@@ -275,34 +275,34 @@ config () {
     repo="https://raw.githubusercontent.com/commitsovercoffee/hope/main"
 
     # 'xinitrc'
-    curl "$repo"/.config/.xinitrc -o "$HOME"/.xinitrc
+    curl "$repo"/.config/.xinitrc -o /home/"$userName"/.xinitrc
 
     # 'picom'
-    mkdir -p "$HOME"/.config/picom
-    curl "$repo"/.config/picom.conf -o "$HOME"/.config/picom/picom.conf
+    mkdir -p /home/"$userName"/.config/picom
+    curl "$repo"/.config/picom.conf -o /home/"$userName"/.config/picom/picom.conf
 
     # wallpaper for 'feh'
-    mkdir -p "$HOME"/Pictures
-    curl "$repo"/assets/wallpaper.jpg -o "$HOME"/Pictures/wallpaper.jpg 
+    mkdir -p /home/"$userName"/Pictures
+    curl "$repo"/assets/wallpaper.jpg -o /home/"$userName"/Pictures/wallpaper.jpg 
 
     # 'fish'
-    mkdir -p "$HOME"/.config/fish/functions
-    curl "$repo"/.config/config.fish -o "$HOME"/.config/fish/config.fish 
-    curl "$repo"/.config/fish_greeting.fish -o "$HOME"/.config/fish/functions/fish_greeting.fish 
+    mkdir -p /home/"$userName"/.config/fish/functions
+    curl "$repo"/.config/config.fish -o /home/"$userName"/.config/fish/config.fish 
+    curl "$repo"/.config/fish_greeting.fish -o /home/"$userName"/.config/fish/functions/fish_greeting.fish 
 
     # 'neovim'
-    mkdir -p "$HOME"/.config/nvim
-    curl "$repo"/.config/init.lua -o "$HOME"/.config/nvim/init.lua
+    mkdir -p /home/"$userName"/.config/nvim
+    curl "$repo"/.config/init.lua -o /home/"$userName"/.config/nvim/init.lua
 
     # 'touchpad'
     curl "$repo"/.config/30-touch.conf -o /etc/X11/xorg.conf.d/30-touch.conf
 
     # reset permissions.
-    chown -R  "$userName" "$HOME"/.config
-    chown -R :"$userName" "$HOME"/.config
+    chown -R  "$userName" /home/"$userName"/.config
+    chown -R :"$userName" /home/"$userName"/.config
     
-    chown -R  "$userName" "$HOME"/Pictures
-    chown -R :"$userName" "$HOME"/Pictures
+    chown -R  "$userName" /home/"$userName"/Pictures
+    chown -R :"$userName" /home/"$userName"/Pictures
 
 }
 
