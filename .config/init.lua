@@ -201,7 +201,7 @@ set.autoindent = true
 set.swapfile = false
 set.backup = false
 set.undofile = true
-set.undodir = "$HOME/.config/nvim/undodir"
+vim.opt.undodir = vim.fn.expand('~/.config/nvim/undodir')
 
 -- set search options
 set.incsearch = true
