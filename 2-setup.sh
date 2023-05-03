@@ -158,7 +158,6 @@ fi
 tui () {
 
 # install packages for a seamless terminal workflow.
-
 apps=(
 
     'fish'                  # user-friendly shell 
@@ -278,6 +277,9 @@ config () {
     # 'xinitrc'
     curl "$repo"/.config/.xinitrc -o /home/"$userName"/.xinitrc
 
+    # 'Xresources'
+    curl "$repo"/.config/.Xresources -o /home/"$userName"/.Xresources
+
     # 'picom'
     mkdir -p /home/"$userName"/.config/picom
     curl "$repo"/.config/picom.conf -o /home/"$userName"/.config/picom/picom.conf
@@ -299,12 +301,9 @@ config () {
     curl "$repo"/.config/30-touch.conf -o /etc/X11/xorg.conf.d/30-touch.conf
 
     # reset permissions.
-    chown -R  "$userName" /home/"$userName"/.config
-    chown -R :"$userName" /home/"$userName"/.config
+    chown -R  "$userName" /home/"$userName"/
+    chown -R :"$userName" /home/"$userName"/
     
-    chown -R  "$userName" /home/"$userName"/Pictures
-    chown -R :"$userName" /home/"$userName"/Pictures
-
 }
 
 misc() {
