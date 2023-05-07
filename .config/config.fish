@@ -33,3 +33,4 @@ if status is-login
 end
 
 theme_gruvbox dark hard
+starship init fish | source

@@ -30,7 +30,7 @@ hwclock --systohc
 locale () {
 
 # install fonts.
-pacman -S ttf-liberation nerd-fonts noto-fonts noto-fonts-extra noto-fonts-emoji font-manager --noconfirm
+pacman -S nerd-fonts ttf-firacode-nerd noto-fonts noto-fonts-extra noto-fonts-emoji font-manager --noconfirm
 
 # uncomment required locales from '/etc/locale.gen'.
 sed -i 's/#en_US.UTF-8/en_US.UTF-8/' /etc/locale.gen
@@ -162,6 +162,7 @@ apps=(
 
     'fish'                  # user-friendly shell 
     'fisher'                # fish package manager
+    'starship'              # shell prompt
     'tldr'                  # concise command examples
 
     'exa'                   # alternative to `ls`
@@ -189,6 +190,9 @@ apps=(
 for app in "${apps[@]}"; do
     pacman -S "$app" --noconfirm --needed
 done
+
+# set preset for starship prompt 
+starship preset nerd-font-symbols -o ~/.config/starship.toml
 
 # clone suckless fork. (this command also creates .config dir as root)
 git clone https://github.com/commitsovercoffee/suckless.git /home/"$userName"/.config/suckless
