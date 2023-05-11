@@ -2,8 +2,8 @@
 -- Dependencies : nodejs, npm, fd, ripgrep, go
 
 -- Set <\> as the leader key. Must happen before plugins are required.
-vim.g.mapleader = "\\"
-vim.g.maplocalleader = "\\"
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 
 -- Install package manager : https://github.com/folke/lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -22,7 +22,7 @@ vim.opt.rtp:prepend(lazypath)
 -- Startup function
 require("lazy").setup({
     -- Toggle term
-    { 'akinsho/toggleterm.nvim', version = "*", config = true },
+    { 'akinsho/toggleterm.nvim',       version = "*", config = true },
 
     -- LSP config & plugins.
     {
@@ -435,6 +435,14 @@ local on_attach = function(_, bufnr)
     vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
         vim.lsp.buf.format()
     end, { desc = "Format current buffer with LSP" })
+
+    -- Set an autocommand to run :Format command on save
+    vim.cmd([[
+augroup LSPFormatOnSave
+  autocmd!
+  autocmd BufWritePost <buffer> Format
+augroup END
+]])
 end
 
 -- Enable the following language servers
