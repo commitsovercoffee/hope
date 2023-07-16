@@ -249,6 +249,9 @@ done
 cd /home/"$userName"/.config/suckless/dwm
 make clean install; cd "$current_dir"
 
+# install dmenu.
+cd /home/"$userName"/.config/suckless/dmenu
+make clean install; cd "$current_dir"
 }
 
 grub () {
