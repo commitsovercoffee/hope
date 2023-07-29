@@ -1,0 +1,16 @@
+##
+## Arch Linux repository mirrorlist
+## Generated on 2023-07-29
+##
+
+## India
+Server = https://mirror.4v1.in/archlinux/$repo/os/$arch
+Server = https://mirrors.abhy.me/archlinux/$repo/os/$arch
+Server = https://mirror.albony.xyz/archlinux/$repo/os/$arch
+Server = https://in-mirror.garudalinux.org/archlinux/$repo/os/$arch
+Server = https://archlinux.mirror.net.in/archlinux/$repo/os/$arch
+Server = https://mirrors.vishnetwork.in/archlinux/$repo/os/$arch
+Server = https://mirrors.nxtgen.com/archlinux-mirror/$repo/os/$arch
+Server = https://mirrors.piconets.webwerks.in/archlinux-mirror/$repo/os/$arch
+Server = https://mirror.sahil.world/archlinux/$repo/os/$arch
+
