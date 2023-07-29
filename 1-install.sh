@@ -15,9 +15,6 @@ fi
 
 prepare_disk () {
 
-# [-] add swap option based on available RAM.
-# [-] write a wrapper for easy disk partitioning.
-
 # delete existing partition table.
 wipefs -a -f /dev/nvme0n1
 
@@ -52,7 +49,7 @@ mount /dev/nvme0n1p2 /mnt
 install () {
 
 # install essential packages.
-pacstrap /mnt linux linux-firmware base base-devel neovim
+pacstrap -K /mnt linux-zen linux-firmware base base-devel
 
 # generate fstab file.
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -71,6 +68,7 @@ arch-chroot /mnt bash setup.sh
 
 # Install arch linux :
 
+timedatectl     # sync time.
 check_uefi      # verify boot mode.
 prepare_disk    # partition & format disk.
 install         # install vanilla arch.
@@ -78,3 +76,4 @@ setup           # setup system.
 
 # unmount paritions & reboot.
 umount -R /mnt
+reboot

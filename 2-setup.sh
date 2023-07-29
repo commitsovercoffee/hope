@@ -19,18 +19,15 @@ timezone () {
 # set timezone.
 ln -sf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
 
-# enable network time sync.
-timedatectl set-ntp true
-
 # set the hardware clock from the system clock.
 hwclock --systohc
+
+# enable network time sync.
+timedatectl set-ntp true
 
 }
 
 locale () {
-
-# install fonts.
-pacman -S nerd-fonts ttf-firacode-nerd noto-fonts noto-fonts-extra noto-fonts-emoji font-manager --noconfirm
 
 # uncomment required locales from '/etc/locale.gen'.
 sed -i 's/#en_US.UTF-8/en_US.UTF-8/' /etc/locale.gen
@@ -41,44 +38,23 @@ locale-gen
 # set system locale ~ creates 'locale.conf'.
 localectl set-locale LANG=en_US.UTF-8
 
-}
-
-users () {
-
-# set the root password.
-echo "Specify root password. This will be used to authorize root commands."
-passwd
-
-# add regular user.
-echo "Specify username. This will be used to identify your account on this machine."
-read -r userName;
-useradd -m -G wheel -s /bin/bash "$userName"
-
-# set password for new user.
-echo "Specify password for regular user : $userName."
-passwd "$userName"
-
-# enable sudo for wheel group.
-sed -i 's/# %wheel ALL=(ALL:ALL) ALL/ %wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
-
-# create directories for user.
-pacman -S xdg-user-dirs --noconfirm; xdg-user-dirs-update
+# install fonts.
+pacman -S ttf-firacode-nerd nerd-fonts noto-fonts noto-fonts-extra noto-fonts-emoji font-manager --noconfirm
 
 }
 
 network () {
 
+# create the hostname file.
+echo "arch" > /etc/hostname
+
 # install & enable network.
 pacman -S networkmanager --noconfirm
 systemctl enable NetworkManager
 
-# create the hostname file.
-echo "Specify hostname. This will be used to identify your machine on a network."
-read -r hostName; echo "$hostName" > /etc/hostname
-
-# add matching entries to '/etc/hosts'.
+# add entries for localhost to '/etc/hosts' file.
 # ( if the system has a permanent IP address, it should be used instead of 127.0.1.1 )
-echo -e 127.0.0.1'\t'localhost'\n'::1'\t\t'localhost'\n'127.0.1.1'\t'$hostName >> /etc/hosts
+echo -e 127.0.0.1'\t'localhost'\n'::1'\t\t'localhost'\n'127.0.1.1'\t'arch >> /etc/hosts
 
 # install & enable firewall.
 pacman -S ufw --noconfirm
@@ -87,8 +63,6 @@ systemctl enable ufw
 # allow outgoing & reject incoming.
 ufw default allow outgoing
 ufw default deny incoming
-
-# use custom dns if needed (explained in `What Next ?` section of README).
 
 }
 
@@ -252,6 +226,30 @@ make clean install; cd "$current_dir"
 # install dmenu.
 cd /home/"$userName"/.config/suckless/dmenu
 make clean install; cd "$current_dir"
+
+}
+
+users () {
+
+# set the root password.
+echo "Specify root password. This will be used to authorize root commands."
+passwd
+
+# add regular user.
+echo "Specify username. This will be used to identify your account on this machine."
+read -r userName;
+useradd -m -G wheel -s /bin/bash "$userName"
+
+# set password for new user.
+echo "Specify password for regular user : $userName."
+passwd "$userName"
+
+# enable sudo for wheel group.
+sed -i 's/# %wheel ALL=(ALL:ALL) ALL/ %wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
+
+# create directories for user.
+pacman -S xdg-user-dirs --noconfirm; xdg-user-dirs-update
+
 }
 
 grub () {
@@ -302,7 +300,7 @@ config () {
 
     # 'neovim'
     mkdir -p /home/"$userName"/.config/nvim
-    curl "$repo"/.config/init.lua -o /home/"$userName"/.config/nvim/init.lua
+    git clone --depth 1 https://github.com/commitsovercoffee/minima-nvim ~/.config/nvim
 
     # 'touchpad'
     curl "$repo"/.config/30-touch.conf -o /etc/X11/xorg.conf.d/30-touch.conf
@@ -314,6 +312,9 @@ config () {
 }
 
 misc() {
+
+# recreate the initramfs image
+mkinitcpio -P
 
 # enable TRIM for SSDs.
 systemctl enable fstrim.timer
@@ -338,10 +339,10 @@ suite() {
 
     apps=(
 
-    'gnome-screenshot'      # screenshot tool.
+    	'gnome-screenshot'      # screenshot tool.
 	'gcolor3'               # color picker.
 
-    'pcmanfm-gtk3'          # file manager.
+    	'pcmanfm-gtk3'          # file manager.
 	'unzip'                 # extract/view .zip archives.
 	'mtpfs'                 # read/write to MTP devices.
 	'libmtp'                # MTP support.
@@ -361,11 +362,11 @@ suite() {
 	'gimp'                  # image editor.
 	'inkscape'              # vector art.
 	'mypaint'               # raster art.
-    'obs-studio'            # screen cast/record.
+    	'obs-studio'            # screen cast/record.
 
 	'torrential'            # torrent client.
 	'gnome-multi-writer'    # iso file writer.
-    'gnome-sound-recorder'  # sound recorder.
+    	'gnome-sound-recorder'  # sound recorder.
 	'gnome-disk-utility'    # disk management.
 
 	'vlc'                   # media player.
