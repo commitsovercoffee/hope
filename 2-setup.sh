@@ -115,15 +115,15 @@ if [[ "$vendor" == *"AMD"* ]]; then
     # accelerated video decoding
     pacman -S libva-mesa-driver lib32-libva-mesa-driver --noconfirm
 
-    echo "
-    Section "OutputClass"
-        Identifier "AMD"
-        MatchDriver "amdgpu"
-        Driver "amdgpu"
-        Option "TearFree" "true"
-        Option "DRI" "3"
-    EndSection
-    " > /etc/X11/xorg.conf.d/20-amdgpu.conf
+    # echo "
+    # Section "OutputClass"
+    #    Identifier "AMD"
+    #    MatchDriver "amdgpu"
+    #    Driver "amdgpu"
+    #    Option "TearFree" "true"
+    #    Option "DRI" "3"
+    # EndSection
+    # " > /etc/X11/xorg.conf.d/20-amdgpu.conf
 
 fi
 
