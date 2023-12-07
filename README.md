@@ -22,6 +22,7 @@ and installs my recommended apps, if you reply `yes` to the suit prompt.
 ## Usage
 
 > **Note :**
+>
 > - It installs drivers for AMD builds only.
 > - It wipes the first NVMe SSD for installation.
 
@@ -49,7 +50,7 @@ To check if you are connected to the internet. Run the command `ping archlinux.o
 Use the below command from a live arch installation environment to install and setup arch.
 
 ```
-curl https://raw.githubusercontent.com/commitsovercoffee/hope/main/1-install.sh -o install.sh; bash install.sh
+git clone https://github.com/commitsovercoffee/hope.git; bash ./hope/install.sh;
 ```
 
 - You will be prompted a few times to specify the hostname, username, passwd etc.
