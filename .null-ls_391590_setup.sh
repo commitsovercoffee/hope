@@ -399,3 +399,5 @@ misc
 # clean dir & exit.
 rm -r .config
 rm setup.sh
+
+# exit -- uncomment after testing

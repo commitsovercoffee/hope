@@ -1,6 +1,8 @@
 # Hope
 
-Scripts and dot files to setup ( and document ) my ever evolving arch setup i.e **H**ighly **O**ptimised **P**roductivity **E**nvironment.
+**H**ighly **O**ptimised **P**roductivity **E**nvironment ~ 
+
+Scripts and dot files to setup (and document) my ever evolving arch setup. 
 
 Installs base arch and sets up ...
 
@@ -11,9 +13,9 @@ Installs base arch and sets up ...
 - a friendly terminal (st, fish, tldr, neovim etc).
 - a minimal graphical environment. (dwm, dmenu, picom, dunst etc).
 - GRUB bootloader.
-- dot files for xinitrc, picom, fish, neovim and touchpad,
+- dot files for xinitrc, picom, fish, neovim and touchpad.
 
-and installs my recommended apps, if you reply `yes` to the suit prompt.
+and installs my recommended apps, if you reply `yes` to the suite prompt.
 
 |      Screenshot 01      |      Screenshot 02      |
 | :---------------------: | :---------------------: |
@@ -38,10 +40,7 @@ Since, This is an automation script, not an installer.
 - Download the arch iso from [this](https://archlinux.org/download/) page and [verify](https://wiki.archlinux.org/title/Installation_guide#Verify_signature) the signature of your download.
 - Prepare the [USB flash installation medium](https://wiki.archlinux.org/title/USB_flash_installation_medium). (Do not use [these](https://wiki.archlinux.org/title/USB_flash_installation_medium#Inadvisable_methods) methods.)
 - Disable `secure boot`. Boot the live environment in UEFI mode.
-- Connect to the internet using one of following techniques :
-  - Plug in an ethernet cable.
-  - Authenticate to a wireless network using [iwctl](https://wiki.archlinux.org/title/Iwd#iwctl).
-  - Connect to a mobile network with the [mmcli](https://wiki.archlinux.org/title/Mobile_broadband_modem#ModemManager) utility.
+- Connect to the internet by plugging in an ethernet cable or using [iwctl](https://wiki.archlinux.org/title/Iwd#Connect_to_a_network).
 
 To check if you are connected to the internet. Run the command `ping archlinux.org`.
 
@@ -49,13 +48,15 @@ To check if you are connected to the internet. Run the command `ping archlinux.o
 
 Use the below command from a live arch installation environment to install and setup arch.
 
-```
-git clone https://github.com/commitsovercoffee/hope.git; bash ./hope/install.sh;
+```bash
+pacman -S git;
+git clone https://github.com/commitsovercoffee/hope.git;
+bash ./hope/install.sh;
 ```
 
-- You will be prompted a few times to specify the hostname, username, passwd etc.
+- You will be prompted to set the password for the root & regular user.
 - Once the installation is complete. The machine will automatically reboot into arch.
-- You will reboot into TTY session where you can input your username and passkey to login.
+- You will reboot into TTY session where you can input your username and password to login.
 
 ## What Next ?
 
@@ -81,6 +82,17 @@ And (maybe) opt for an alternative such as :
 
 - The [oh-my-fish](https://github.com/oh-my-fish/oh-my-fish) framework. To install one of [these](https://github.com/mrshu/oh-my-fish/blob/master/docs/Themes.md) themes.
 - Alternatively, you can simply install a shell prompt like [tide](https://github.com/IlanCosman/tide).
+
+</details>
+
+<details><summary>Setup Neovim</summary>
+<br>
+
+If you use neovim, you can try my [neovim setup](https://github.com/commitsovercoffee/minima-nvim) with the following command : 
+
+```bash
+git clone --depth 1 https://github.com/commitsovercoffee/minima-nvim ~/.config/nvim
+```
 
 </details>
 
@@ -130,10 +142,6 @@ sudo systemctl restart libvirtd.service
 ```
 
 </details>
-
-## Support
-
-You can reach out to me on reddit : u/commitsovercoffee
 
 ## Status
 
