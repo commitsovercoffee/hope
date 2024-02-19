@@ -50,12 +50,12 @@ git clone https://github.com/commitsovercoffee/hope.git;
 bash ./hope/install.sh;
 ```
 
-- You will be prompted to set the password for the root & regular user.
-- Once the installation is complete. The machine will automatically reboot into arch.
-- You will reboot into a TTY session where you can input the username (hope) and password to login.
+After installation, temporary files will be cleaned up and your system will automatically restart into the new arch Linux installation. You'll be prompted to enter the username (hope) and password (that you set) to log in. Enjoy!
 
+## What Next ?
 
-## Keymaps 
+<details><summary>Keymaps</summary>
+<br>
 
 Basic : 
 
@@ -71,6 +71,8 @@ Switch workspace :
 
 Open apps : 
 
+> The apps spawn based on [these](https://github.com/commitsovercoffee/suckless/blob/main/dwm/config.def.h#L36) rules which promotes efficient app switching by defining dedicated workspaces/tag for each application. This consistent layout helps build muscle memory, making you lightning-fast in navigating your tasks. Another reason why tiling window managers rock !
+
 - `Alt` + `Shift` + `Enter` : Spawns terminal.
 - `Alt` + `Shift` + `k` : Spawns file-manager.
 - `Alt` + `Shift` + `p` : Spawns screenshot app.
@@ -81,18 +83,13 @@ Open apps :
 Select/resize apps : 
 
 - `Alt` + `j/k` : Cycle through apps in current workspace.
-- `Alt` + `j/k` : Increase/decrease width of current app.
+- `Alt` + `h/l` : Increase/decrease width of current app.
   
 Toggle float :
 
 - `Alt` + `Space` toggles the layout between [horizgrid](https://dwm.suckless.org/patches/horizgrid/) & [threecolumn](https://dwm.suckless.org/patches/three-column/)
 - `Alt` + `Shift` + `Space` toggles floating mode. You can hold `Alt` & drag/resize floating windows.
-
-App rules : 
-
-The apps spawn based on [these](https://github.com/commitsovercoffee/suckless/blob/main/dwm/config.def.h#L36) rules which promotes efficient app switching by defining dedicated workspaces/tag for each application. This consistent layout helps build muscle memory, making you lightning-fast in navigating your tasks. Another reason why tiling window managers rock !
-
-## What Next ?
+</details>
 
 <details><summary>Change Appearance</summary>
 <br>
@@ -126,7 +123,7 @@ Use below command to try my [neovim setup](https://github.com/commitsovercoffee/
 git clone --depth 1 https://github.com/commitsovercoffee/minima-nvim ~/.config/nvim
 ```
 
-- After executing above command, open neovim (you will see a blank screen), wait till all plugins are installed.
+After executing above command, open neovim (you will see a blank screen), wait till all plugins are installed.
 
 </details>
 
