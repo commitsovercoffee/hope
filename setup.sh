@@ -147,8 +147,7 @@ tui () {
         'npm'                   # package manager for javascript
 
         'btop'                  # task manager
-        'gdu'                   # disk util info
-        'bandwhich'             # bandwidth util info
+        'ncdu'                  # disk util info
 
     )
 
@@ -357,18 +356,20 @@ suite() {
         'evince'                # doc viewer.
         'ristretto'             # image viewer.
 
-        'gimp'                  # image editor.
+        'krita'                 # image editor.
         'inkscape'              # vector art.
         'mypaint'               # raster art.
+        'kolourpaint' 		# paint program.
         'obs-studio'            # screen cast/record.
+        'peek'     		# gif recorder.
+        'pitivi' 		# video editor.
 
         'qbittorent'            # torrent client.
-        'gnome-multi-writer'    # iso file writer.
         'gnome-sound-recorder'  # sound recorder.
         'gnome-disk-utility'    # disk management.
 
         'vlc'                   # media player.
-        'gnome-podcasts'        # podcasts app.
+        'cmus'
 
     )
 
