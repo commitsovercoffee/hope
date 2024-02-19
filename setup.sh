@@ -167,7 +167,8 @@ tui () {
     make clean install; cd "$current_dir"
 
     # set theme for fish shell.
-    fish -c "fisher install jomik/fish-gruvbox"
+    fish -c "fisher install catppuccin/fish"
+    fish -c "fish_config theme save "Catppuccin Mocha""
 
     # set defaults.
     chsh --shell /bin/fish hope

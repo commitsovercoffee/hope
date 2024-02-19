@@ -72,27 +72,27 @@ bash ./hope/install.sh;
 <br>
 
 The script installs [fish shell](https://fishshell.com/) with [fisher](https://github.com/jorgebucaran/fisher) plugin manager and
-[gruvbox theme](https://github.com/Jomik/fish-gruvbox). If you don't like that theme. You can remove it :
+[catppuccin theme](https://github.com/catppuccin/fish). If you don't like that theme. You can remove it :
 
 ```bash
-fish -c "fisher remove jomik/fish-gruvbox"; sudo pacman -Rns fisher
+fish -c "fisher remove catppuccin/fish"; # remove catpuccin theme
+sudo pacman -Rns fisher; # remove plugin manager (in case you want to use omf)
 ```
 
-And (maybe) opt for an alternative such as :
-
-- The [oh-my-fish](https://github.com/oh-my-fish/oh-my-fish) framework. To install one of [these](https://github.com/mrshu/oh-my-fish/blob/master/docs/Themes.md) themes.
-- Alternatively, you can simply install a shell prompt like [tide](https://github.com/IlanCosman/tide).
+And (maybe) opt for an alternative such as the [oh-my-fish](https://github.com/oh-my-fish/oh-my-fish) framework. To install one of [these](https://github.com/mrshu/oh-my-fish/blob/master/docs/Themes.md) themes.
 
 </details>
 
 <details><summary>Setup Neovim</summary>
 <br>
 
-If you use neovim, you can try my [neovim setup](https://github.com/commitsovercoffee/minima-nvim) with the following command : 
+Use below command to try my [neovim setup](https://github.com/commitsovercoffee/minima-nvim) :
 
 ```bash
 git clone --depth 1 https://github.com/commitsovercoffee/minima-nvim ~/.config/nvim
 ```
+
+After executing above command, open neovim (you will see a blank screen), wait till all plugins are installed.
 
 </details>
 
