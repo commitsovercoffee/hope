@@ -6,16 +6,15 @@ Highly Optimised Productivity Environment ~ Scripts and dot files of my ever evo
 | :---------------------: | :---------------------: |
 | ![](assets/layout-1.png) | ![](assets/layout-2.png) |
 
-Features :
+## Features :
 
-- multilib for 32-bit apps.
-- timezone and locale.
-- user with sudo priviledges.
-- network, bluetooth, audio and graphics.
-- a friendly terminal (st, fish, tldr, neovim etc).
-- a minimal graphical environment. (dwm, dmenu, picom, dunst etc).
-- GRUB bootloader.
-- dot files for xinitrc, picom, fish, neovim and touchpad.
+- uses [linux-zen](https://github.com/zen-kernel/zen-kernel) kernel.
+- [multilib](https://wiki.archlinux.org/title/official_repositories#multilib) support.
+- driver suport for [network](https://wiki.archlinux.org/title/NetworkManager), [bluetooth](https://wiki.archlinux.org/title/bluetooth), [audio](https://wiki.archlinux.org/title/PipeWire), [microcode](https://wiki.archlinux.org/title/Ryzen) & [gpu](https://wiki.archlinux.org/title/AMDGPU#Installation).
+- multilingual font support with glyphs & emoticons.
+- runs on [suckless](https://suckless.org/) apps ~ dwm, dmenu, slstatus & st.
+- [fish](https://fishshell.com/) & [starship](https://starship.rs/) powered terminal.
+- sane [dot files](https://github.com/commitsovercoffee/hope/tree/main/.config) for xinitrc, picom, touchpad etc.
 
 ## Usage
 
