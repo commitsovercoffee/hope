@@ -33,3 +33,4 @@ if status is-login
 end
 
 starship init fish | source
+set fish_greeting

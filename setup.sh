@@ -135,7 +135,7 @@ tui () {
         'bat'                   # alternative to `cat`
 
         'git'                   # version control
-	'github-cli'
+        'github-cli'
         'neovim'                # text editor
         'neovide'
         'xclip'                 # clipboard manipulation tool
@@ -282,6 +282,10 @@ config () {
     # 'picom'
     mkdir -p /home/hope/.config/picom
     mv .config/picom.conf /home/hope/.config/picom/picom.conf
+
+    # 'dunst'
+    mkdir -p /home/hope/.config/dunst
+    mv .config/dunstrc /home/hope/.config/dunst/dunstrc
 
     # wallpaper for 'feh'
     mkdir -p /home/hope/Pictures
