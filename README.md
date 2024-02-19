@@ -15,7 +15,7 @@ Features :
 - runs on [my pre-patched](https://github.com/commitsovercoffee/suckless) suckless apps ~ dwm, dmenu, slstatus & st.
 - [fish](https://fishshell.com/) & [starship](https://starship.rs/) powered terminal.
 - sane [dot files](https://github.com/commitsovercoffee/hope/tree/main/.config) for xinitrc, picom, touchpad etc.
-- custom keymaps to minimize finger strain.
+- custom [keymaps](https://github.com/commitsovercoffee/hope?tab=readme-ov-file#keymaps) to minimize finger strain.
 
 ## What is it ?
 
@@ -23,6 +23,7 @@ Hope is your gateway to a personalized [arch Linux](https://archlinux.org/) envi
 
 - Pre-Configured : No need to spend hours tweaking configs. Hope installs your pre-defined dotfiles & settings, giving you your familiar and productive environment from the start.
 - Customizable : It's designed to be easily adapted to your specific needs. You can tailor the script to match your unique preferences.
+
 
 ## Pre-requisite 
 
@@ -53,7 +54,43 @@ bash ./hope/install.sh;
 - Once the installation is complete. The machine will automatically reboot into arch.
 - You will reboot into a TTY session where you can input the username (hope) and password to login.
 
+
 ## Keymaps 
+
+Basic : 
+
+`Alt` is the mod key & there are 1-9 workspaces.
+
+- `Alt` + `d` : brings up dmenu to search apps.
+- `Alt` + `Shift` + `q` : Quits current app.
+
+Switch workspace :
+
+- `Alt` + `1` : switch to workspace 1.
+- `Alt` + `2` : switch to workspace 2.
+
+Open apps : 
+
+- `Alt` + `Shift` + `Enter` : Spawns terminal.
+- `Alt` + `Shift` + `k` : Spawns file-manager.
+- `Alt` + `Shift` + `p` : Spawns screenshot app.
+- `Alt` + `Shift` + `n` : Spawns neovide.
+- `Alt` + `Shift` + `v` : Spawns volume app.
+- `Alt` + `Shift` + `b` : Spawns bluetooth app.
+
+Select/resize apps : 
+
+- `Alt` + `j/k` : Cycle through apps in current workspace.
+- `Alt` + `j/k` : Increase/decrease width of current app.
+  
+Toggle float :
+
+- `Alt` + `Space` toggles the layout between [horizgrid](https://dwm.suckless.org/patches/horizgrid/) & [threecolumn](https://dwm.suckless.org/patches/three-column/)
+- `Alt` + `Shift` + `Space` toggles floating mode. You can hold `Alt` & drag/resize floating windows.
+
+App rules : 
+
+The apps spawn based on [these](https://github.com/commitsovercoffee/suckless/blob/main/dwm/config.def.h#L36) rules which promotes efficient app switching by defining dedicated workspaces/tag for each application. This consistent layout helps build muscle memory, making you lightning-fast in navigating your tasks. Another reason why tiling window managers rock !
 
 ## What Next ?
 
