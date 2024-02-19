@@ -1,10 +1,12 @@
 # Hope
 
-**H**ighly **O**ptimised **P**roductivity **E**nvironment ~ 
+Highly Optimised Productivity Environment ~ Scripts and dot files of my ever evolving arch setup. 
 
-Scripts and dot files to setup (and document) my ever evolving arch setup. 
+|      Screenshot 01      |      Screenshot 02      |
+| :---------------------: | :---------------------: |
+| ![](assets/layout-1.png) | ![](assets/layout-2.png) |
 
-Installs base arch and sets up ...
+Features :
 
 - multilib for 32-bit apps.
 - timezone and locale.
@@ -14,12 +16,6 @@ Installs base arch and sets up ...
 - a minimal graphical environment. (dwm, dmenu, picom, dunst etc).
 - GRUB bootloader.
 - dot files for xinitrc, picom, fish, neovim and touchpad.
-
-and installs my recommended apps, if you reply `yes` to the suite prompt.
-
-|      Screenshot 01      |      Screenshot 02      |
-| :---------------------: | :---------------------: |
-| ![](assets/arch-01.png) | ![](assets/arch-02.png) |
 
 ## Usage
 
