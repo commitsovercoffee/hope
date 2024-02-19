@@ -62,7 +62,7 @@ setup () {
     mv ./hope/setup.sh /mnt/setup.sh
 
     # move config files to /mnt.
-    mv ./hope/.config/* /mnt/
+    mv ./hope/.config /mnt/
 
     # run the setup script from /mnt with arch-chroot.
     arch-chroot /mnt bash setup.sh
@@ -71,7 +71,6 @@ setup () {
 
 # Install arch linux :
 
-timedatectl     # sync time.
 check_uefi      # verify boot mode.
 prepare_disk    # partition & format disk.
 install         # install vanilla arch.

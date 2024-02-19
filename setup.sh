@@ -115,15 +115,7 @@ gpu () {
         # accelerated video decoding
         pacman -S libva-mesa-driver lib32-libva-mesa-driver --noconfirm
 
-        # echo "
-        # Section "OutputClass"
-        #    Identifier "AMD"
-        #    MatchDriver "amdgpu"
-        #    Driver "amdgpu"
-        #    Option "TearFree" "true"
-        #    Option "DRI" "3"
-        # EndSection
-        # " > /etc/X11/xorg.conf.d/20-amdgpu.conf
+        # "20-amdgpu.conf" will be copied in the config section.
 
     fi
 
@@ -144,6 +136,7 @@ tui () {
 
         'git'                   # version control
         'neovim'                # text editor
+        'neovide'
         'xclip'                 # clipboard manipulation tool
 
         'fd'                    # file search
@@ -155,9 +148,6 @@ tui () {
         'btop'                  # task manager
         'gdu'                   # disk util info
         'bandwhich'             # bandwidth util info
-
-        'cmus'                  # music player
-        'calc'                  # calculator
 
     )
 
@@ -227,6 +217,10 @@ gui () {
     cd /home/hope/.config/suckless/dmenu
     make clean install; cd "$current_dir"
 
+    # install slstatus.
+    cd /home/hope/.config/suckless/slstatus
+    make clean install; cd "$current_dir"
+
 }
 
 users () {
@@ -275,22 +269,25 @@ grub () {
 config () {
 
     # 'xinitrc'
-    mv .xinitrc /home/hope/.xinitrc
+    mv .config/.xinitrc /home/hope/.xinitrc
 
     # 'Xresources'
-    mv .Xresources /home/hope/.Xresources
+    mv .config/.Xresources /home/hope/.Xresources
+
+    # '20-amdgpu.conf'
+    mv .config/20-amdgpu.conf /etc/X11/xorg.conf.d/20-amdgpu.conf
 
     # 'picom'
     mkdir -p /home/hope/.config/picom
-    mv picom.conf /home/hope/.config/picom/picom.conf
+    mv .config/picom.conf /home/hope/.config/picom/picom.conf
 
     # wallpaper for 'feh'
     mkdir -p /home/hope/Pictures
-    mv wallpaper.jpg /home/hope/Pictures/wallpaper.jpg
+    mv .config/wallpaper.jpg /home/hope/Pictures/wallpaper.jpg
 
     # 'fish'
     mkdir -p /home/hope/.config/fish/functions
-    mv config.fish /home/hope/.config/fish/config.fish
+    mv .config/config.fish /home/hope/.config/fish/config.fish
     mv fish_greeting.fish /home/hope/.config/fish/functions/fish_greeting.fish
 
     # 'neovim'
@@ -298,7 +295,7 @@ config () {
     git clone --depth 1 https://github.com/commitsovercoffee/minima-nvim ~/.config/nvim
 
     # 'touchpad'
-    mv 30-touch.conf /etc/X11/xorg.conf.d/30-touch.conf
+    mv .config/30-touch.conf /etc/X11/xorg.conf.d/30-touch.conf
 
     # reset permissions.
     chown -R  hope /home/hope/
@@ -359,7 +356,7 @@ suite() {
         'mypaint'               # raster art.
         'obs-studio'            # screen cast/record.
 
-        'torrential'            # torrent client.
+        'qbittorent'            # torrent client.
         'gnome-multi-writer'    # iso file writer.
         'gnome-sound-recorder'  # sound recorder.
         'gnome-disk-utility'    # disk management.
@@ -399,5 +396,7 @@ config
 misc
 
 # clean dir & exit.
-# rm setup.sh -- uncomment after testing
+rm -r .config
+rm setup.sh
+
 # exit -- uncomment after testing
