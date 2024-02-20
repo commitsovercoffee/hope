@@ -348,6 +348,7 @@ suite() {
 
         'pcmanfm-gtk3'          # file manager.
         'unzip'                 # extract/view .zip archives.
+        'file-roller' 		# create/modify archives.
         'mtpfs'                 # read/write to MTP devices.
         'libmtp'                # MTP support.
         'gvfs'                  # gnome virtual file system for mounting.

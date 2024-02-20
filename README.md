@@ -50,12 +50,12 @@ git clone https://github.com/commitsovercoffee/hope.git;
 bash ./hope/install.sh;
 ```
 
-- **Once the installation is complete, your system will automatically restart.** After the reboot, enter your username "hope" and the password you created during setup to log in.
-- **The first time you launch neovim/neovide, you might see a blank screen for a minute.** Don't worry, this is normal! It's just installing the necessary packages in the background. Be patient, and you'll be ready to use the editor soon.
+- Once the installation is complete, your system will automatically restart.
+- After the reboot, enter the username "hope" and the password you created during setup to log in.
 
 ## What Next ?
 
-<details><summary>Keymaps</summary>
+<details><summary>Explore Keymaps</summary>
 <br>
 
 Basic :
@@ -74,39 +74,46 @@ Open apps :
 
 > The apps spawn based on [these](https://github.com/commitsovercoffee/suckless/blob/main/dwm/config.def.h#L36) rules which promotes efficient app switching by defining dedicated workspaces/tag for each application. This consistent layout helps build muscle memory, making you lightning-fast in navigating your tasks. Another reason why tiling window managers rock !
 
+Terminal :
+
 - `Alt` + `Shift` + `Enter` : Spawns terminal.
+- `Shift` + `PageUp` : Scroll Up.
+- `Shift` + `PageDown` : Scroll Down.
+- `Ctrl` + `Shift` + `PageDown` : Decrease font of current terminal instance.
+- `Ctrl` + `Shift` + `PageUp` : Increase font of current terminal instance.
+- `Ctrl` + `Shift` + `Enter` (from terminal) : Spawns new terminal at pwd.
+
+File Manager :
+
 - `Alt` + `Shift` + `k` : Spawns file-manager.
-- `Alt` + `Shift` + `p` : Spawns screenshot app.
-- `Alt` + `Shift` + `n` : Spawns neovide.
+- `F4` (from file-manager) : Spawns new terminal at current directory. // To enable this, set terminal emulator to "st" on first use.
+
+> To enable "extract here" support in the filemanager :
+>
+> - Open file manager by pressing `Alt + Shift + K`.
+> - Click on Edit > Preferences > Advanced.
+> - Set `Archiver integration` to `file-roller`.
+> - Close the Preferences dialog box.
+
+Other Apps :
+
+- `Alt` + `Shift` + `n` : Spawns neovide. // On first use, you will see a blank screen mometarily. Don't panic! It is installing packages.
 - `Alt` + `Shift` + `v` : Spawns volume app.
 - `Alt` + `Shift` + `b` : Spawns bluetooth app.
+- `Alt` + `Shift` + `p` : Spawns screenshot app. (in float mode)
 
 Select/resize apps :
 
 - `Alt` + `j/k` : Cycle through apps in current workspace.
 - `Alt` + `h/l` : Increase/decrease width of current app.
 
-Toggle float :
+Change layout :
 
 - `Alt` + `Space` toggles the layout between [horizgrid](https://dwm.suckless.org/patches/horizgrid/) & [threecolumn](https://dwm.suckless.org/patches/three-column/)
 - `Alt` + `Shift` + `Space` toggles floating mode. You can hold `Alt` & drag/resize floating windows.
 </details>
 
-<details><summary>Terminal Support in File Manager</summary>
-<br>
-
-The script installs [PcManFM](https://wiki.lxde.org/en/PCManFM) file manager. To enable terminal support (say) `st` in it :
-
-- Open file manager by pressing `Alt + Shift + K`.
-- Click on `Edit > Preferences > Advanced`.
-- Type **st** in the `Terminal emulator` text field.
-- Close the `Preferences` dialog box.
-
-Now, you can press `F4` to open the current directory of the file manager in a terminal.
-
-</details>
-
-<details><summary>DNS Settings</summary>
+<details><summary>Change DNS Settings</summary>
 <br>
  
 For faster [domain name resolution](https://wiki.archlinux.org/title/Domain_name_resolution) :
@@ -119,7 +126,7 @@ sudo chattr +i /etc/resolv.conf
 
 </details>
 
-<details><summary>KVM for virtual machines</summary>
+<details><summary>Setup KVM for virtual machines</summary>
 <br>
 
 If you work with VMs, use below commands for a quick KVM setup.
