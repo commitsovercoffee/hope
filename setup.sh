@@ -269,26 +269,26 @@ grub () {
 
 config () {
 
+    # '20-amdgpu.conf'
+    mv .config/20-amdgpu.conf /etc/X11/xorg.conf.d/20-amdgpu.conf
+
     # 'xinitrc'
     mv .config/.xinitrc /home/hope/.xinitrc
 
     # 'Xresources'
     mv .config/.Xresources /home/hope/.Xresources
 
-    # '20-amdgpu.conf'
-    mv .config/20-amdgpu.conf /etc/X11/xorg.conf.d/20-amdgpu.conf
-
     # 'picom'
     mkdir -p /home/hope/.config/picom
     mv .config/picom.conf /home/hope/.config/picom/picom.conf
 
-    # 'lxappearance'
-    mkdir -p /home/hope/.config/gtk-3.0
-    mv .config/settings.ini /home/hope/.config/gtk-3.0
-
     # 'dunst'
     mkdir -p /home/hope/.config/dunst
     mv .config/dunstrc /home/hope/.config/dunst/dunstrc
+
+    # 'lxappearance'
+    mkdir -p /home/hope/.config/gtk-3.0
+    mv .config/settings.ini /home/hope/.config/gtk-3.0
 
     # wallpaper for 'feh'
     mkdir -p /home/hope/Pictures
@@ -298,6 +298,9 @@ config () {
     mkdir -p /home/hope/.config/fish/functions
     mv .config/config.fish /home/hope/.config/fish/config.fish
     mv fish_greeting.fish /home/hope/.config/fish/functions/fish_greeting.fish
+
+    # 'starship'
+    mv .config/starship.toml /home/hope/.config/starship.toml
 
     # 'neovim'
     mkdir -p /home/hope/.config/nvim

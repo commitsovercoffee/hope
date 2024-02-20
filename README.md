@@ -10,12 +10,13 @@ Features :
 
 - uses [linux-zen](https://github.com/zen-kernel/zen-kernel) kernel.
 - [multilib](https://wiki.archlinux.org/title/official_repositories#multilib) support.
-- driver suport for [network](https://wiki.archlinux.org/title/NetworkManager), [bluetooth](https://wiki.archlinux.org/title/bluetooth), [audio](https://wiki.archlinux.org/title/PipeWire), [microcode](https://wiki.archlinux.org/title/Ryzen) & [gpu](https://wiki.archlinux.org/title/AMDGPU#Installation).
+- driver suport for [network](https://wiki.archlinux.org/title/NetworkManager), [bluetooth](https://wiki.archlinux.org/title/bluetooth), [audio](https://wiki.archlinux.org/title/PipeWire), [chipset](https://wiki.archlinux.org/title/Ryzen) & [gpu](https://wiki.archlinux.org/title/AMDGPU#Installation).
 - multilingual font support with glyphs & emoticons.
-- runs on [my pre-patched](https://github.com/commitsovercoffee/suckless) suckless apps ~ dwm, dmenu, slstatus & st.
+- uses [my pre-patched](https://github.com/commitsovercoffee/suckless) suckless apps ~ dwm, dmenu, slstatus & st.
 - [fish](https://fishshell.com/) & [starship](https://starship.rs/) powered terminal.
 - sane [dot files](https://github.com/commitsovercoffee/hope/tree/main/.config) for xinitrc, picom, touchpad etc.
 - custom [keymaps](https://github.com/commitsovercoffee/hope?tab=readme-ov-file#keymaps) to minimize finger strain.
+- [catppuccin](https://github.com/catppuccin/catppuccin) themed terminal ~ st, fish, starship, neovim/neovide.
 
 ## What is it ?
 
@@ -49,7 +50,8 @@ git clone https://github.com/commitsovercoffee/hope.git;
 bash ./hope/install.sh;
 ```
 
-After installation, temporary files will be cleaned up and your system will automatically restart into the new arch Linux installation. You'll be prompted to enter the username (hope) and password (that you set) to log in. Enjoy!
+- **Once the installation is complete, your system will automatically restart.** After the reboot, enter your username "hope" and the password you created during setup to log in.
+- **The first time you launch neovim/neovide, you might see a blank screen for a minute.** Don't worry, this is normal! It's just installing the necessary packages in the background. Be patient, and you'll be ready to use the editor soon.
 
 ## What Next ?
 
@@ -88,34 +90,6 @@ Toggle float :
 
 - `Alt` + `Space` toggles the layout between [horizgrid](https://dwm.suckless.org/patches/horizgrid/) & [threecolumn](https://dwm.suckless.org/patches/three-column/)
 - `Alt` + `Shift` + `Space` toggles floating mode. You can hold `Alt` & drag/resize floating windows.
-</details>
-
-<details><summary>Change Shell Style</summary>
-<br>
-
-The script installs [fish shell](https://fishshell.com/) with [fisher](https://github.com/jorgebucaran/fisher) plugin manager and
-[catppuccin theme](https://github.com/catppuccin/fish). If you don't like that theme. You can remove it :
-
-```bash
-fish -c "fisher remove catppuccin/fish"; # remove catpuccin theme
-sudo pacman -Rns fisher; # remove plugin manager (in case you want to use omf)
-```
-
-And (maybe) opt for an alternative such as the [oh-my-fish](https://github.com/oh-my-fish/oh-my-fish) framework. To install one of [these](https://github.com/mrshu/oh-my-fish/blob/master/docs/Themes.md) themes.
-
-</details>
-
-<details><summary>Setup Neovim</summary>
-<br>
-
-Use below command to try my [neovim setup](https://github.com/commitsovercoffee/minima-nvim) :
-
-```bash
-git clone --depth 1 https://github.com/commitsovercoffee/minima-nvim ~/.config/nvim
-```
-
-After executing above command, open neovim (you will see a blank screen), wait till all plugins are installed.
-
 </details>
 
 <details><summary>Terminal Support in File Manager</summary>
