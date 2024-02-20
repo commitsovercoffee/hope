@@ -1,9 +1,9 @@
 # Hope
 
-Highly Optimised Productivity Environment ~ Scripts and dot files of my ever evolving arch setup. 
+Highly Optimised Productivity Environment ~ Scripts and dot files of my ever evolving arch setup.
 
-|      Screenshot 01      |      Screenshot 02      |
-| :---------------------: | :---------------------: |
+|      Screenshot 01       |      Screenshot 02       |
+| :----------------------: | :----------------------: |
 | ![](assets/layout-1.png) | ![](assets/layout-2.png) |
 
 Features :
@@ -24,11 +24,10 @@ Hope is your gateway to a personalized [arch Linux](https://archlinux.org/) envi
 - Pre-Configured : No need to spend hours tweaking configs. Hope installs your pre-defined dotfiles & settings, giving you your familiar and productive environment from the start.
 - Customizable : It's designed to be easily adapted to your specific needs. You can tailor the script to match your unique preferences.
 
-
-## Pre-requisite 
+## Pre-requisite
 
 - [ ] Confirm your cpu & gpu both are from [team red](https://www.amd.com/en.html).
-- [ ] Read the *fucking* script before using it.
+- [ ] Read the _fucking_ script before using it.
 - [ ] Realize that the script will [wipe](https://github.com/commitsovercoffee/hope/blob/main/install.sh#L19) your first nvme ssd.
 
 ## Pre-installation
@@ -57,7 +56,7 @@ After installation, temporary files will be cleaned up and your system will auto
 <details><summary>Keymaps</summary>
 <br>
 
-Basic : 
+Basic :
 
 `Alt` is the mod key & there are 1-9 workspaces.
 
@@ -69,7 +68,7 @@ Switch workspace :
 - `Alt` + `1` : switch to workspace 1.
 - `Alt` + `2` : switch to workspace 2.
 
-Open apps : 
+Open apps :
 
 > The apps spawn based on [these](https://github.com/commitsovercoffee/suckless/blob/main/dwm/config.def.h#L36) rules which promotes efficient app switching by defining dedicated workspaces/tag for each application. This consistent layout helps build muscle memory, making you lightning-fast in navigating your tasks. Another reason why tiling window managers rock !
 
@@ -80,23 +79,15 @@ Open apps :
 - `Alt` + `Shift` + `v` : Spawns volume app.
 - `Alt` + `Shift` + `b` : Spawns bluetooth app.
 
-Select/resize apps : 
+Select/resize apps :
 
 - `Alt` + `j/k` : Cycle through apps in current workspace.
 - `Alt` + `h/l` : Increase/decrease width of current app.
-  
+
 Toggle float :
 
 - `Alt` + `Space` toggles the layout between [horizgrid](https://dwm.suckless.org/patches/horizgrid/) & [threecolumn](https://dwm.suckless.org/patches/three-column/)
 - `Alt` + `Shift` + `Space` toggles floating mode. You can hold `Alt` & drag/resize floating windows.
-</details>
-
-<details><summary>Change Appearance</summary>
-<br>
-
-- Use `lxappearance` to tweak the theme, icon, font, cursor etc.
-- Use `font-manager` to download/install/uninstall fonts (including ones from [google fonts](https://fonts.google.com/)).
-
 </details>
 
 <details><summary>Change Shell Style</summary>

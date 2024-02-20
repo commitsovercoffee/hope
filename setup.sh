@@ -198,7 +198,7 @@ gui () {
         'papirus-icon-theme'        # icon themes.
 
         'dmenu'                     # app menu.
-        'lxappearance'              # theme switcher.
+        'lxappearance-gtk3'         # theme switcher.
         'lxinput-gtk3'              # configure keyboard & mouse.
 
         'pcmanfm-gtk3'              # file manager.
@@ -281,6 +281,10 @@ config () {
     # 'picom'
     mkdir -p /home/hope/.config/picom
     mv .config/picom.conf /home/hope/.config/picom/picom.conf
+
+    # 'lxappearance'
+    mkdir -p /home/hope/.config/gtk-3.0
+    mv .config/settings.ini /home/hope/.config/gtk-3.0
 
     # 'dunst'
     mkdir -p /home/hope/.config/dunst
