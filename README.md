@@ -85,22 +85,23 @@ Terminal :
 
 File Manager :
 
-- `Alt` + `Shift` + `k` : Spawns file-manager.
-- `F4` (from file-manager) : Spawns new terminal at current directory. // To enable this, set terminal emulator to "st" on first use.
-
-> To enable "extract here" support in the filemanager :
+> Follow below steps to do one-time setup of file-manager :
 >
-> - Open file manager by pressing `Alt + Shift + K`.
-> - Click on Edit > Preferences > Advanced.
+> - Press `Alt + Shift + K` to open the file manager.
+> - Click "Edit" (on menu bar) then "Preferences" and choose "Advanced."
+> - Set `Terminal Emulator` to "st".
 > - Set `Archiver integration` to `file-roller`.
-> - Close the Preferences dialog box.
+> - Click "Close" to apply the changes.
+
+- `Alt` + `Shift` + `k` : Spawns file-manager.
+- `F4` (from file-manager) : Spawns new terminal at current directory.
 
 Other Apps :
 
-- `Alt` + `Shift` + `n` : Spawns neovide. // On first use, you will see a blank screen mometarily. Don't panic! It is installing packages.
+- `Alt` + `Shift` + `n` : Spawns neovide.
 - `Alt` + `Shift` + `v` : Spawns volume app.
 - `Alt` + `Shift` + `b` : Spawns bluetooth app.
-- `Alt` + `Shift` + `p` : Spawns screenshot app. (in float mode)
+- `Alt` + `Shift` + `p` : Spawns screenshot app.
 
 Select/resize apps :
 

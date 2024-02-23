@@ -358,7 +358,7 @@ suite() {
 
         'firefox'                   # primary browser.
         'torbrowser-launcher'       # tertiary browser.
-        'firefox-developer-edition' # secondary browser.
+        'vivaldi' 		    # secondary browser.
 
         'gedit'                 # text editor.
         'evince'                # doc viewer.
@@ -373,7 +373,6 @@ suite() {
         'pitivi' 		# video editor.
 
         'qbittorent'            # torrent client.
-        'gnome-sound-recorder'  # sound recorder.
         'gnome-disk-utility'    # disk management.
 
         'vlc'                   # media player.
