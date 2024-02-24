@@ -37,7 +37,7 @@ merge_xmodmap "$usermodmap"
     nm-applet &
     slstatus &
     feh --bg-scale "$HOME/Pictures/wallpaper.jpg" &
-    xautolock -time 1 -locker slock &
+    xautolock -time 10 -locker slock &
 } &
 
 # Check and execute additional startup scripts
