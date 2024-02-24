@@ -16,6 +16,7 @@ Features :
 - [fish](https://fishshell.com/) & [starship](https://starship.rs/) powered terminal.
 - sane [dot files](https://github.com/commitsovercoffee/hope/tree/main/.config) for xinitrc, picom, touchpad etc.
 - custom [keymaps](https://github.com/commitsovercoffee/hope?tab=readme-ov-file#keymaps) to minimize finger strain.
+- `fn` key support (on laptops) with notification on volume & brightness change.
 - [catppuccin](https://github.com/catppuccin/catppuccin) themed terminal ~ st, fish, starship, neovim/neovide.
 
 ## What is it ?

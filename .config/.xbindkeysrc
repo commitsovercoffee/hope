@@ -1,0 +1,23 @@
+# Increase volume
+"pactl set-sink-volume @DEFAULT_SINK@ +10000 && notify-send -h int:value:$(./.get-vol.sh) 'Adjusting Volume.' 'Feeling the sound? 🎧'"
+   XF86AudioRaiseVolume
+
+# Decrease volume
+"pactl set-sink-volume @DEFAULT_SINK@ -10000 && notify-send -h int:value:$(./.get-vol.sh) 'Adjusting Volume.' 'Feeling the sound? 🎧'"
+   XF86AudioLowerVolume
+
+# Mute volume
+"pactl set-sink-volume @DEFAULT_SINK@ toggle && notify-send 'Volume'"
+   XF86AudioMute
+
+# Mute microphone
+"pactl set-source-mute @DEFAULT_SOURCE@ toggle"
+   XF86AudioMicMute
+
+# Increase brightness
+"brightnessctl set +10% && notify-send -h int:value:$((($(brightnessctl get)*100)/255)) 'Adjusting brightness.' 'Here comes the sun. ☀️'"
+   XF86MonBrightnessUp
+
+# Decrease brightness
+"brightnessctl set 10%- && notify-send -h int:value:$((($(brightnessctl get)*100)/255)) 'Adjusting brightness.' 'Here comes the sun. ☀️'"
+   XF86MonBrightnessDown

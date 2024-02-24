@@ -79,7 +79,7 @@ bluetooth () {
 audio () {
 
     # install audio packages.
-    pacman -S pipewire lib32-pipewire wireplumber pipewire-audio pipewire-alsa pipewire-pulse sof-firmware pavucontrol --noconfirm
+    pacman -S pipewire lib32-pipewire wireplumber pipewire-audio pipewire-alsa pipewire-pulse sof-firmware pavucontrol alsa-utils --noconfirm
 
 }
 
@@ -187,6 +187,9 @@ gui () {
         'xorg-xinit'                # xinit ~ to start xorg server.
         'xorg-xrandr'               # tui for RandR extension.
         'xorg-xclipboard'           # xclipboard ~ clipboard manager.
+        'xorg-xclipboard'           # xclipboard ~ clipboard manager.
+        'xbindkeys' 	            # bind commands to certain keys.
+        'brightnessctl' 	    # control brightness.
 
         # install graphical utils :
 
@@ -274,6 +277,11 @@ config () {
 
     # 'xinitrc'
     mv .config/.xinitrc /home/hope/.xinitrc
+
+    # '.xbindkeysrc'
+    mv .config/.xbindkeysrc /home/hope/.xbindkeysrc
+    mv .config/.get-vol.sh /home/hope/.get-vol.sh
+    chmod u+x /home/hope/.get-vol.sh
 
     # 'Xresources'
     mv .config/.Xresources /home/hope/.Xresources
