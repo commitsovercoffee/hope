@@ -137,7 +137,6 @@ tui () {
         'git'                   # version control
         'github-cli'
         'neovim'                # text editor
-        'neovide'
         'xclip'                 # clipboard manipulation tool
 
         'fd'                    # file search
@@ -192,13 +191,14 @@ gui () {
         'xorg-xrandr'               # tui for RandR extension.
         'xorg-xclipboard'           # xclipboard ~ clipboard manager.
         'xorg-xclipboard'           # xclipboard ~ clipboard manager.
-        'xbindkeys' 	            # bind commands to certain keys.
-        'brightnessctl' 	    # control brightness.
 
         # install graphical utils :
 
         'picom'                     # X compositor.
         'dunst'                     # notification daemon.
+        'xbindkeys' 	            # bind commands to certain keys.
+        'brightnessctl' 	    # control brightness.
+        'xautolock' 	            # autolocker.
 
         'feh'                       # desktop wallpaper.
         'gnome-themes-extra'        # window themes.

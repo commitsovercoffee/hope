@@ -43,4 +43,5 @@ picom &
 nm-applet &
 slstatus &
 feh --bg-scale $HOME/Pictures/wallpaper.jpg &
+xautolock -time 1 -locker slock &
 exec dwm

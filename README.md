@@ -46,7 +46,7 @@ To check if you are connected to the internet. Run the command `ping archlinux.o
 Use the below command from a live arch installation environment to install & setup arch.
 
 ```bash
-pacman -S git;
+pacman -Sy git;
 git clone https://github.com/commitsovercoffee/hope.git;
 bash ./hope/install.sh;
 ```
