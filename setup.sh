@@ -9,7 +9,7 @@ multilib () {
     echo "Include = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
 
     # refresh database.
-    pacman -Syy reflector
+    pacman -Syy reflector --noconfirm
     reflector --country India --protocol https --save /etc/pacman.d/mirrorlist
 
 }
@@ -197,8 +197,10 @@ gui () {
         'picom'                     # X compositor.
         'dunst'                     # notification daemon.
         'xbindkeys' 	            # bind commands to certain keys.
+        'libnotify'                 # lib to send desktop notifications.
         'brightnessctl' 	    # control brightness.
         'xautolock' 	            # autolocker.
+        'cbatticon'                 # battery for systray.
 
         'feh'                       # desktop wallpaper.
         'gnome-themes-extra'        # window themes.
@@ -227,6 +229,10 @@ gui () {
 
     # install slstatus.
     cd /home/hope/.config/suckless/slstatus
+    make clean install; cd "$current_dir"
+
+    # install slock.
+    cd /home/hope/.config/suckless/slock
     make clean install; cd "$current_dir"
 
 }
@@ -316,7 +322,7 @@ config () {
 
     # 'neovim'
     mkdir -p /home/hope/.config/nvim
-    git clone --depth 1 https://github.com/commitsovercoffee/minima-nvim ~/.config/nvim
+    git clone --depth 1 https://github.com/commitsovercoffee/minima-nvim /home/hope/.config/suckless
 
     # 'touchpad'
     mv .config/30-touch.conf /etc/X11/xorg.conf.d/30-touch.conf
@@ -341,18 +347,7 @@ misc() {
     # bug fix ~ reinstall pambase.
     pacman -S pambase --noconfirm
 
-    # install suite apps if user agrees.
-    echo "Do you want to install recommended apps ? [Y/N]. "
-    read -r suite;
-
-    if [[ "$suite" == *"Y"* ]] || [[ "$suite" == *"y"* ]]; then
-        suite
-    fi
-
-}
-
-suite() {
-
+    # install apps
     apps=(
 
         'gnome-screenshot'      # screenshot tool.
@@ -419,7 +414,6 @@ gui
 
 grub
 config
-misc
 
 # clean dir & exit.
 rm -r .config

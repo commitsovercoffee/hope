@@ -32,10 +32,11 @@ merge_xmodmap "$usermodmap"
     bluetooth &
     pcmanfm &
     firefox &
+    nm-applet &
     xbindkeys &
     picom &
-    nm-applet &
     slstatus &
+    cbatticon &
     feh --bg-scale "$HOME/Pictures/wallpaper.jpg" &
     xautolock -time 10 -locker slock &
 } &
