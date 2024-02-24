@@ -175,6 +175,10 @@ tui () {
     echo "export EDITOR=$VISUAL" | tee -a /etc/profile
     echo "export TERMINAL=st" | tee -a /etc/profile
 
+    # set git defaults
+    git config --global user.name "commitsovercoffee"
+    git config --global user.email "commitsovercoffee@gmail.com"
+
 }
 
 gui () {
