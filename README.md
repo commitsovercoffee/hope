@@ -128,6 +128,12 @@ sudo chattr +i /etc/resolv.conf
 
 </details>
 
+<details><summary>Optimal camera quality</summary>
+<br>
+For optimal webcam quality, set config using `cameractrlsgtk4` to your liking.
+This is only a one-time setup which is saved.
+</details>
+
 <details><summary>Setup KVM for virtual machines</summary>
 <br>
 

@@ -83,6 +83,12 @@ audio () {
 
 }
 
+webcam () {
+    # install webcam packages.
+    pacman -S v4l-utils cameractrls
+
+}
+
 chipset () {
 
     # install microcode for amd.
@@ -406,6 +412,7 @@ users
 network
 bluetooth
 audio
+webcam
 chipset
 gpu
 
