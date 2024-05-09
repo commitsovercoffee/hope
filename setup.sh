@@ -85,7 +85,7 @@ audio () {
 
 webcam () {
     # install webcam packages.
-    pacman -S v4l-utils cameractrls
+    pacman -S v4l-utils cameractrls --noconfirm
 
 }
 
@@ -429,6 +429,7 @@ gui
 
 grub
 config
+misc
 
 # clean dir & exit.
 rm -r .config
