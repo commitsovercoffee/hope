@@ -142,7 +142,7 @@ tui () {
 
         'git'                   # version control
         'github-cli'
-        'neovim'                # text editor
+        'neovide'               # text editor
         'xclip'                 # clipboard manipulation tool
 
         'fd'                    # file search
@@ -213,6 +213,7 @@ gui () {
         'papirus-icon-theme'        # icon themes.
 
         'dmenu'                     # app menu.
+        'xfce4-appfinder' 	    # alt app menu.
         'lxappearance-gtk3'         # theme switcher.
         'lxinput-gtk3'              # configure keyboard & mouse.
 
@@ -376,10 +377,10 @@ misc() {
         'gedit'                 # text editor.
         'evince'                # doc viewer.
         'ristretto'             # image viewer.
+        'xournalpp' 		# note taking + pdf annotation.
 
-        'krita'                 # image editor.
-        'inkscape'              # vector art.
-        'mypaint'               # raster art.
+        'inkscape'              # vector graphics editor.
+        'mypaint'               # (raster) painting app.
         'kolourpaint' 		# paint program.
         'obs-studio'            # screen cast/record.
         'peek'     		# gif recorder.
@@ -388,14 +389,21 @@ misc() {
         'qbittorent'            # torrent client.
         'gnome-disk-utility'    # disk management.
 
-        'vlc'                   # media player.
-        'cmus'
+        'mpv'                   # media player.
+        'handlr' 		# sets default apps.
 
     )
 
     for app in "${apps[@]}"; do
         pacman -S "$app" --noconfirm
     done
+
+    # set default apps
+
+    handlr set 'text/*' neovide.desktop
+    handlr set 'audio/*' mpv.desktop
+    handlr set 'image/*' org.xfce.ristretto.desktop
+    handlr set 'application/pdf' org.gnome.Evince.desktop
 
 }
 

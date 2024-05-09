@@ -77,5 +77,5 @@ install         # install vanilla arch.
 setup           # setup system.
 
 # unmount paritions & reboot.
- umount -R /mnt
- reboot 	 
+umount -R /mnt
+reboot

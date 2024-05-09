@@ -63,7 +63,7 @@ Basic :
 
 `Alt` is the mod key & there are 1-9 workspaces.
 
-- `Alt` + `d` : brings up dmenu to search apps.
+- `Alt` + `d` : brings up `xfce4-appfinder` to search apps.
 - `Alt` + `Shift` + `q` : Quits current app.
 
 Switch workspace :
@@ -74,6 +74,16 @@ Switch workspace :
 Open apps :
 
 > The apps spawn based on [these](https://github.com/commitsovercoffee/suckless/blob/main/dwm/config.def.h#L36) rules which promotes efficient app switching by defining dedicated workspaces/tag for each application. This consistent layout helps build muscle memory, making you lightning-fast in navigating your tasks. Another reason why tiling window managers rock !
+
+Select/resize apps :
+
+- `Alt` + `j/k` : Cycle through apps in current workspace.
+- `Alt` + `h/l` : Increase/decrease width of current app.
+
+Change layout :
+
+- `Alt` + `Space` toggles the layout between [horizgrid](https://dwm.suckless.org/patches/horizgrid/) & [threecolumn](https://dwm.suckless.org/patches/three-column/)
+- `Alt` + `Shift` + `Space` toggles floating mode. You can hold `Alt` & drag/resize floating windows.
 
 Terminal :
 
@@ -104,15 +114,6 @@ Other Apps :
 - `Alt` + `Shift` + `b` : Spawns bluetooth app.
 - `Alt` + `Shift` + `p` : Spawns screenshot app.
 
-Select/resize apps :
-
-- `Alt` + `j/k` : Cycle through apps in current workspace.
-- `Alt` + `h/l` : Increase/decrease width of current app.
-
-Change layout :
-
-- `Alt` + `Space` toggles the layout between [horizgrid](https://dwm.suckless.org/patches/horizgrid/) & [threecolumn](https://dwm.suckless.org/patches/three-column/)
-- `Alt` + `Shift` + `Space` toggles floating mode. You can hold `Alt` & drag/resize floating windows.
 </details>
 
 <details><summary>Change DNS Settings</summary>
