@@ -49,7 +49,7 @@ prepare_disk () {
 install () {
 
     # install essential packages.
-    pacstrap -K /mnt linux-zen linux-firmware base base-devel
+    pacstrap -K /mnt base linux linux-firmware base base-devel neovim
 
     # generate fstab file.
     genfstab -U /mnt >> /mnt/etc/fstab
