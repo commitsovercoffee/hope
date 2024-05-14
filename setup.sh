@@ -54,7 +54,7 @@ network () {
 
     # add entries for localhost to '/etc/hosts' file.
     # ( if the system has a permanent IP address, it should be used instead of 127.0.1.1 )
-    echo -e 127.0.0.1'\t'localhost'\n'::1'\t\t'localhost'\n'127.0.1.1'\t'arch >> /etc/hosts
+    # echo -e 127.0.0.1'\t'localhost'\n'::1'\t\t'localhost'\n'127.0.1.1'\t'arch >> /etc/hosts
 
     # install & enable firewall.
     pacman -S ufw --noconfirm
