@@ -85,7 +85,7 @@ audio () {
 
 webcam () {
     # install webcam packages.
-    pacman -S v4l-utils cameractrls
+    pacman -S v4l-utils cameractrls --noconfirm
 
 }
 
@@ -371,17 +371,17 @@ misc() {
         'android-udev'          # udev rules to connect to android.
 
         'firefox'                   # primary browser.
+        'firefox-developer-edition' # secondary browser.
         'torbrowser-launcher'       # tertiary browser.
-        'vivaldi' 		    # secondary browser.
 
         'gedit'                 # text editor.
         'evince'                # doc viewer.
         'ristretto'             # image viewer.
+        'xournalpp' 		# note taking + pdf annotation.
 
-        'krita'                 # image editor.
         'inkscape'              # vector art.
         'mypaint'               # raster art.
-        'kolourpaint' 		# paint program.
+        'pinta' 		# paint program.
         'obs-studio'            # screen cast/record.
         'peek'     		# gif recorder.
         'pitivi' 		# video editor.
@@ -389,14 +389,21 @@ misc() {
         'qbittorent'            # torrent client.
         'gnome-disk-utility'    # disk management.
 
-        'vlc'                   # media player.
-        'cmus'
+        'celluloid'             # media player.
+        'handlr' 		# sets default apps.
 
     )
 
     for app in "${apps[@]}"; do
         pacman -S "$app" --noconfirm
     done
+
+    # set default apps
+
+    handlr set 'text/*' neovide.desktop
+    handlr set 'audio/*' celluloid.desktop
+    handlr set 'image/*' org.xfce.ristretto.desktop
+    handlr set 'application/pdf' org.gnome.Evince.desktop
 
 }
 
@@ -422,6 +429,7 @@ gui
 
 grub
 config
+misc
 
 # clean dir & exit.
 rm -r .config
