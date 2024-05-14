@@ -158,8 +158,6 @@ tui () {
 	'astyle'
 	'gofumpt'
 
-
-
         'fd'                    # file search
         'ripgrep'               # search tool that combines the usability of ag with the raw speed of grep
         'xclip'                 # clipboard manipulation tool
@@ -211,7 +209,6 @@ gui () {
         'xorg-server'               # xorg display server.
         'xorg-xinit'                # xinit ~ to start xorg server.
         'xorg-xrandr'               # tui for RandR extension.
-        'xorg-xclipboard'           # xclipboard ~ clipboard manager.
         'xorg-xclipboard'           # xclipboard ~ clipboard manager.
 
         # install graphical utils :
