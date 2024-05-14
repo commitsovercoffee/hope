@@ -142,11 +142,27 @@ tui () {
 
         'git'                   # version control
         'github-cli'
+
         'neovim'                # text editor
-        'xclip'                 # clipboard manipulation tool
+	'tree-sitter'
+
+	'pyright' 	        # lsp ...
+	'gopls'
+	'lua-language-server'
+	'bash-language-server'
+	'svelte-language-server'
+	'tailwind-language-server'
+
+	'prettier'              # formatters ...
+	'stylua'
+	'astyle'
+	'gofumpt'
+
+
 
         'fd'                    # file search
         'ripgrep'               # search tool that combines the usability of ag with the raw speed of grep
+        'xclip'                 # clipboard manipulation tool
 
         'nodejs'                # Evented I/O for V8 javascript
         'npm'                   # package manager for javascript

@@ -17,6 +17,7 @@ alias grep='grep --color=auto'
 alias sync="sudo pacman -Syy"
 alias update="sudo pacman -Syu"
 alias install="sudo pacman -S"
+alias info="sudo pacman -Ss"
 alias remove="sudo pacman -Rns"
 
 # Git 
