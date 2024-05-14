@@ -49,7 +49,7 @@ prepare_disk () {
 install () {
 
     # install essential packages.
-    pacstrap -K /mnt base linux linux-firmware base base-devel neovim
+    pacstrap -K /mnt linux-zen linux-firmware base base-devel
 
     # generate fstab file.
     genfstab -U /mnt >> /mnt/etc/fstab
@@ -77,5 +77,5 @@ install         # install vanilla arch.
 setup           # setup system.
 
 # unmount paritions & reboot.
-umount -R /mnt
-reboot
+ umount -R /mnt
+ reboot 	 
