@@ -383,36 +383,31 @@ packages=(
 
 # Function to download packages
 download_packages() {
-
     local failed_packages=()
     for package in "${packages[@]}"; do
         echo "Downloading $package..."
-        pacman -Sw --noconfirm --needed "$package"
-        if [ $? -ne 0 ]; then
+        if ! pacman -Sw --noconfirm --needed "$package"; then
             echo "Download failed for $package."
             failed_packages+=("$package")
         fi
     done
     echo "${failed_packages[@]}"
-
 }
 
-# Function to install downloaded packages
+# Function to install packages
 install_packages() {
-
     local failed_packages=()
     echo "Installing downloaded packages..."
-    pacman -U --noconfirm *.pkg.tar.zst
-    if [ $? -ne 0 ]; then
+    if ! pacman -U --noconfirm *.pkg.tar.zst; then
         echo "Installation failed."
         failed_packages=("${packages[@]}")
     fi
     echo "${failed_packages[@]}"
-
 }
 
+# Function to retry a command
 retry_command() {
-    local max_attempts="${1:-3}"  # Default to 3 attempts if not specified
+    local max_attempts="${1:-3}"
     shift
     local attempt=1
     until "$@"; do
@@ -422,13 +417,12 @@ retry_command() {
         fi
         ((attempt++))
         echo "Retry attempt $attempt..."
-        sleep 5  # Adjust sleep duration as needed
+        sleep 5
     done
 }
 
 # Main function
 main() {
-
     echo "Verifying and downloading packages..."
     local failed_downloads
     while true; do
@@ -458,14 +452,14 @@ main() {
     done
 
     echo "Packages Installation completed."
-
 }
 
-# install packages ...
+# Execute main function
 main
 
-# mark pwd
+# Save current directory
 current_dir=$PWD
+
 
 # setup ...
 
