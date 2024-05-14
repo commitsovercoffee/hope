@@ -213,6 +213,7 @@ gui () {
         'papirus-icon-theme'        # icon themes.
 
         'dmenu'                     # app menu.
+	'xfce4-appfinder' 	    # alt app menu.
         'lxappearance-gtk3'         # theme switcher.
         'lxinput-gtk3'              # configure keyboard & mouse.
 
