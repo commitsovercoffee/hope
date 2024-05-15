@@ -148,6 +148,9 @@ tui () {
 
 	'pyright' 	        # lsp ...
 	'gopls'
+	'vscode-html-languageserver'
+	'vscode-css-languageserver'
+	'vscode-json-languageserver'
 	'lua-language-server'
 	'bash-language-server'
 	'svelte-language-server'
