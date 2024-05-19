@@ -374,7 +374,7 @@ misc() {
     apps=(
 
         'gnome-screenshot'      # screenshot tool.
-        'gcolor3'               # color picker.
+        'gcolor3-xorg'          # color picker.
 
         'pcmanfm-gtk3'          # file manager.
         'unzip'                 # extract/view .zip archives.
