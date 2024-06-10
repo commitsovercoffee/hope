@@ -134,6 +134,16 @@ For optimal webcam quality, set config using `cameractrlsgtk4` to your liking.
 This is only a one-time setup which is saved.
 </details>
 
+<details><summary>Catpuccin Theme for cmus</summary>
+<br>
+Use this command from within cmus to add catppuccin theme
+
+```
+:colorscheme catpuccin.theme
+```
+
+</details>
+
 <details><summary>Setup KVM for virtual machines</summary>
 <br>
 

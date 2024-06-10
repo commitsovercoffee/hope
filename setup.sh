@@ -347,6 +347,10 @@ config () {
     mkdir -p /home/hope/.config/nvim
     git clone --depth 1 https://github.com/commitsovercoffee/minima-nvim /home/hope/.config/suckless
 
+    # 'cmus  theme'
+    mkdir -p /home/hope/.config/cmus
+    mv .config/catppuccin.theme /home/hope/.config/cmus/catppuccin.theme
+
     # 'touchpad'
     mv .config/30-touch.conf /etc/X11/xorg.conf.d/30-touch.conf
 
@@ -406,6 +410,7 @@ misc() {
         'gnome-disk-utility'    # disk management.
 
         'celluloid'             # media player.
+	'cmus'
         'handlr' 		# sets default apps.
 
     )
