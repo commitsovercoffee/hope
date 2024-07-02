@@ -148,6 +148,7 @@ tui () {
 
 	'pyright' 	        # lsp ...
 	'gopls'
+	'rust-analyzer'
 	'vscode-html-languageserver'
 	'vscode-css-languageserver'
 	'vscode-json-languageserver'
@@ -160,6 +161,7 @@ tui () {
 	'stylua'
 	'astyle'
 	'gofumpt'
+	'rust'                  # includes rustfmt
 
         'fd'                    # file search
         'ripgrep'               # search tool that combines the usability of ag with the raw speed of grep
