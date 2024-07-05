@@ -224,6 +224,7 @@ gui () {
         'libnotify'                 # lib to send desktop notifications.
         'brightnessctl' 	    # control brightness.
         'xautolock' 	            # autolocker.
+	'lxrandr-gtk3'              # monitor configuration.
         'cbatticon'                 # battery for systray.
 
         'feh'                       # desktop wallpaper.
