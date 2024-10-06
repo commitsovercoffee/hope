@@ -84,6 +84,7 @@ audio () {
 }
 
 webcam () {
+
     # install webcam packages.
     pacman -S v4l-utils cameractrls --noconfirm
 
@@ -140,38 +141,37 @@ tui () {
         'exa'                   # alternative to `ls`
         'bat'                   # alternative to `cat`
 
+        'btop'                  # task manager
+        'ncdu'                  # disk util info
+        'cmus'                  # music player
+
         'git'                   # version control
         'github-cli'
 
         'neovim'                # text editor
-	'tree-sitter'
-
-	'pyright' 	        # lsp ...
-	'gopls'
-	'rust-analyzer'
-	'vscode-html-languageserver'
-	'vscode-css-languageserver'
-	'vscode-json-languageserver'
-	'lua-language-server'
-	'bash-language-server'
-	'svelte-language-server'
-	'tailwind-language-server'
-
-	'prettier'              # formatters ...
-	'stylua'
-	'astyle'
-	'gofumpt'
-	'rust'                  # includes rustfmt
+	'tree-sitter' 		# parsing library
 
         'fd'                    # file search
         'ripgrep'               # search tool that combines the usability of ag with the raw speed of grep
         'xclip'                 # clipboard manipulation tool
-
         'nodejs'                # Evented I/O for V8 javascript
-        'npm'                   # package manager for javascript
+        'pnpm'                  # package manager for javascript
 
-        'btop'                  # task manager
-        'ncdu'                  # disk util info
+	'lua-language-server'   # lsp ...
+	'bash-language-server' 
+	'vscode-html-languageserver'
+	'vscode-css-languageserver'
+	'tailwind-language-server'
+	'svelte-language-server'
+	'gopls' 	
+# 	'pyright' 	        
+# 	'rust-analyzer'
+
+	'prettier'              # formatters ...
+	'stylua'
+	'gofumpt'
+# 	'astyle'
+# 	'rust'                  # includes rustfmt
 
     )
 
@@ -196,12 +196,12 @@ tui () {
     # set defaults.
     chsh --shell /bin/fish hope
     echo "export VISUAL=nvim" | tee -a /etc/profile
-    echo "export EDITOR=$VISUAL" | tee -a /etc/profile
+    echo "export EDITOR=nvim" | tee -a /etc/profile
     echo "export TERMINAL=st" | tee -a /etc/profile
 
     # set git defaults
-    git config --global user.name "commitsovercoffee"
-    git config --global user.email "commitsovercoffee@gmail.com"
+    git config --global user.name commitsovercoffee
+    git config --global user.email commitsovercoffee@gmail.com
 
 }
 
@@ -231,7 +231,6 @@ gui () {
         'gnome-themes-extra'        # window themes.
         'papirus-icon-theme'        # icon themes.
 
-        'dmenu'                     # app menu.
 	'xfce4-appfinder' 	    # alt app menu.
         'lxappearance-gtk3'         # theme switcher.
         'lxinput-gtk3'              # configure keyboard & mouse.
@@ -250,12 +249,12 @@ gui () {
     make clean install; cd "$current_dir"
 
     # install dmenu.
-    cd /home/hope/.config/suckless/dmenu
-    make clean install; cd "$current_dir"
+    # cd /home/hope/.config/suckless/dmenu
+    # make clean install; cd "$current_dir"
 
     # install slstatus.
-    cd /home/hope/.config/suckless/slstatus
-    make clean install; cd "$current_dir"
+    # cd /home/hope/.config/suckless/slstatus
+    # make clean install; cd "$current_dir"
 
     # install slock.
     cd /home/hope/.config/suckless/slock
@@ -348,7 +347,7 @@ config () {
 
     # 'neovim'
     mkdir -p /home/hope/.config/nvim
-    git clone --depth 1 https://github.com/commitsovercoffee/minima-nvim /home/hope/.config/suckless
+    mv .config/init.lua /home/hope/.config/nvim/init.lua
 
     # 'cmus  theme'
     mkdir -p /home/hope/.config/cmus
@@ -403,17 +402,17 @@ misc() {
         'xournalpp' 		# note taking + pdf annotation.
 
         'inkscape'              # vector art.
-        'mypaint'               # raster art.
-        'pinta' 		# paint program.
-        'obs-studio'            # screen cast/record.
+# 	'mypaint'               # raster art.
+ 	'pinta' 		# paint program.
+ 	'obs-studio'            # screen cast/record.
+
         'peek'     		# gif recorder.
-        'pitivi' 		# video editor.
+# 	'pitivi' 		# video editor.
 
         'qbittorent'            # torrent client.
         'gnome-disk-utility'    # disk management.
 
         'celluloid'             # media player.
-	'cmus'
         'handlr' 		# sets default apps.
 
     )

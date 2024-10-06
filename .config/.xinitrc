@@ -27,16 +27,10 @@ merge_xmodmap "$usermodmap"
 # startup
 
 {
-    st &
-    pavucontrol &
-    bluetooth &
-    pcmanfm &
-    firefox &
-    nm-applet &
-    xbindkeys &
     picom &
-    slstatus &
+    xbindkeys &
     cbatticon &
+    nm-applet &
     feh --bg-scale "$HOME/Pictures/wallpaper.jpg" &
     xautolock -time 10 -locker slock &
 } &
