@@ -8,15 +8,15 @@ sysmodmap=/etc/X11/xinit/.Xmodmap
 # merge in defaults and keymaps
 
 merge_xresources() {
-    if [ -f "$1" ]; then
-        xrdb -merge "$1"
-    fi
+	if [ -f "$1" ]; then
+		xrdb -merge "$1"
+	fi
 }
 
 merge_xmodmap() {
-    if [ -f "$1" ]; then
-        xmodmap "$1"
-    fi
+	if [ -f "$1" ]; then
+		xmodmap "$1"
+	fi
 }
 
 merge_xresources "$sysresources"
@@ -27,20 +27,19 @@ merge_xmodmap "$usermodmap"
 # startup
 
 {
-    picom &
-    xbindkeys &
-    cbatticon &
-    nm-applet &
-    feh --bg-scale "$HOME/Pictures/wallpaper.jpg" &
-    xautolock -time 10 -locker slock &
+	xbindkeys &
+	cbatticon &
+	nm-applet &
+	feh --bg-scale "$HOME/Pictures/wallpaper.jpg" &
+	xautolock -time 10 -locker slock &
 } &
 
 # Check and execute additional startup scripts
 if [ -d /etc/X11/xinit/xinitrc.d ]; then
-    for f in /etc/X11/xinit/xinitrc.d/?*.sh; do
-        [ -x "$f" ] && . "$f"
-    done
-    unset f
+	for f in /etc/X11/xinit/xinitrc.d/?*.sh; do
+		[ -x "$f" ] && . "$f"
+	done
+	unset f
 fi
 
 # Execute window manager

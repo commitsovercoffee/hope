@@ -1,11 +1,3 @@
---[[ Minima Nvim --------------------------------------------------------------
-
-Minima Nvim is a minimal neovim config that aims to be fast, lightweight,
-and easy to use. It is designed for beginners who want to get started with
-neovim quickly and easily.
-
---]]
-
 -- OPTIONS --------------------------------------------------------------------
 
 -- vim.o options are variables that control the behavior of neovim. They can
@@ -180,14 +172,6 @@ require("lazy").setup({
 		end,
 	},
 
-	-- Visual multi cursor.
-	{
-		"mg979/vim-visual-multi",
-		config = function()
-			require("vim-visual-multi").setup({})
-		end,
-	},
-
 	-- Search label based code navigation
 	{
 		"folke/flash.nvim",
@@ -248,6 +232,11 @@ require("lazy").setup({
 		"mrcjkb/rustaceanvim",
 		version = "^4", -- Recommended
 		lazy = false, -- This plugin is already lazy
+		["rust-analyzer"] = {
+			cargo = {
+				allFeatures = true,
+			},
+		},
 	},
 
 	{
@@ -314,7 +303,7 @@ In addition to these basic functionalities, you may need a :
 			require("lspconfig").cssls.setup({}) -- css
 			require("lspconfig").tailwindcss.setup({}) -- tailwindcss
 			require("lspconfig").svelte.setup({}) -- svelte
-			require("lspconfig").gopls.setup({}) -- google's lsp for golang
+			require("lspconfig").gopls.setup({}) -- golang
 
 			-- Step 4 : Open file in neovim for which you have installed lsp.
 			-- Step 5 : Run ":LspInfo", to verify that lsp is attached.
@@ -366,22 +355,17 @@ In addition to these basic functionalities, you may need a :
 
 					require("null-ls").builtins.code_actions.gitsigns,
 					require("null-ls").builtins.formatting.stylua,
-					require("null-ls").builtins.formatting.astyle,
+					require("null-ls").builtins.formatting.shfmt,
 					require("null-ls").builtins.formatting.goimports,
 					require("null-ls").builtins.formatting.gofumpt,
 					require("null-ls").builtins.formatting.prettier.with({
 						filetypes = {
-							"bash",
 							"json",
 							"yaml",
 							"html",
 							"css",
 							"javascript",
 							"svelte",
-							"csh",
-							"ksh",
-							"sh",
-							"zsh",
 							"markdown",
 						},
 					}),
