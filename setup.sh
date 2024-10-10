@@ -138,8 +138,9 @@ tui() {
 		'starship' # shell prompt
 		'tldr'     # concise command examples
 
-		'exa' # alternative to `ls`
-		'bat' # alternative to `cat`
+		'exa'  # alternative to `ls`
+		'bat'  # alternative to `cat`
+		'tree' # list contents of dir in a tree-like format
 
 		'btop' # task manager
 		'ncdu' # disk util info
@@ -217,8 +218,8 @@ editor() {
 		'gopls'   # golang lsp
 		'gofumpt' # golang formatter
 
-		'rust'          # rust (includes rustfmt)
-		'rust-analyzer' # rust lsp
+		# install rust as per official doc
+		# install rust-analyzer : rustup component add rust-analyzer
 
 	)
 
