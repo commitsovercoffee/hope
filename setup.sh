@@ -262,6 +262,8 @@ gui() {
 		'pcmanfm-gtk3' # file manager.
 		'firefox'      # browser.
 
+		'obs-studio' # recording software.
+
 	)
 
 	for app in "${apps[@]}"; do
@@ -367,6 +369,10 @@ config() {
 	# 'neovim'
 	mkdir -p /home/hope/.config/nvim
 	mv .config/init.lua /home/hope/.config/nvim/init.lua
+
+	# 'obs'
+	mkdir -p /home/hope/.config/obs-studio
+	mv .config/basic /home/hope/.config/obs-studio
 
 	# 'cmus  theme'
 	mkdir -p /home/hope/.config/cmus
