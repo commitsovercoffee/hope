@@ -142,9 +142,10 @@ tui() {
 		'bat'  # alternative to `cat`
 		'tree' # list contents of dir in a tree-like format
 
-		'btop' # task manager
-		'ncdu' # disk util info
-		'cmus' # music player
+		'btop'  # task manager
+		'ncdu'  # disk util info
+		'rsync' # copying tool
+		'cmus'  # music player
 
 		'git' # version control
 		'github-cli'
@@ -242,7 +243,7 @@ gui() {
 
 		# install graphical utils :
 
-		# 	'picom'                     # X compositor.
+		# 'picom'       # X compositor.
 		'dunst'         # notification daemon.
 		'xbindkeys'     # bind commands to certain keys.
 		'libnotify'     # lib to send desktop notifications.
@@ -301,6 +302,7 @@ users() {
 	# create directories for user.
 	pacman -S xdg-user-dirs --noconfirm
 	xdg-user-dirs-update
+	mkdir Batcave Obsidian
 
 }
 
@@ -425,7 +427,8 @@ misc() {
 		'gedit'     # text editor.
 		'evince'    # doc viewer.
 		'ristretto' # image viewer.
-		'xournalpp' # note taking + pdf annotation.
+		'xournalpp' # pdf annotation.
+		'obsidian'  # note taking.
 
 		'inkscape' # vector art.
 		'pinta'    # paint program.

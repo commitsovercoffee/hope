@@ -8,7 +8,7 @@ alias ls="exa -l"
 alias cls=clear
 alias open="xdg-open"
 alias vim=nvim
-alias bye="shutdown -h now"
+alias bye="sudo rsync -r ~/Obsidian ~/Zion/Blue/; shutdown -h now"
 
 alias mkdir='mkdir -pv'
 alias grep='grep --color=auto'
