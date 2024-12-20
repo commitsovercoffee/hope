@@ -302,7 +302,7 @@ users() {
 	# create directories for user.
 	pacman -S xdg-user-dirs --noconfirm
 	xdg-user-dirs-update
-	mkdir Batcave Obsidian
+	mkdir Batcave Obsidian Jupiter Zion
 
 }
 
