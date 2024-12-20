@@ -302,7 +302,8 @@ users() {
 	# create directories for user.
 	pacman -S xdg-user-dirs --noconfirm
 	xdg-user-dirs-update
-	mkdir Batcave Obsidian Jupiter Zion
+	mkdir Batcave Jupiter Obsidian Walkman Zion
+	touch memo.md
 
 }
 
