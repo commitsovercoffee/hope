@@ -3,41 +3,41 @@
 -- vim.o options are variables that control the behavior of neovim. They can
 -- be set to change the appearance of neovim or the way it behaves.
 
-vim.o.autochdir = false -- change directory to the file in the current window.
-vim.o.cdhome = true -- :cd without an argument changes the cwd to the $HOME dir.
+vim.o.autochdir = false      -- change directory to the file in the current window.
+vim.o.cdhome = true          -- :cd without an argument changes the cwd to the $HOME dir.
 
 vim.o.fileencoding = "utf-8" -- file encoding for multibyte text.
-vim.o.autoread = false -- read file when changed outside of Vim.
+vim.o.autoread = false       -- read file when changed outside of Vim.
 
-vim.o.wrap = false -- long lines wrap and continue on the next line.
-vim.o.autoindent = true -- take indent for new line from previous line.
-vim.o.scrolloff = 8 -- minimum nr. of lines above and below cursor.
+vim.o.wrap = false           -- long lines wrap and continue on the next line.
+vim.o.autoindent = true      -- take indent for new line from previous line.
+vim.o.scrolloff = 8          -- minimum nr. of lines above and below cursor.
 
-vim.o.incsearch = true -- highlight match while typing search pattern.
-vim.o.smartcase = true -- no ignore case when pattern has uppercase.
+vim.o.incsearch = true       -- highlight match while typing search pattern.
+vim.o.smartcase = true       -- no ignore case when pattern has uppercase.
 
-vim.o.number = true -- print the line number in front of each line.
-vim.o.relativenumber = true -- show relative line number in front of each line.
+vim.o.number = true          -- print the line number in front of each line.
+vim.o.relativenumber = true  -- show relative line number in front of each line.
 
-vim.o.signcolumn = "yes" -- always display the sign column.
-vim.o.colorcolumn = "80" -- highlight 80th column to indiate optimal code width.
-vim.o.cursorline = true -- highlight the screen line of the cursor.
+vim.o.signcolumn = "yes"     -- always display the sign column.
+vim.o.colorcolumn = "80"     -- highlight 80th column to indiate optimal code width.
+vim.o.cursorline = true      -- highlight the screen line of the cursor.
 
 -- use clipboard register "+" for all yank, delete, change and put operations.
 vim.o.clipboard = "unnamedplus"
 vim.o.selection = "exclusive" -- what type of selection to use.
 
-vim.o.spell = false -- enable spell checking.
-vim.o.spelllang = "en_us" -- language(s) to do spell checking for.
+vim.o.spell = false           -- enable spell checking.
+vim.o.spelllang = "en_us"     -- language(s) to do spell checking for.
 
-vim.o.swapfile = false -- whether to use a swapfile for a buffer.
-vim.o.backup = false -- keep backup file after overwriting a file.
+vim.o.swapfile = false        -- whether to use a swapfile for a buffer.
+vim.o.backup = false          -- keep backup file after overwriting a file.
 
-vim.o.undofile = true -- save undo information in a file.
+vim.o.undofile = true         -- save undo information in a file.
 vim.o.undodir = vim.fn.expand("~/.config/nvim/undodir")
 
 vim.o.background = "dark" -- use "dark" or "light" for highlight
-vim.g.mapleader = " " -- setting space as leader key.
+vim.g.mapleader = " "     -- setting space as leader key.
 
 -- PLUGIN MANAGER -------------------------------------------------------------
 

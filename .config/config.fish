@@ -5,7 +5,6 @@ end
 # General :
 alias cat=bat
 alias ls="exa -l"
-alias cls=clear
 alias open="xdg-open"
 alias vim=nvim
 alias bye="sudo rsync -r ~/Obsidian ~/Zion/Blue/; shutdown -h now"
@@ -16,8 +15,8 @@ alias grep='grep --color=auto'
 # Pacman : 
 alias sync="sudo pacman -Syy"
 alias update="sudo pacman -Syu"
-alias install="sudo pacman -S"
 alias info="sudo pacman -Ss"
+alias install="sudo pacman -S"
 alias remove="sudo pacman -Rns"
 
 # Git 

@@ -438,10 +438,11 @@ misc() {
 		'pitivi'     # video editor.
 
 		'qbittorent'         # torrent client.
+		'nicotine'           # soul-seek client.
 		'gnome-disk-utility' # disk management.
 
-		'celluloid' # media player.
-		'handlr'    # sets default apps.
+		'mpv'    # media player.
+		'handlr' # sets default apps.
 
 	)
 
@@ -451,8 +452,9 @@ misc() {
 
 	# set default apps
 
-	handlr set 'text/*' neovide.desktop
-	handlr set 'audio/*' celluloid.desktop
+	handlr set 'text/*' gedit.desktop
+	handlr set 'audio/*' mpv.desktop
+	handlr set 'video/*' mpv.desktop
 	handlr set 'image/*' org.xfce.ristretto.desktop
 	handlr set 'application/pdf' org.gnome.Evince.desktop
 
