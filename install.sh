@@ -48,7 +48,7 @@ prepare_disk() {
 install() {
 
 	# install essential packages.
-	pacstrap -K /mnt linux-zen linux-firmware base base-devel
+	pacstrap -K /mnt linux linux-firmware base base-devel
 
 	# generate fstab file.
 	genfstab -U /mnt >>/mnt/etc/fstab

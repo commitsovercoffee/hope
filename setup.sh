@@ -133,6 +133,7 @@ tui() {
 	# install packages for a seamless terminal workflow.
 	apps=(
 
+		'ghostty'  # terminal emulator
 		'fish'     # user-friendly shell
 		'fisher'   # fish package manager
 		'starship' # shell prompt
@@ -163,8 +164,8 @@ tui() {
 	git clone https://github.com/commitsovercoffee/suckless.git /home/hope/.config/suckless
 
 	# install suckless terminal
-	cd /home/hope/.config/suckless/st
-	make clean install
+	# cd /home/hope/.config/suckless/st
+	# make clean install
 	cd "$current_dir"
 
 	# set theme for fish shell.
@@ -360,6 +361,10 @@ config() {
 	# wallpaper for 'feh'
 	mkdir -p /home/hope/Pictures
 	mv .config/wallpaper.jpg /home/hope/Pictures/wallpaper.jpg
+
+	# 'ghostty'
+	mkdir -p /home/hope/.config/ghostty
+	mv .config/config /home/hope/.config/ghostty/config
 
 	# 'fish'
 	mkdir -p /home/hope/.config/fish/functions
