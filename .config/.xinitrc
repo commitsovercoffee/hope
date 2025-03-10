@@ -31,6 +31,7 @@ merge_xmodmap "$usermodmap"
 	cbatticon &
 	nm-applet &
 	feh --bg-scale "$HOME/Pictures/wallpaper.jpg" &
+	picom &
 	# xautolock -time 10 -locker slock &
 } &
 

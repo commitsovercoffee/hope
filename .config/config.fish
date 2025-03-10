@@ -8,6 +8,7 @@ alias ls="exa -l"
 alias open="xdg-open"
 alias vim=nvim
 alias bye="sudo rsync -r ~/Obsidian ~/Zion/Blue/; shutdown -h now"
+alias weather='curl wttr.in/$argv?format=3'
 
 alias mkdir='mkdir -pv'
 alias grep='grep --color=auto'

@@ -49,7 +49,7 @@ network() {
 	echo "arch" >/etc/hostname
 
 	# install & enable network.
-	pacman -S networkmanager network-manager-applet --noconfirm
+	pacman -S linux-firmware-marvell networkmanager network-manager-applet --noconfirm
 	systemctl enable NetworkManager
 
 	# add entries for localhost to '/etc/hosts' file.
@@ -58,7 +58,8 @@ network() {
 
 	# install & enable firewall.
 	pacman -S ufw --noconfirm
-	systemctl enable ufw
+	systemctl start ufw.service
+	systemctl enable ufw.service
 
 	# allow outgoing & reject incoming.
 	ufw default allow outgoing
@@ -69,7 +70,7 @@ network() {
 bluetooth() {
 
 	# install bluetooth.
-	pacman -S blueman bluez bluez-utils --noconfirm
+	pacman -S bluez bluez-utils blueman --noconfirm
 	lsmod | grep btusb
 	rfkill unblock bluetooth
 	systemctl enable bluetooth.service
@@ -79,14 +80,14 @@ bluetooth() {
 audio() {
 
 	# install audio packages.
-	pacman -S pipewire lib32-pipewire wireplumber pipewire-audio pipewire-alsa pipewire-pulse sof-firmware pavucontrol alsa-utils --noconfirm
+	pacman -S sof-firmware pipewire lib32-pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber pavucontrol alsa-utils --noconfirm
 
 }
 
 webcam() {
 
 	# install webcam packages.
-	pacman -S v4l-utils cameractrls --noconfirm
+	pacman -S cameractrls --noconfirm
 
 }
 
@@ -122,34 +123,35 @@ gpu() {
 		# accelerated video decoding
 		pacman -S libva-mesa-driver lib32-libva-mesa-driver --noconfirm
 
-		# "20-amdgpu.conf" will be copied in the config section.
-
 	fi
 
 }
 
 tui() {
 
-	# install packages for a seamless terminal workflow.
 	apps=(
 
-		'ghostty'  # terminal emulator
-		'fish'     # user-friendly shell
-		'fisher'   # fish package manager
-		'starship' # shell prompt
-		'tldr'     # concise command examples
+		# install packages for a seamless terminal experience :
 
-		'exa'  # alternative to `ls`
-		'bat'  # alternative to `cat`
-		'tree' # list contents of dir in a tree-like format
+		'ghostty'  # terminal emulator.
+		'fish'     # user-friendly shell.
+		'fisher'   # fish package manager.
+		'starship' # shell prompt.
+		'man-db'   # man pages.
 
-		'btop'  # task manager
-		'ncdu'  # disk util info
-		'rsync' # copying tool
-		'cmus'  # music player
+		'exa' # alternative to `ls`.
+		'bat' # alternative to `cat`.
 
-		'git' # version control
-		'github-cli'
+		'btop' # task manager.
+		'ncdu' # disk util info.
+
+		# install tui apps :
+
+		'git'   # version control.
+		'rsync' # copying tool.
+
+		'cmus' # music player.
+		'mpv'  # video player.
 
 	)
 
@@ -157,16 +159,8 @@ tui() {
 		pacman -S "$app" --noconfirm --needed
 	done
 
-	# set preset for starship prompt
+	# set preset for starship prompt.
 	starship preset nerd-font-symbols -o ~/.config/starship.toml
-
-	# clone suckless fork. (this command also creates .config dir as root)
-	git clone https://github.com/commitsovercoffee/suckless.git /home/hope/.config/suckless
-
-	# install suckless terminal
-	# cd /home/hope/.config/suckless/st
-	# make clean install
-	cd "$current_dir"
 
 	# set theme for fish shell.
 	fish -c "fisher install catppuccin/fish"
@@ -176,18 +170,117 @@ tui() {
 	chsh --shell /bin/fish hope
 	echo "export VISUAL=nvim" | tee -a /etc/profile
 	echo "export EDITOR=nvim" | tee -a /etc/profile
-	echo "export TERMINAL=st" | tee -a /etc/profile
-
-	# set git defaults
-	git config --global user.name commitsovercoffee
-	git config --global user.email commitsovercoffee@gmail.com
+	echo "export TERMINAL=ghostty" | tee -a /etc/profile
 
 }
 
-editor() {
+gui() {
 
-	# install packages for a seamless editor experience.
 	apps=(
+
+		# install display server :
+
+		'xorg-server'     # xorg display server.
+		'xorg-xinit'      # xinit ~ to start xorg server.
+		'xorg-xrandr'     # tui for RandR extension.
+		'xorg-xclipboard' # xclipboard ~ clipboard manager.
+
+		# install graphical utils :
+
+		'picom'              # X compositor.
+		'dunst'              # notification daemon.
+		'libnotify'          # lib to send desktop notifications.
+		'xbindkeys'          # bind commands to certain keys.
+		'brightnessctl'      # control brightness.
+		'lxrandr-gtk3'       # monitor configuration.
+		'cbatticon'          # battery for systray.
+		'gnome-disk-utility' # disk management.
+		'xautolock'          # autolocker.
+		'handlr'             # sets default apps.
+		'seahorse'           # encryption keys
+		'pambase'            # PAM config
+
+		'feh'                # desktop wallpaper.
+		'gnome-themes-extra' # window themes.
+		'papirus-icon-theme' # icon themes.
+
+		'xfce4-appfinder'   # app finder.
+		'lxappearance-gtk3' # theme switcher.
+		'lxinput-gtk3'      # configure keyboard & mouse.
+
+		# install gui apps :
+
+		'pcmanfm-gtk3'  # file manager.
+		'unzip'         # extract/view .zip archives.
+		'file-roller'   # create/modify archives.
+		'mtpfs'         # read/write to MTP devices.
+		'libmtp'        # MTP support.
+		'gvfs'          # gnome virtual file system for mounting.
+		'gvfs-mtp'      # gnome virtual file system for MTP devices.
+		'android-tools' # android platform tools.
+		'android-udev'  # udev rules to connect to android.
+
+		'firefox'                   # primary browser.
+		'firefox-developer-edition' # secondary browser.
+		'torbrowser-launcher'       # tertiary browser.
+		'chromium'                  # testing browser.
+
+		'evince'    # doc viewer.
+		'ristretto' # image viewer.
+
+		'gcolor3' # color picker.
+		'pinta'   # paint program.
+
+		'gedit'    # text editor.
+		'obsidian' # note taking.
+
+		'bitwarden' # password manager.
+
+		'peek'             # gif recorder.
+		'gnome-screenshot' # screenshot tool.
+		'obs-studio'       # screen cast/record.
+
+		'qbittorent' # torrent client.
+		'nicotine'   # soul-seek client.
+
+	)
+
+	for app in "${apps[@]}"; do
+		pacman -S "$app" --noconfirm --needed
+	done
+
+	# clone suckless fork. (this command also creates .config dir as root)
+	git clone https://github.com/commitsovercoffee/suckless.git /home/hope/.config/suckless
+
+	# install dynamic window manager.
+	cd /home/hope/.config/suckless/dwm
+	make clean install
+	cd "$current_dir"
+
+	# install slock.
+	cd /home/hope/.config/suckless/slock
+	make clean install
+	cd "$current_dir"
+
+	# set default apps.
+	handlr set 'text/*' gedit.desktop
+	handlr set 'audio/*' mpv.desktop
+	handlr set 'video/*' mpv.desktop
+	handlr set 'image/*' org.xfce.ristretto.desktop
+	handlr set 'application/pdf' org.gnome.Evince.desktop
+
+}
+
+dev() {
+
+	# install packages for a seamless editor experience :
+
+	apps=(
+
+		# Version Control ---------------------------------------------
+
+		'git'
+		'github-cli'
 
 		# Neovim ------------------------------------------------------
 
@@ -197,6 +290,7 @@ editor() {
 		'fd'      # file search
 		'ripgrep' # search tool that combines the usability of ag with the raw speed of grep
 		'xclip'   # clipboard manipulation tool
+		'jq'      # JSON processor
 
 		# LSP & Formatter ---------------------------------------------
 
@@ -229,58 +323,9 @@ editor() {
 		pacman -S "$app" --noconfirm --needed
 	done
 
-}
-
-gui() {
-
-	apps=(
-
-		# install display server :
-
-		'xorg-server'     # xorg display server.
-		'xorg-xinit'      # xinit ~ to start xorg server.
-		'xorg-xrandr'     # tui for RandR extension.
-		'xorg-xclipboard' # xclipboard ~ clipboard manager.
-
-		# install graphical utils :
-
-		# 'picom'       # X compositor.
-		'dunst'         # notification daemon.
-		'xbindkeys'     # bind commands to certain keys.
-		'libnotify'     # lib to send desktop notifications.
-		'brightnessctl' # control brightness.
-		'xautolock'     # autolocker.
-		'lxrandr-gtk3'  # monitor configuration.
-		'cbatticon'     # battery for systray.
-
-		'feh'                # desktop wallpaper.
-		'gnome-themes-extra' # window themes.
-		'papirus-icon-theme' # icon themes.
-
-		'xfce4-appfinder'   # alt app menu.
-		'lxappearance-gtk3' # theme switcher.
-		'lxinput-gtk3'      # configure keyboard & mouse.
-
-		'pcmanfm-gtk3' # file manager.
-		'firefox'      # browser.
-
-		'obs-studio' # recording software.
-
-	)
-
-	for app in "${apps[@]}"; do
-		pacman -S "$app" --noconfirm --needed
-	done
-
-	# install dynamic window manager.
-	cd /home/hope/.config/suckless/dwm
-	make clean install
-	cd "$current_dir"
-
-	# install slock.
-	cd /home/hope/.config/suckless/slock
-	make clean install
-	cd "$current_dir"
+	# set git defaults
+	git config --global user.name commitsovercoffee
+	git config --global user.email commitsovercoffee@gmail.com
 
 }
 
@@ -403,66 +448,6 @@ misc() {
 	# enable TRIM for SSDs.
 	systemctl enable fstrim.timer
 
-	# encryption keys
-	pacman -S seahorse --noconfirm
-
-	# bug fix ~ reinstall pambase.
-	pacman -S pambase --noconfirm
-
-	# install apps
-	apps=(
-
-		'gnome-screenshot' # screenshot tool.
-		'peek'             # gif recorder.
-		'gcolor3'          # color picker.
-
-		'pcmanfm-gtk3'  # file manager.
-		'unzip'         # extract/view .zip archives.
-		'file-roller'   # create/modify archives.
-		'mtpfs'         # read/write to MTP devices.
-		'libmtp'        # MTP support.
-		'gvfs'          # gnome virtual file system for mounting.
-		'gvfs-mtp'      # gnome virtual file system for MTP devices.
-		'android-tools' # android platform tools.
-		'android-udev'  # udev rules to connect to android.
-
-		'firefox'                   # primary browser.
-		'firefox-developer-edition' # secondary browser.
-		'torbrowser-launcher'       # tertiary browser.
-
-		'gedit'     # text editor.
-		'evince'    # doc viewer.
-		'ristretto' # image viewer.
-		'xournalpp' # pdf annotation.
-		'obsidian'  # note taking.
-
-		'inkscape' # vector art.
-		'pinta'    # paint program.
-
-		'obs-studio' # screen cast/record.
-		'pitivi'     # video editor.
-
-		'qbittorent'         # torrent client.
-		'nicotine'           # soul-seek client.
-		'gnome-disk-utility' # disk management.
-
-		'mpv'    # media player.
-		'handlr' # sets default apps.
-
-	)
-
-	for app in "${apps[@]}"; do
-		pacman -S "$app" --noconfirm
-	done
-
-	# set default apps
-
-	handlr set 'text/*' gedit.desktop
-	handlr set 'audio/*' mpv.desktop
-	handlr set 'video/*' mpv.desktop
-	handlr set 'image/*' org.xfce.ristretto.desktop
-	handlr set 'application/pdf' org.gnome.Evince.desktop
-
 }
 
 # mark pwd
@@ -483,8 +468,8 @@ chipset
 gpu
 
 tui
-editor
 gui
+dev
 
 grub
 config
