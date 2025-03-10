@@ -8,11 +8,10 @@ Highly Optimised Productivity Environment ~ Scripts and dot files of my ever evo
 
 Features :
 
-- uses [linux-zen](https://github.com/zen-kernel/zen-kernel) kernel.
 - [multilib](https://wiki.archlinux.org/title/official_repositories#multilib) support.
 - driver suport for [network](https://wiki.archlinux.org/title/NetworkManager), [bluetooth](https://wiki.archlinux.org/title/bluetooth), [audio](https://wiki.archlinux.org/title/PipeWire), [chipset](https://wiki.archlinux.org/title/Ryzen) & [gpu](https://wiki.archlinux.org/title/AMDGPU#Installation).
 - multilingual font support with glyphs & emoticons.
-- uses [my pre-patched](https://github.com/commitsovercoffee/suckless) suckless apps ~ dwm, dmenu, slstatus & st.
+- uses [my pre-patched](https://github.com/commitsovercoffee/suckless) suckless app ~ dwm.
 - [fish](https://fishshell.com/) & [starship](https://starship.rs/) powered terminal.
 - sane [dot files](https://github.com/commitsovercoffee/hope/tree/main/.config) for xinitrc, picom, touchpad etc.
 - custom [keymaps](https://github.com/commitsovercoffee/hope?tab=readme-ov-file#keymaps) to minimize finger strain.
@@ -139,7 +138,7 @@ This is only a one-time setup which is saved.
 Use this command from within cmus to add catppuccin theme
 
 ```
-:colorscheme catpuccin.theme
+:colorscheme catppuccin
 ```
 
 </details>

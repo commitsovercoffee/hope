@@ -7,8 +7,11 @@ alias cat=bat
 alias ls="exa -l"
 alias open="xdg-open"
 alias vim=nvim
+alias top=btop
 alias bye="sudo rsync -r ~/Obsidian ~/Zion/Blue/; shutdown -h now"
-alias weather='curl wttr.in/$argv?format=3'
+function weather
+    curl "wttr.in/$argv?format=3"
+end
 
 alias mkdir='mkdir -pv'
 alias grep='grep --color=auto'

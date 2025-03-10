@@ -166,11 +166,8 @@ tui() {
 	fish -c "fisher install catppuccin/fish"
 	fish -c "fish_config theme save "Catppuccin Mocha""
 
-	# set defaults.
+	# set fish as default shell.
 	chsh --shell /bin/fish hope
-	echo "export VISUAL=nvim" | tee -a /etc/profile
-	echo "export EDITOR=nvim" | tee -a /etc/profile
-	echo "export TERMINAL=ghostty" | tee -a /etc/profile
 
 }
 
@@ -196,7 +193,6 @@ gui() {
 		'cbatticon'          # battery for systray.
 		'gnome-disk-utility' # disk management.
 		'xautolock'          # autolocker.
-		'handlr'             # sets default apps.
 		'seahorse'           # encryption keys
 		'pambase'            # PAM config
 
@@ -261,13 +257,6 @@ gui() {
 	cd /home/hope/.config/suckless/slock
 	make clean install
 	cd "$current_dir"
-
-	# set default apps.
-	handlr set 'text/*' gedit.desktop
-	handlr set 'audio/*' mpv.desktop
-	handlr set 'video/*' mpv.desktop
-	handlr set 'image/*' org.xfce.ristretto.desktop
-	handlr set 'application/pdf' org.gnome.Evince.desktop
 
 }
 
