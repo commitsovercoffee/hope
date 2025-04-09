@@ -11,7 +11,6 @@
   "scrollbar": {
     "show": "always"
   },
-
   // editor mode
   "vim_mode": true,
   "vim": {
@@ -26,22 +25,18 @@
       "enabled": true
     }
   },
-
   // session management
   "restore_on_startup": "last_session",
   "confirm_quit": true,
-
   // visual features
   "wrap_guides": [80],
   "current_line_highlight": "all",
   "selection_highlight": true,
-
   // auto-complete
   "use_autoclose": true,
   "show_edit_predictions": true,
   "show_completions_on_input": true,
   "show_completion_documentation": true,
-
   // hints
   "inlay_hints": {
     "enabled": true,
@@ -49,17 +44,14 @@
     "show_parameter_hints": true,
     "show_other_hints": true
   },
-
   // search
   "search_wrap": false,
   "use_smartcase_search": true,
-
   // background goodies
   "auto_indent_on_paste": true,
   "remove_trailing_whitespace_on_save": true,
   "format_on_save": "on",
   "auto_update": false, // on linux, the package manager governs this.
-
   // edit assist
   "features": {
     "edit_prediction_provider": "none"
@@ -68,15 +60,13 @@
     "version": "2",
     "enabled": false
   },
-
   // telemetry
   "telemetry": {
     // Send debug info like crash reports.
-    "diagnostics": true,
+    "diagnostics": false,
     // Send anonymized usage data like what languages you're using Zed with.
-    "metrics": true
+    "metrics": false
   },
-
   // extensions
   "auto_install_extensions": {
     "catppuccin": true,
@@ -89,7 +79,25 @@
     "sql": true,
     "snippets": true
   },
-
   // language specific
-  "languages": {}
+  "languages": {
+    "Shell Script": {
+      "format_on_save": "on",
+      "formatter": {
+        "external": {
+          "command": "shfmt",
+          // Change `--indent 2` to match your preferred tab_size
+          "arguments": ["--filename", "{buffer_path}", "--indent", "2"]
+        }
+      }
+    },
+    "JavaScript": {
+      "formatter": {
+        "external": {
+          "command": "prettier",
+          "arguments": ["--stdin-filepath", "{buffer_path}"]
+        }
+      }
+    }
+  }
 }
