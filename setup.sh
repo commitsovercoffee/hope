@@ -73,7 +73,7 @@ bluetooth() {
     pacman -S bluez bluez-utils blueman --noconfirm
     lsmod | grep btusb
     rfkill unblock bluetooth
-    systemctl enable bluetooth.service
+    # systemctl enable bluetooth.service # uncomment to turn bluetooth on on boot
 
 }
 
@@ -112,13 +112,13 @@ gpu() {
     if [[ "$vendor" == *"AMD"* ]]; then
         echo "AMD GPU Found !"
 
-        # DDX driver which provides 2D acceleration in Xorg
+        # DDX driver which provides 2D acceleration in Xorg.
         pacman -S xf86-video-amdgpu --noconfirm
 
-        # vulkan support
+        # vulkan support.
         pacman -S vulkan-radeon lib32-vulkan-radeon --noconfirm
 
-        # accelerated video decoding
+        # accelerated video decoding.
         pacman -S libva-mesa-driver lib32-libva-mesa-driver --noconfirm
 
     fi
@@ -294,7 +294,6 @@ dev() {
         # 'tailwind-language-server'   # tailwind
         # 'svelte-language-server'     # svelte
         # 'prettier'                   # html, css, js, md, bash etc formatter
-        # install rust as per official doc
 
     )
 
