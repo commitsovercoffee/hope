@@ -191,6 +191,7 @@ gui() {
     'lxrandr-gtk3'       # monitor configuration.
     'cbatticon'          # battery for systray.
     'gnome-disk-utility' # disk management.
+    'dosfstools'         # for F32 systems.
     'xautolock'          # autolocker.
     'seahorse'           # encryption keys
     'pambase'            # PAM config
@@ -329,8 +330,7 @@ users() {
   # create directories for user.
   pacman -S xdg-user-dirs --noconfirm
   xdg-user-dirs-update
-  mkdir Batcave Jupiter Obsidian Walkman Zion
-  touch memo.md
+  mkdir -p /home/hope/{Batcave,Jupiter,Obsidian,Walkman,Zion} && touch /home/hope/memo.md
 
 }
 

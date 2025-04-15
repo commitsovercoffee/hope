@@ -24,7 +24,7 @@ alias vim=nvim
 alias top=btop
 alias npm=pnpm
 
-alias bye="sudo rsync -r ~/Obsidian ~/Zion/Blue/; shutdown -h now"
+alias bye="sudo rsync -r ~/Obsidian ~/Zion/; shutdown -h now"
 
 function weather
     curl "wttr.in/$argv?format=3"
