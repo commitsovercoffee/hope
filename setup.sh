@@ -183,22 +183,23 @@ gui() {
 
     # install graphical utils :
 
-    'picom'              # X compositor.
-    'dunst'              # notification daemon.
-    'libnotify'          # lib to send desktop notifications.
-    'xbindkeys'          # bind commands to certain keys.
-    'brightnessctl'      # control brightness.
-    'lxrandr-gtk3'       # monitor configuration.
-    'cbatticon'          # battery for systray.
-    'gnome-disk-utility' # disk management.
-    'dosfstools'         # for F32 systems.
-    'xautolock'          # autolocker.
-    'seahorse'           # encryption keys
-    'pambase'            # PAM config
+    'picom'         # X compositor.
+    'dunst'         # notification daemon.
+    'libnotify'     # lib to send desktop notifications.
+    'xbindkeys'     # bind commands to certain keys.
+    'brightnessctl' # control brightness.
+    'lxrandr-gtk3'  # monitor configuration.
+    'cbatticon'     # battery for systray.
+    'xautolock'     # autolocker.
+    'seahorse'      # encryption keys
+    'pambase'       # PAM config
 
     'feh'                # desktop wallpaper.
     'gnome-themes-extra' # window themes.
     'papirus-icon-theme' # icon themes.
+
+    'gnome-disk-utility' # disk management.
+    'dosfstools'         # for F32 systems.
 
     'xfce4-appfinder'   # app finder.
     'lxappearance-gtk3' # theme switcher.
@@ -206,38 +207,74 @@ gui() {
 
     # install gui apps :
 
-    'pcmanfm-gtk3'  # file manager.
-    'unzip'         # extract/view .zip archives.
-    'file-roller'   # create/modify archives.
-    'mtpfs'         # read/write to MTP devices.
-    'libmtp'        # MTP support.
-    'gvfs'          # gnome virtual file system for mounting.
-    'gvfs-mtp'      # gnome virtual file system for MTP devices.
-    'android-tools' # android platform tools.
-    'android-udev'  # udev rules to connect to android.
+    # tag 0 ~ current workspace.
+
+    'galculator'       # basic calculator.
+    'gnome-screenshot' # screenshot tool.
+    'peek'             # gif recorder.
+    'gcolor3'          # color picker.
+
+    # tag 1 ~ web browsing.
 
     'firefox'                   # primary browser.
     'firefox-developer-edition' # secondary browser.
     'torbrowser-launcher'       # tertiary browser.
     'chromium'                  # testing browser.
 
+    # tag 2 ~ terminals.
+
+    'ghostty'        # primary terminal emulator.
+    'xfce4-terminal' # secondary terminal emulator.
+
+    # tag 3 ~ text editors.
+
+    'zed'      # primary text editor.
+    'mousepad' # alternate text editor.
+
+    # tag 4 ~ file viewers.
+
     'evince'    # doc viewer.
     'ristretto' # image viewer.
+    'celluloid' # video player.
+    'amberol'   # music player.
 
-    'gcolor3' # color picker.
-    'pinta'   # paint program.
+    # tag 5 ~ utils.
 
-    'gedit'    # text editor.
-    'obsidian' # note taking.
+    'pavucontrol' # audio control.
+    'blueman'     # bluetooth control.
 
-    'bitwarden' # password manager.
+    'catfish'            # file searching tool.
+    'gnome-disk-utility' # disk manager.
+    'bitwarden'          # password manager.
 
-    'peek'             # gif recorder.
-    'gnome-screenshot' # screenshot tool.
-    'obs-studio'       # screen cast/record.
+    'uget aria2' # download manager.
+    'nicotine+'  # soul-seek client.
 
-    'qbittorent' # torrent client.
-    'nicotine'   # soul-seek client.
+    # tag 6 ~ file manager.
+
+    'thunar'                   # file manager.
+    'thunar-media-tags-plugin' # plugins ...
+    'thunar-archive-plugin'
+    'thunar-volman'
+
+    'unzip'         # extract/view .zip archives.
+    'file-roller'   # create/modify archives.
+    'mtpfs'         # read/write to MTP devices.
+    'libmtp'        # AmberolMTP support.
+    'gvfs'          # gnome virtual file system for mounting.
+    'gvfs-mtp'      # gnome virtual file system for MTP devices.
+    'android-tools' # android platform tools.
+    'android-udev'  # udev rules to connect to android.
+
+    # tag 7 ~ creative suite.
+
+    'obsidian'    # note taking.
+    'kolourpaint' # paint program.
+    'kdenlive'    # video editing.
+
+    # tag 8 ~ obs.
+
+    'obs-studio' # screen cast/record.
 
   )
 
@@ -304,10 +341,6 @@ dev() {
   for app in "${apps[@]}"; do
     pacman -S "$app" --noconfirm --needed
   done
-
-  # set git defaults
-  git config --global user.name commitsovercoffee
-  git config --global user.email commitsovercoffee@gmail.com
 
 }
 
