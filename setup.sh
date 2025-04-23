@@ -252,11 +252,7 @@ gui() {
 
     # tag 6 ~ file manager.
 
-    'thunar'                   # file manager.
-    'thunar-media-tags-plugin' # plugins ...
-    'thunar-archive-plugin'
-    'thunar-volman'
-
+    'pcmanfm-gtk3'  # file-manager.
     'unzip'         # extract/view .zip archives.
     'file-roller'   # create/modify archives.
     'mtpfs'         # read/write to MTP devices.
