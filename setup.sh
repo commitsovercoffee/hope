@@ -191,8 +191,9 @@ gui() {
     'lxrandr-gtk3'  # monitor configuration.
     'cbatticon'     # battery for systray.
     'xautolock'     # autolocker.
-    'seahorse'      # encryption keys
-    'pambase'       # PAM config
+    'seahorse'      # encryption keys.
+    'pambase'       # PAM config.
+    'slock'         # screen locker for X.
 
     'feh'                # desktop wallpaper.
     'gnome-themes-extra' # window themes.
@@ -278,16 +279,11 @@ gui() {
     pacman -S "$app" --noconfirm --needed
   done
 
-  # clone suckless fork. (this command also creates .config dir as root)
-  git clone https://github.com/commitsovercoffee/suckless.git /home/hope/.config/suckless
+  # clone my pre-patched dwm repo. (this command also creates .config dir as root)
+  git clone https://github.com/commitsovercoffee/dwm-remix.git /home/hope/.config/suckless/dwm-remix
 
   # install dynamic window manager.
-  cd /home/hope/.config/suckless/dwm
-  make clean install
-  cd "$current_dir"
-
-  # install slock.
-  cd /home/hope/.config/suckless/slock
+  cd /home/hope/.config/suckless/dwm-remix
   make clean install
   cd "$current_dir"
 
