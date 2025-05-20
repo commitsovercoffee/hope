@@ -4,7 +4,7 @@ end
 
 # Nav :
 
-alias ls="exa -l"
+alias ls="exa"
 alias cat=bat
 alias mkdir='mkdir -pv'
 alias grep='grep --color=auto'
@@ -22,9 +22,9 @@ alias remove="sudo pacman -Rns"
 
 alias vim=nvim
 alias top=btop
-alias npm=pnpm
+alias find=fd
 
-alias bye="sudo rsync -r ~/Obsidian ~/Zion/; shutdown -h now"
+alias bye="sudo rsync -r --delete ~/Obsidian ~/Zion/; shutdown -h now"
 
 function weather
     curl "wttr.in/$argv?format=3"

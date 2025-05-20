@@ -7,7 +7,6 @@
       "space g g": "git_panel::ToggleFocus"
     }
   },
-
   {
     "context": "GitPanel",
     "bindings": {
@@ -16,7 +15,6 @@
       "space e e": "project_panel::ToggleFocus"
     }
   },
-
   {
     "context": "Terminal",
     "bindings": {
@@ -26,9 +24,27 @@
       "ctrl-n": "workspace::NewTerminal"
     }
   },
-
   {
-    "context": "Editor && VimControl && !VimWaiting && !menu",
+    "context": "Editor && VimControl && !VimWaiting && !menu ",
+    "bindings": {
+      "space e e": "project_panel::ToggleFocus",
+      "space g g": "git_panel::ToggleFocus",
+      "space t t": "workspace::ToggleBottomDock",
+
+      "space s s ": ["projects::OpenRecent", { "create_new_window": true }],
+      "space f f": "file_finder::Toggle",
+
+      "space w w": "workspace::Save",
+      "space q q": "pane::CloseActiveItem",
+
+      "space o o": "outline::Toggle",
+      "space d f": "editor::Hover",
+      "space r n": "editor::Rename",
+      "space v": "editor::GoToDefinitionSplit"
+    }
+  },
+  {
+    "context": "EmptyPane",
     "bindings": {
       "space e e": "project_panel::ToggleFocus",
       "space g g": "git_panel::ToggleFocus",

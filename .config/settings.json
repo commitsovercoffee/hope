@@ -1,103 +1,45 @@
 {
-  //  appearance
-  "theme": "Catppuccin Mocha - No Italics",
-  "tabs": {
-    // Show git status colors in the editor tabs.
-    "git_status": true,
-    // Whether to show the file icon for a tab.
-    "file_icons": true
+  "auto_update": false,
+  "restore_on_startup": "last_workspace",
+  "confirm_quit": false,
+
+  "theme": {
+    "mode": "system",
+    "light": "Catppuccin Latte - No Italics",
+    "dark": "Catppuccin Mocha - No Italics"
   },
   "cursor_blink": false,
   "scrollbar": {
-    "show": "always"
+    "show": "never"
   },
-  // editor mode
-  "vim_mode": true,
-  "vim": {
-    "toggle_relative_line_numbers": false,
-    "use_system_clipboard": "always",
-    "use_multiline_find": false,
-    "use_smartcase_find": true
+  "tabs": {
+    "git_status": true,
+    "file_icons": true
   },
+  "wrap_guides": [80],
+  "selection_highlight": true,
   "git": {
     "git_gutter": "tracked_files",
     "inline_blame": {
       "enabled": true
     }
   },
-  // session management
-  "restore_on_startup": "last_session",
-  "confirm_quit": true,
-  // visual features
-  "wrap_guides": [80],
-  "current_line_highlight": "all",
-  "selection_highlight": true,
-  // auto-complete
-  "use_autoclose": true,
-  "show_edit_predictions": true,
-  "show_completions_on_input": true,
-  "show_completion_documentation": true,
-  // hints
-  "inlay_hints": {
-    "enabled": true,
-    "show_type_hints": true,
-    "show_parameter_hints": true,
-    "show_other_hints": true
-  },
-  // search
-  "search_wrap": false,
-  "use_smartcase_search": true,
-  // background goodies
+
+  "vim_mode": true,
   "auto_indent_on_paste": true,
-  "remove_trailing_whitespace_on_save": true,
-  "format_on_save": "on",
-  "auto_update": false, // on linux, the package manager governs this.
-  // edit assist
-  "features": {
-    "edit_prediction_provider": "none"
-  },
-  "assistant": {
+
+  "agent": {
     "version": "2",
     "enabled": false
   },
-  // telemetry
+  "features": {
+    "edit_prediction_provider": "none"
+  },
+
   "telemetry": {
-    // Send debug info like crash reports.
-    "diagnostics": false,
-    // Send anonymized usage data like what languages you're using Zed with.
-    "metrics": false
+    "diagnostics": true,
+    "metrics": true
   },
-  // extensions
-  "auto_install_extensions": {
-    "catppuccin": true,
-    "basher": true,
-    "html": true,
-    "svelte": true,
-    "make": true,
-    "log": true,
-    "csv": true,
-    "sql": true,
-    "snippets": true
-  },
-  // language specific
-  "languages": {
-    "Shell Script": {
-      "format_on_save": "on",
-      "formatter": {
-        "external": {
-          "command": "shfmt",
-          // Change `--indent 2` to match your preferred tab_size
-          "arguments": ["--filename", "{buffer_path}", "--indent", "2"]
-        }
-      }
-    },
-    "JavaScript": {
-      "formatter": {
-        "external": {
-          "command": "prettier",
-          "arguments": ["--stdin-filepath", "{buffer_path}"]
-        }
-      }
-    }
-  }
+
+  "auto_install_extensions": {}
 }
