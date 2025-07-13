@@ -65,6 +65,12 @@ network() {
     ufw default allow outgoing
     ufw default deny incoming
 
+    # install & enable syncthing.
+    pacman -S syncthing --noconfirm
+    mv .config/syncthing.service /etc/systemd/system
+    systemctl start syncthing@hope.service
+    systemctl enable syncthing@hope.service
+
 }
 
 bluetooth() {
