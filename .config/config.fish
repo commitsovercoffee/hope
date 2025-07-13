@@ -24,7 +24,8 @@ alias vim=nvim
 alias top=btop
 alias find=fd
 
-alias bye="sudo rsync -r --delete ~/Obsidian ~/Zion/; shutdown -h now"
+alias irondome="sudo rsync -r --delete ~/Documents ~/Sync ~/Zion/Backup"
+alias bye="sudo rsync -r --delete ~/Documents ~/Sync ~/Zion/Backup; clear; cowsay 'see ya!';sleep 2; shutdown -h now"
 
 function weather
     curl "wttr.in/$argv?format=3"

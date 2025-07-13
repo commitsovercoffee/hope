@@ -142,6 +142,8 @@ tui() {
         'fisher'   # fish package manager.
         'starship' # shell prompt.
         'man-db'   # man pages.
+        'tldr'     # command tldr.
+        'cowsay'   # ascii cow.
 
         'exa' # alternative to `ls`.
         'bat' # alternative to `cat`.
@@ -362,7 +364,7 @@ users() {
     # create directories for user.
     pacman -S xdg-user-dirs --noconfirm
     xdg-user-dirs-update
-    mkdir -p /home/hope/{Batcave,Jupiter,Obsidian,Walkman,Zion} && touch /home/hope/memo.md
+    mkdir -p /home/hope/{Batcave,Sync,Zion} && touch /home/hope/memo.md
 
 }
 

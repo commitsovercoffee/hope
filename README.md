@@ -35,7 +35,7 @@ Once the installation is complete, your system will automatically reboot.
 - Look up my custom [keymaps](https://github.com/commitsovercoffee/dwm-remix/blob/18ea6642abae18e1c79c3359b02ee5e538a2a53a/config.def.h#L113).
 - Live happily ever after.
 
-PS Don't forget to configure (syncthing)[http://localhost:8384/] for your devices.
+PS Don't forget to configure [syncthing](http://localhost:8384/) for your devices.
 
 ## Status
 
