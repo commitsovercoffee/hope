@@ -1,47 +1,58 @@
 #!/bin/sh
 
-userresources=$HOME/.Xresources
-usermodmap=$HOME/.Xmodmap
-sysresources=/etc/X11/xinit/.Xresources
-sysmodmap=/etc/X11/xinit/.Xmodmap
+# Resource and keymap variables.
+userresources="$HOME/.Xresources"
+usermodmap="$HOME/.Xmodmap"
+sysresources="/etc/X11/xinit/.Xresources"
+sysmodmap="/etc/X11/xinit/.Xmodmap"
 
-# merge in defaults and keymaps
-
+# Helper functions.
 merge_xresources() {
-	if [ -f "$1" ]; then
-		xrdb -merge "$1"
-	fi
+    [ -f "$1" ] && xrdb -merge "$1"
 }
-
 merge_xmodmap() {
-	if [ -f "$1" ]; then
-		xmodmap "$1"
-	fi
+    [ -f "$1" ] && xmodmap "$1"
 }
 
+# Load resources and keymaps (system first, then user).
 merge_xresources "$sysresources"
-merge_xmodmap "$sysmodmap"
 merge_xresources "$userresources"
+merge_xmodmap "$sysmodmap"
 merge_xmodmap "$usermodmap"
 
-# startup
-
-{
-	xbindkeys &
-	cbatticon &
-	nm-applet &
-	feh --bg-scale "$HOME/Pictures/wallpaper.jpg" &
-	picom &
-	# xautolock -time 10 -locker slock &
-} &
-
-# Check and execute additional startup scripts
-if [ -d /etc/X11/xinit/xinitrc.d ]; then
-	for f in /etc/X11/xinit/xinitrc.d/?*.sh; do
-		[ -x "$f" ] && . "$f"
-	done
-	unset f
+# Background essentials.
+xbindkeys &
+picom &
+nm-applet &
+# cbatticon &
+# xautolock -time 10 -locker slock &
+if [ -f "$HOME/Pictures/wallpaper.jpg" ]; then
+    feh --bg-scale "$HOME/Pictures/wallpaper.jpg" &
 fi
 
-# Execute window manager
+# Drop my needle...
+ghostty -e cmus &
+sleep 1
+cmus-remote -C "view 2"
+cmus-remote -C "set shuffle=true"
+cmus-remote -p
+cmus-remote --next
+
+# Startup Apps
+firefox &
+ghostty &
+zeditor &
+blueman-manager &
+pavucontrol &
+pcmanfm &
+
+# Run additional startup scripts
+if [ -d /etc/X11/xinit/xinitrc.d ]; then
+    for f in /etc/X11/xinit/xinitrc.d/?*.sh; do
+        [ -x "$f" ] && . "$f"
+    done
+    unset f
+fi
+
+# Start your window manager.
 exec dwm
