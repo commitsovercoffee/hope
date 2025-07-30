@@ -243,6 +243,7 @@ gui() {
         # tag 4 ~ file viewers.
 
         'evince'    # doc viewer.
+        'foliate'   # epub viewer.
         'ristretto' # image viewer.
         'celluloid' # video player.
         'amberol'   # music player.
