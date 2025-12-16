@@ -410,8 +410,9 @@ config() {
 	mv .config/30-touch.conf /etc/X11/xorg.conf.d/30-touch.conf
 
 	# 'ghostty'
-	mkdir -p /home/hope/.config/ghostty
+	mkdir -p /home/hope/.config/ghostty/themes
 	mv .config/config /home/hope/.config/ghostty/config
+	mv .config/0x96f /home/hope/.config/ghostty/themes/0x96f
 
 	# 'fish'
 	mkdir -p /home/hope/.config/fish/functions
