@@ -1,65 +1,23 @@
 [
-  {
-    "context": "ProjectPanel",
-    "bindings": {
-      "space e e": "workspace::ToggleLeftDock",
-      "space t t": "terminal_panel::ToggleFocus",
-      "space g g": "git_panel::ToggleFocus"
-    }
-  },
-  {
-    "context": "GitPanel",
-    "bindings": {
-      "space g g": "workspace::ToggleLeftDock",
-      "space t t": "terminal_panel::ToggleFocus",
-      "space e e": "project_panel::ToggleFocus"
-    }
-  },
-  {
-    "context": "Terminal",
-    "bindings": {
-      "ctrl-t": "workspace::ToggleBottomDock",
-      "ctrl-e": "project_panel::ToggleFocus",
-      "ctrl-g": "git_panel::ToggleFocus",
-      "ctrl-n": "workspace::NewTerminal"
-    }
-  },
-  {
-    "context": "Editor && VimControl && !VimWaiting && !menu ",
-    "bindings": {
-      "space e e": "project_panel::ToggleFocus",
-      "space g g": "git_panel::ToggleFocus",
-      "space t t": "workspace::ToggleBottomDock",
-
-      "space s s ": ["projects::OpenRecent", { "create_new_window": true }],
-      "space f f": "file_finder::Toggle",
-
-      "space w w": "workspace::Save",
-      "space q q": "pane::CloseActiveItem",
-
-      "space o o": "outline::Toggle",
-      "space d f": "editor::Hover",
-      "space r n": "editor::Rename",
-      "space v": "editor::GoToDefinitionSplit"
-    }
-  },
-  {
-    "context": "EmptyPane",
-    "bindings": {
-      "space e e": "project_panel::ToggleFocus",
-      "space g g": "git_panel::ToggleFocus",
-      "space t t": "workspace::ToggleBottomDock",
-
-      "space f f": "file_finder::Toggle",
-      "space r r ": ["projects::OpenRecent", { "create_new_window": true }],
-
-      "space w w": "workspace::Save",
-      "space q q": "pane::CloseActiveItem",
-
-      "space o o": "outline::Toggle",
-      "space d f": "editor::Hover",
-      "space r n": "editor::Rename",
-      "space v": "editor::GoToDefinitionSplit"
-    }
-  }
+	{
+		"context": "Editor && VimControl && !VimWaiting && !menu",
+		"bindings": {
+			"space e e": "project_panel::ToggleFocus",
+			"space g g": "git_panel::ToggleFocus",
+			"space t t": "workspace::ToggleBottomDock",
+			"space s s ": [
+				"projects::OpenRecent",
+				{
+					"create_new_window": true
+				}
+			],
+			"space f f": "file_finder::Toggle",
+			"space w w": "workspace::Save",
+			"space q q": "pane::CloseActiveItem",
+			"space o o": "outline::Toggle",
+			"space d f": "editor::Hover",
+			"space r n": "editor::Rename",
+			"space v": "editor::GoToDefinitionSplit"
+		}
+	}
 ]
