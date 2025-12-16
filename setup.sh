@@ -365,8 +365,9 @@ grub() {
 	# install grub.
 	grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot/efi
 
-	# enable logs.
+	# enable logs & remove timeout.
 	sed -i 's/loglevel=3 quiet/loglevel=3/' /etc/default/grub
+	sed -i 's/GRUB_TIMEOUT=5/GRUB_TIMEOUT=0/' /etc/default/grub
 
 	# generate grub config.
 	grub-mkconfig -o /boot/grub/grub.cfg
