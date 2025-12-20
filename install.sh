@@ -68,9 +68,6 @@ install() {
 	# install essential packages.
 	pacstrap -K /mnt linux linux-firmware base base-devel
 
-	# generate fstab file.
-	genfstab -U /mnt >>/mnt/etc/fstab
-
 }
 
 setup() {
@@ -84,6 +81,8 @@ setup() {
 	# run the setup script from /mnt with arch-chroot.
 	arch-chroot /mnt bash setup.sh
 
+	# generate fstab file.
+	genfstab -U /mnt >>/mnt/etc/fstab
 }
 
 # Install arch linux :
