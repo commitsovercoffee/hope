@@ -1,482 +1,229 @@
 #!/bin/bash
-# This script configures the installed arch linux for daily use.
+set -euo pipefail
 
+#########################
+# EXPRESS INSTALL VARIABLES
+#########################
+
+# User & passwords
+USERNAME="hope"
+USER_PASS="changeme123"
+ROOT_PASS="rootpass123"
+
+# Hostname
+HOSTNAME="arch"
+
+# Timezone & locale
+TIMEZONE="Asia/Kolkata"
+LOCALE="en_US.UTF-8"
+
+#########################
+# Enable multilib
+#########################
 multilib() {
+  if ! grep -q "^\[multilib\]" /etc/pacman.conf; then
+    cat <<'EOF' >>/etc/pacman.conf
 
-	# enable multi-lib for 32-bit apps.
-	echo "" >>/etc/pacman.conf
-	echo "[multilib]" >>/etc/pacman.conf
-	echo "Include = /etc/pacman.d/mirrorlist" >>/etc/pacman.conf
-
-	# refresh database.
-	pacman -Syy reflector --noconfirm
-	reflector --country India --protocol https --save /etc/pacman.d/mirrorlist
-
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+EOF
+    echo "Multilib repository enabled."
+  else
+    echo "Multilib already enabled."
+  fi
 }
 
+#########################
+# Timezone
+#########################
 timezone() {
-
-	# set timezone.
-	ln -sf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
-
-	# set the hardware clock from the system clock.
-	hwclock --systohc
-
-	enable network time sync
-	timedatectl set-ntp true
-
+  ln -sf "/usr/share/zoneinfo/$TIMEZONE" /etc/localtime
+  hwclock --systohc
+  echo "Timezone set to $TIMEZONE."
 }
 
+#########################
+# Locale & fonts
+#########################
 locale() {
+  sed -i "s/^#${LOCALE}/${LOCALE}/" /etc/locale.gen
+  locale-gen
+  echo "LANG=${LOCALE}" >/etc/locale.conf
 
-	# uncomment required locales from '/etc/locale.gen'.
-	sed -i 's/#en_US.UTF-8/en_US.UTF-8/' /etc/locale.gen
-
-	# generate locale.
-	locale-gen
-
-	# set system locale ~ creates 'locale.conf'.
-	localectl set-locale LANG=en_US.UTF-8
-
-	# install fonts.
-	pacman -S aspell-en ttf-firacode-nerd nerd-fonts noto-fonts noto-fonts-extra noto-fonts-emoji font-manager --noconfirm
-
+  pacman -S --noconfirm --needed aspell-en ttf-firacode-nerd noto-fonts noto-fonts-extra noto-fonts-emoji font-manager
+  echo "Locale and fonts configured."
 }
 
+#########################
+# Network
+#########################
 network() {
+  echo "$HOSTNAME" >/etc/hostname
 
-	# create the hostname file.
-	echo "arch" >/etc/hostname
+  cat >/etc/hosts <<EOF
+127.0.0.1   localhost
+::1         localhost
+127.0.1.1   ${HOSTNAME}.localdomain ${HOSTNAME}
+EOF
 
-	# install & enable network.
-	pacman -S linux-firmware-marvell networkmanager network-manager-applet traceroute --noconfirm
-	systemctl enable NetworkManager
+  pacman -S --noconfirm --needed networkmanager network-manager-applet traceroute linux-firmware linux-firmware-marvell ufw syncthing
+  systemctl enable NetworkManager.service
+  systemctl enable ufw.service
+  systemctl enable "syncthing@${USERNAME}.service"
 
-	# add entries for localhost to '/etc/hosts' file.
-	# ( if the system has a permanent IP address, it should be used instead of 127.0.1.1 )
-	# echo -e 127.0.0.1'\t'localhost'\n'::1'\t\t'localhost'\n'127.0.1.1'\t'arch >> /etc/hosts
+  ufw --force reset
+  ufw default deny incoming
+  ufw default allow outgoing
 
-	# install & enable firewall.
-	pacman -S ufw --noconfirm
-	systemctl start ufw.service
-	systemctl enable ufw.service
-
-	# allow outgoing & reject incoming.
-	ufw default allow outgoing
-	ufw default deny incoming
-
-	# install & enable syncthing.
-	pacman -S syncthing --noconfirm
-	mv .config/syncthing.service /etc/systemd/system
-	systemctl start syncthing@hope.service
-	systemctl enable syncthing@hope.service
-
+  echo "Network configured."
 }
 
+#########################
+# Bluetooth
+#########################
 bluetooth() {
-
-	# install bluetooth.
-	pacman -S bluez bluez-utils blueman --noconfirm
-	lsmod | grep btusb
-	rfkill unblock bluetooth
-	systemctl enable bluetooth.service
-
+  pacman -S --noconfirm --needed bluez bluez-utils blueman
+  systemctl enable bluetooth.service
+  rfkill unblock bluetooth || true
+  echo "Bluetooth configured."
 }
 
+#########################
+# Audio
+#########################
 audio() {
-
-	# install audio packages.
-	pacman -S sof-firmware pipewire lib32-pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber pavucontrol alsa-utils --noconfirm
-
+  pacman -S --noconfirm --needed sof-firmware pipewire pipewire-alsa pipewire-pulse wireplumber lib32-pipewire pavucontrol alsa-utils
+  echo "Audio stack installed."
 }
 
+#########################
+# Webcam
+#########################
 webcam() {
-
-	# install webcam packages.
-	pacman -S cameractrls --noconfirm
-
+  pacman -S --noconfirm --needed cameractrls
+  echo "Webcam utilities installed."
 }
 
-chipset() {
-
-	# install microcode for amd.
-	vendor="$(lscpu | grep 'Model name')"
-	if [[ "$vendor" == *"AMD"* ]]; then
-		echo "AMD CPU Found !"
-		pacman -S amd-ucode --noconfirm
-	fi
-
-}
-
+#########################
+# GPU
+#########################
 gpu() {
-
-	# DRI driver for 3D acceleration.
-	pacman -S mesa lib32-mesa --noconfirm
-
-	vendor="$(lspci -v | grep -iE 'vga|3d|2d')"
-
-	if [[ "$vendor" == *"AMD"* ]]; then
-		echo "AMD GPU Found !"
-
-		# DDX driver which provides 2D acceleration in Xorg.
-		pacman -S xf86-video-amdgpu --noconfirm
-
-		# vulkan support.
-		pacman -S vulkan-radeon lib32-vulkan-radeon --noconfirm
-
-		# accelerated video decoding.
-		pacman -S libva-mesa-driver lib32-libva-mesa-driver --noconfirm
-
-	fi
-
+  pacman -S --noconfirm --needed mesa lib32-mesa
+  if lspci | grep -qi "VGA.*AMD\|3D.*AMD"; then
+    pacman -S --noconfirm --needed xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon libva-mesa-driver lib32-libva-mesa-driver
+    echo "AMD GPU detected and drivers installed."
+  else
+    echo "Non-AMD GPU detected, skipping AMD drivers."
+  fi
 }
 
+#########################
+# TUI environment
+#########################
 tui() {
+  local apps=(ghostty fish fisher starship man-db tldr cowsay eza bat btop ncdu git rsync cmus mpv)
+  pacman -S --noconfirm --needed "${apps[@]}"
 
-	apps=(
+  install -d -o "$USERNAME" -g "$USERNAME" /home/"$USERNAME"/.config
+  starship preset nerd-font-symbols -o /home/"$USERNAME"/.config/starship.toml
 
-		'ghostty'  # terminal emulator.
-		'fish'     # user-friendly shell.
-		'fisher'   # fish package manager.
-		'starship' # shell prompt.
-		'man-db'   # man pages.
-		'tldr'     # command tldr.
-		'cowsay'   # ascii cow.
+  sudo -u "$USERNAME" fish -c "fisher install --yes catppuccin/fish"
+  sudo -u "$USERNAME" fish -c "fish_config theme save --yes 'Catppuccin Mocha'"
 
-		'exa' # alternative to `ls`.
-		'bat' # alternative to `cat`.
-
-		'btop' # task manager.
-		'ncdu' # disk util info.
-
-		'git'   # version control.
-		'rsync' # copying tool.
-
-		'cmus' # music player.
-		'mpv'  # video player.
-
-	)
-
-	for app in "${apps[@]}"; do
-		pacman -S "$app" --noconfirm --needed
-	done
-
-	# set preset for starship prompt.
-	starship preset nerd-font-symbols -o ~/.config/starship.toml
-
-	# set theme for fish shell.
-	fish -c "fisher install catppuccin/fish"
-	fish -c "fish_config theme save "Catppuccin Mocha""
-
-	# set fish as default shell.
-	chsh --shell /bin/fish hope
-
+  chsh -s /bin/fish "$USERNAME"
+  echo "TUI environment configured."
 }
 
+#########################
+# GUI environment
+#########################
 gui() {
+  local apps=(xorg-server xorg-xinit xorg-xrandr xclip xorg-xclipboard picom dunst libnotify xbindkeys brightnessctl lxrandr-gtk3 cbatticon xautolock seahorse slock feh gnome-themes-extra papirus-icon-theme gnome-disk-utility dosfstools xfce4-appfinder lxappearance-gtk3 lxinput-gtk3 galculator gnome-screenshot flameshot peek gcolor3 firefox firefox-developer-edition torbrowser-launcher chromium ghostty xfce4-terminal zed mousepad evince foliate ristretto celluloid pavucontrol blueman catfish bitwarden qbittorrent nicotine+ pcmanfm-gtk3 unzip file-roller mtpfs libmtp gvfs gvfs-mtp android-tools android-udev obsidian kolourpaint kdenlive obs-studio steam steam-native-runtime)
+  pacman -S --noconfirm --needed "${apps[@]}"
 
-	apps=(
+  install -d -o "$USERNAME" -g "$USERNAME" /home/"$USERNAME"/.config/suckless
+  git clone https://github.com/commitsovercoffee/dwm-remix.git /home/"$USERNAME"/.config/suckless/dwm-remix
+  pushd /home/"$USERNAME"/.config/suckless/dwm-remix
+  make clean install
+  popd
+  chown -R "$USERNAME":"$USERNAME" /home/"$USERNAME"/.config
 
-		# install display server :
-
-		'xorg-server'     # xorg display server.
-		'xorg-xinit'      # xinit ~ to start xorg server.
-		'xorg-xrandr'     # tui for RandR extension.
-		'xorg-xclipboard' # xclipboard ~ clipboard manager.
-		'xclip'           # clipboard manipulation tool.
-
-		# install graphical utils :
-
-		'picom'         # X compositor.
-		'dunst'         # notification daemon.
-		'libnotify'     # lib to send desktop notifications.
-		'xbindkeys'     # bind commands to certain keys.
-		'brightnessctl' # control brightness.
-		'lxrandr-gtk3'  # monitor configuration.
-		'cbatticon'     # battery for systray.
-		'xautolock'     # autolocker.
-		'seahorse'      # encryption keys.
-		'pambase'       # PAM config.
-		'slock'         # screen locker for X.
-
-		'feh'                # desktop wallpaper.
-		'gnome-themes-extra' # window themes.
-		'papirus-icon-theme' # icon themes.
-
-		'gnome-disk-utility' # disk management.
-		'dosfstools'         # for F32 systems.
-
-		'xfce4-appfinder'   # app finder.
-		'lxappearance-gtk3' # theme switcher.
-		'lxinput-gtk3'      # configure keyboard & mouse.
-
-		# install gui apps :
-
-		# tag 0 ~ current workspace.
-
-		'galculator'       # basic calculator.
-		'gnome-screenshot' # screenshot tool.
-		'flameshot'        # screenshot annotation.
-		'peek'             # gif recorder.
-		'gcolor3'          # color picker.
-
-		# tag 1 ~ web browsing.
-
-		'firefox'                   # primary browser.
-		'firefox-developer-edition' # secondary browser.
-		'torbrowser-launcher'       # tertiary browser.
-		'chromium'                  # testing browser.
-
-		# tag 2 ~ terminals.
-
-		'ghostty'        # primary terminal emulator.
-		'xfce4-terminal' # secondary terminal emulator.
-
-		# tag 3 ~ text editors.
-
-		'zed'      # primary text editor.
-		'mousepad' # alternate text editor.
-
-		# tag 4 ~ file viewers.
-
-		'evince'    # doc viewer.
-		'foliate'   # epub viewer.
-		'ristretto' # image viewer.
-		'celluloid' # video player.
-
-		# tag 5 ~ utils.
-
-		'pavucontrol' # audio control.
-		'blueman'     # bluetooth control.
-
-		'catfish'            # file searching tool.
-		'gnome-disk-utility' # disk manager.
-		'bitwarden'          # password manager.
-
-		'qbittorent' # torrent client.
-		'nicotine+'  # soul-seek client.
-
-		# tag 6 ~ file manager.
-
-		'pcmanfm-gtk3'  # file-manager.
-		'unzip'         # extract/view .zip archives.
-		'file-roller'   # create/modify archives.
-		'mtpfs'         # read/write to MTP devices.
-		'libmtp'        # MTP support.
-		'gvfs'          # gnome virtual file system for mounting.
-		'gvfs-mtp'      # gnome virtual file system for MTP devices.
-		'android-tools' # android platform tools.
-		'android-udev'  # udev rules to connect to android.
-
-		# tag 7 ~ creative suite.
-
-		'obsidian'    # note taking.
-		'kolourpaint' # paint program.
-		'kdenlive'    # video editing.
-
-		# tag 8 ~ obs.
-
-		'obs-studio'           # screen cast/record.
-		'steam'                # video games :P
-		'steam-native-runtime' # steam runtime using system libs
-
-	)
-
-	for app in "${apps[@]}"; do
-		pacman -S "$app" --noconfirm --needed
-	done
-
-	# clone my pre-patched dwm repo. (this command also creates .config dir as root)
-	git clone https://github.com/commitsovercoffee/dwm-remix.git /home/hope/.config/suckless/dwm-remix
-
-	# install dynamic window manager.
-	cd /home/hope/.config/suckless/dwm-remix
-	make clean install
-	cd "$current_dir"
-
+  echo "GUI environment installed."
 }
 
+#########################
+# Development environment
+#########################
 dev() {
-
-	# install packages for a seamless dev experience :
-
-	apps=(
-
-		'zed'         # primary text editor
-		'neovim'      # secondary text editor
-		'tree-sitter' # parsing library
-
-		'git'        # version control
-		'github-cli' # github cli, duh!
-
-		'fd'      # file search
-		'ripgrep' # search tool
-		'jq'      # JSON processor
-
-		'nodejs' # evented io for V8 js
-		'npm'    # package manager for js
-
-		'go'      # golang
-		'gopls'   # golang lsp
-		'gofumpt' # golang formatter
-
-	)
-
-	for app in "${apps[@]}"; do
-		pacman -S "$app" --noconfirm --needed
-	done
-
+  local apps=(zed neovim tree-sitter git github-cli fd ripgrep jq nodejs npm go gopls gofumpt)
+  pacman -S --noconfirm --needed "${apps[@]}"
+  echo "Development environment installed."
 }
 
+#########################
+# Users
+#########################
 users() {
+  echo "root:${ROOT_PASS}" | chpasswd
 
-	# set the root password.
-	echo "Specify password for root user. This will be used to authorize root commands."
-	passwd
+  if ! id -u "$USERNAME" &>/dev/null; then
+    useradd -m -G wheel -s /bin/bash "$USERNAME"
+  fi
+  echo "${USERNAME}:${USER_PASS}" | chpasswd
 
-	# add regular user.
-	useradd -m -G wheel -s /bin/bash "hope"
+  sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 
-	# set password for new user.
-	echo "Specify password for regular user."
-	passwd "hope"
+  pacman -S --noconfirm --needed xdg-user-dirs
+  sudo -u "$USERNAME" xdg-user-dirs-update
+  mkdir -p /home/"$USERNAME"/{Batcave,Sync,Zion}
+  touch /home/"$USERNAME"/memo.md
+  chown -R "$USERNAME":"$USERNAME" /home/"$USERNAME"
 
-	# enable sudo for wheel group.
-	sed -i 's/# %wheel ALL=(ALL:ALL) ALL/ %wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
-
-	# create directories for user.
-	pacman -S xdg-user-dirs --noconfirm
-	xdg-user-dirs-update
-	mkdir -p /home/hope/{Batcave,Sync,Zion} && touch /home/hope/memo.md
-
+  echo "User setup completed."
 }
 
+#########################
+# GRUB & boot
+#########################
 grub() {
+  local EFI_PART
+  if [[ -b /dev/nvme0n1 ]]; then
+    EFI_PART="/dev/nvme0n1p1"
+  elif [[ -b /dev/sda ]]; then
+    EFI_PART="/dev/sda1"
+  else
+    echo "ERROR: No EFI partition detected."
+    exit 1
+  fi
 
-	# install required packages.
-	pacman -S grub efibootmgr --noconfirm
+  pacman -S --noconfirm --needed grub efibootmgr
+  mkdir -p /boot/efi
+  mount "$EFI_PART" /boot/efi
 
-	# create directory to mount EFI partition.
-	mkdir /boot/efi
+  grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot/efi
+  sed -i 's/loglevel=3 quiet/loglevel=3/' /etc/default/grub || true
+  sed -i 's/GRUB_TIMEOUT=[0-9]\+/GRUB_TIMEOUT=0/' /etc/default/grub
+  grub-mkconfig -o /boot/grub/grub.cfg
 
-	# mount the EFI partition.
-	mount /dev/nvme0n1p1 /boot/efi
+  mkinitcpio -P
+  systemctl enable fstrim.timer
 
-	# install grub.
-	grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot/efi
-
-	# enable logs & remove timeout.
-	sed -i 's/loglevel=3 quiet/loglevel=3/' /etc/default/grub
-	sed -i 's/GRUB_TIMEOUT=5/GRUB_TIMEOUT=0/' /etc/default/grub
-
-	# generate grub config.
-	grub-mkconfig -o /boot/grub/grub.cfg
-
+  echo "GRUB and boot setup completed."
 }
 
-config() {
-
-	# '20-amdgpu.conf'
-	mv .config/20-amdgpu.conf /etc/X11/xorg.conf.d/20-amdgpu.conf
-
-	# 'xinitrc'
-	mv .config/.xinitrc /home/hope/.xinitrc
-
-	# '.xbindkeysrc'
-	mv .config/.xbindkeysrc /home/hope/.xbindkeysrc
-	mv .config/.get-vol.sh /home/hope/.get-vol.sh
-	chmod u+x /home/hope/.get-vol.sh
-
-	# 'Xresources'
-	mv .config/.Xresources /home/hope/.Xresources
-
-	# 'picom'
-	mkdir -p /home/hope/.config/picom
-	mv .config/picom.conf /home/hope/.config/picom/picom.conf
-
-	# 'dunst'
-	mkdir -p /home/hope/.config/dunst
-	mv .config/dunstrc /home/hope/.config/dunst/dunstrc
-
-	# 'lxappearance'
-	mkdir -p /home/hope/.config/gtk-3.0
-	mv .config/settings.ini /home/hope/.config/gtk-3.0
-
-	# wallpaper for 'feh'
-	mkdir -p /home/hope/Pictures
-	mv .config/wallpaper.jpg /home/hope/Pictures/wallpaper.jpg
-
-	# 'touchpad'
-	mv .config/30-touch.conf /etc/X11/xorg.conf.d/30-touch.conf
-
-	# 'ghostty'
-	mkdir -p /home/hope/.config/ghostty/themes
-	mv .config/config /home/hope/.config/ghostty/config
-	mv .config/0x96f /home/hope/.config/ghostty/themes/0x96f
-
-	# 'fish'
-	mkdir -p /home/hope/.config/fish/functions
-	mv .config/config.fish /home/hope/.config/fish/config.fish
-	mv fish_greeting.fish /home/hope/.config/fish/functions/fish_greeting.fish
-
-	# 'starship'
-	mv .config/starship.toml /home/hope/.config/starship.toml
-
-	# 'neovim'
-	mkdir -p /home/hope/.config/nvim
-	mv .config/init.lua /home/hope/.config/nvim/init.lua
-
-	# 'zed'
-	mkdir -p /home/hope/.config/zed
-	mv .config/keymap.json /home/hope/.config/zed/keymap.json
-	mv .config/settings.json /home/hope/.config/zed/settings.json
-
-	# 'obs'
-	mkdir -p /home/hope/.config/obs-studio
-	mv .config/basic /home/hope/.config/obs-studio
-
-	# 'cmus  theme'
-	mkdir -p /home/hope/.config/cmus
-	mv .config/catppuccin.theme /home/hope/.config/cmus/catppuccin.theme
-
-	# reset permissions.
-	chown -R hope /home/hope/
-	chown -R :hope /home/hope/
-
-}
-
-misc() {
-
-	# recreate the initramfs image
-	mkinitcpio -P
-
-	# enable TRIM for SSDs.
-	systemctl enable fstrim.timer
-
-}
-
-current_dir=$PWD
-
-# setup ...
-
+#########################
+# Execute all steps
+#########################
 multilib
 timezone
 locale
-users
 network
 bluetooth
 audio
 webcam
-chipset
 gpu
 tui
 gui
 dev
+users
 grub
-config
-misc
-
-# clean dir & exit :
-
-rm -r .config
-rm setup.sh
