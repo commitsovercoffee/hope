@@ -1,229 +1,235 @@
 #!/bin/bash
-set -euo pipefail
 
-#########################
-# EXPRESS INSTALL VARIABLES
-#########################
+# installation config ----------------------------------------------------------
 
-# User & passwords
-USERNAME="hope"
-USER_PASS="changeme123"
-ROOT_PASS="rootpass123"
+disk="nvme0n1"          # or nvme1n1.
+timezone="Asia/Kolkata" # for timezone. duh.
+locale="en_US.UTF-8"    # for locale. cough, cough.
+username="hope"         # or snowball or whatever.
+passwd="changethis"     # for the user.
+super="changethistoo"   # for the super user.
 
-# Hostname
-HOSTNAME="arch"
+# helper functions -------------------------------------------------------------
 
-# Timezone & locale
-TIMEZONE="Asia/Kolkata"
-LOCALE="en_US.UTF-8"
+sync() {
+  pacman -S --noconfirm --needed "$@"
+}
 
-#########################
-# Enable multilib
-#########################
+# arch setup -------------------------------------------------------------------
+
 multilib() {
-  if ! grep -q "^\[multilib\]" /etc/pacman.conf; then
-    cat <<'EOF' >>/etc/pacman.conf
+
+  # Enable multilib repository for 32-bit applications
+  cat >>/etc/pacman.conf <<'EOF'
 
 [multilib]
 Include = /etc/pacman.d/mirrorlist
 EOF
-    echo "Multilib repository enabled."
-  else
-    echo "Multilib already enabled."
-  fi
+
 }
 
-#########################
-# Timezone
-#########################
-timezone() {
-  ln -sf "/usr/share/zoneinfo/$TIMEZONE" /etc/localtime
+localization() {
+
+  # set timezone.
+  ln -sf /usr/share/zoneinfo/${timezone} /etc/localtime
+
+  # generate /etc/adjtime.
   hwclock --systohc
-  echo "Timezone set to $TIMEZONE."
-}
 
-#########################
-# Locale & fonts
-#########################
-locale() {
-  sed -i "s/^#${LOCALE}/${LOCALE}/" /etc/locale.gen
+  # uncomment required locales from '/etc/locale.gen'.
+  sed -i "s/#${locale}/${locale}/" /etc/locale.gen
+
+  # generate locale.
   locale-gen
-  echo "LANG=${LOCALE}" >/etc/locale.conf
 
-  pacman -S --noconfirm --needed aspell-en ttf-firacode-nerd noto-fonts noto-fonts-extra noto-fonts-emoji font-manager
-  echo "Locale and fonts configured."
+  # create 'locale.conf'.
+  localectl set-locale LANG=${locale}
+
+  # install fonts.
+  sync ttf-firacode-nerd nerd-fonts noto-fonts noto-fonts-extra noto-fonts-emoji
+
 }
 
-#########################
-# Network
-#########################
-network() {
-  echo "$HOSTNAME" >/etc/hostname
+connectivity() {
 
-  cat >/etc/hosts <<EOF
-127.0.0.1   localhost
-::1         localhost
-127.0.1.1   ${HOSTNAME}.localdomain ${HOSTNAME}
-EOF
+  # install packages.
+  sync networkmanager network-manager-applet ufw bluez bluez-utils blueman
 
-  pacman -S --noconfirm --needed networkmanager network-manager-applet traceroute linux-firmware linux-firmware-marvell ufw syncthing
-  systemctl enable NetworkManager.service
+  # enable services.
+  systemctl enable NetworkManager
   systemctl enable ufw.service
-  systemctl enable "syncthing@${USERNAME}.service"
-
-  ufw --force reset
-  ufw default deny incoming
-  ufw default allow outgoing
-
-  echo "Network configured."
-}
-
-#########################
-# Bluetooth
-#########################
-bluetooth() {
-  pacman -S --noconfirm --needed bluez bluez-utils blueman
   systemctl enable bluetooth.service
-  rfkill unblock bluetooth || true
-  echo "Bluetooth configured."
+
+  # create the hostname file.
+  echo ${username} >/etc/hostname
+
+  # update firewall rules.
+  ufw default allow outgoing
+  ufw default deny incoming
+
 }
 
-#########################
-# Audio
-#########################
 audio() {
-  pacman -S --noconfirm --needed sof-firmware pipewire pipewire-alsa pipewire-pulse wireplumber lib32-pipewire pavucontrol alsa-utils
-  echo "Audio stack installed."
+
+  # install audio packages.
+  sync sof-firmware pipewire lib32-pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber pavucontrol alsa-utils
+
 }
 
-#########################
-# Webcam
-#########################
-webcam() {
-  pacman -S --noconfirm --needed cameractrls
-  echo "Webcam utilities installed."
+video() {
+
+  # install video packages.
+  sync mesa lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon libva-mesa-driver lib32-libva-mesa-driver
 }
 
-#########################
-# GPU
-#########################
-gpu() {
-  pacman -S --noconfirm --needed mesa lib32-mesa
-  if lspci | grep -qi "VGA.*AMD\|3D.*AMD"; then
-    pacman -S --noconfirm --needed xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon libva-mesa-driver lib32-libva-mesa-driver
-    echo "AMD GPU detected and drivers installed."
-  else
-    echo "Non-AMD GPU detected, skipping AMD drivers."
-  fi
+terminal() {
+
+  # install packages.
+  sync ghostty fish starship exa bat rsync btop cmus
+
+  # configure shell prompt.
+  starship preset nerd-font-symbols -o ~/.config/starship.toml
+
+  # set fish as default shell.
+  chsh --shell /bin/fish ${username}
+
 }
 
-#########################
-# TUI environment
-#########################
-tui() {
-  local apps=(ghostty fish fisher starship man-db tldr cowsay eza bat btop ncdu git rsync cmus mpv)
-  pacman -S --noconfirm --needed "${apps[@]}"
+desktop() {
 
-  install -d -o "$USERNAME" -g "$USERNAME" /home/"$USERNAME"/.config
-  starship preset nerd-font-symbols -o /home/"$USERNAME"/.config/starship.toml
+  # install display server & utils.
+  sync xorg-server xorg-xinit xorg-xrandr xorg-xclipboard xclip picom dunst libnotify xbindkeys brightnessctl lxrandr cbatticon xautolock slock feh gnome-themes-extra papirus-icon-theme lxappearance xfce4-appfinder xdg-user-dirs
 
-  sudo -u "$USERNAME" fish -c "fisher install --yes catppuccin/fish"
-  sudo -u "$USERNAME" fish -c "fish_config theme save --yes 'Catppuccin Mocha'"
-
-  chsh -s /bin/fish "$USERNAME"
-  echo "TUI environment configured."
-}
-
-#########################
-# GUI environment
-#########################
-gui() {
-  local apps=(xorg-server xorg-xinit xorg-xrandr xclip xorg-xclipboard picom dunst libnotify xbindkeys brightnessctl lxrandr-gtk3 cbatticon xautolock seahorse slock feh gnome-themes-extra papirus-icon-theme gnome-disk-utility dosfstools xfce4-appfinder lxappearance-gtk3 lxinput-gtk3 galculator gnome-screenshot flameshot peek gcolor3 firefox firefox-developer-edition torbrowser-launcher chromium ghostty xfce4-terminal zed mousepad evince foliate ristretto celluloid pavucontrol blueman catfish bitwarden qbittorrent nicotine+ pcmanfm-gtk3 unzip file-roller mtpfs libmtp gvfs gvfs-mtp android-tools android-udev obsidian kolourpaint kdenlive obs-studio steam steam-native-runtime)
-  pacman -S --noconfirm --needed "${apps[@]}"
-
-  install -d -o "$USERNAME" -g "$USERNAME" /home/"$USERNAME"/.config/suckless
-  git clone https://github.com/commitsovercoffee/dwm-remix.git /home/"$USERNAME"/.config/suckless/dwm-remix
-  pushd /home/"$USERNAME"/.config/suckless/dwm-remix
+  # install my custom tiling window manager.
+  git clone https://github.com/commitsovercoffee/dwm-remix.git /home/${username}/.config/suckless/dwm-remix
+  cd /home/${username}/.config/suckless/dwm-remix || exit
   make clean install
-  popd
-  chown -R "$USERNAME":"$USERNAME" /home/"$USERNAME"/.config
-
-  echo "GUI environment installed."
+  cd "$current_dir" || exit
 }
 
-#########################
-# Development environment
-#########################
-dev() {
-  local apps=(zed neovim tree-sitter git github-cli fd ripgrep jq nodejs npm go gopls gofumpt)
-  pacman -S --noconfirm --needed "${apps[@]}"
-  echo "Development environment installed."
-}
-
-#########################
-# Users
-#########################
 users() {
-  echo "root:${ROOT_PASS}" | chpasswd
 
-  if ! id -u "$USERNAME" &>/dev/null; then
-    useradd -m -G wheel -s /bin/bash "$USERNAME"
-  fi
-  echo "${USERNAME}:${USER_PASS}" | chpasswd
+  # set the passwords.
 
-  sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
+  echo "root:${super}" | chpasswd
+  useradd -m -G wheel -s /bin/bash ${username}
+  echo "${username}:${passwd}" | chpasswd
 
-  pacman -S --noconfirm --needed xdg-user-dirs
-  sudo -u "$USERNAME" xdg-user-dirs-update
-  mkdir -p /home/"$USERNAME"/{Batcave,Sync,Zion}
-  touch /home/"$USERNAME"/memo.md
-  chown -R "$USERNAME":"$USERNAME" /home/"$USERNAME"
+  # enable sudo for wheel group.
+  sed -i 's/# %wheel ALL=(ALL:ALL) ALL/ %wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 
-  echo "User setup completed."
+  # create user dirs.
+  cd /home/${username} || exit
+  sudo -u ${username} xdg-user-dirs-update
+  mkdir -p {Batcave,Sync,Zion}
+  cd "$current_dir" || exit
 }
 
-#########################
-# GRUB & boot
-#########################
 grub() {
-  local EFI_PART
-  if [[ -b /dev/nvme0n1 ]]; then
-    EFI_PART="/dev/nvme0n1p1"
-  elif [[ -b /dev/sda ]]; then
-    EFI_PART="/dev/sda1"
-  else
-    echo "ERROR: No EFI partition detected."
-    exit 1
-  fi
 
-  pacman -S --noconfirm --needed grub efibootmgr
+  sync grub efibootmgr
   mkdir -p /boot/efi
-  mount "$EFI_PART" /boot/efi
-
+  if ! mountpoint -q /boot/efi; then
+    mount /dev/${disk}p1 /boot/efi || {
+      echo "Failed to mount EFI."
+      exit 1
+    }
+  fi
   grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot/efi
-  sed -i 's/loglevel=3 quiet/loglevel=3/' /etc/default/grub || true
-  sed -i 's/GRUB_TIMEOUT=[0-9]\+/GRUB_TIMEOUT=0/' /etc/default/grub
+
+  sed -i 's/loglevel=3 quiet/loglevel=3/' /etc/default/grub
+  sed -i 's/GRUB_TIMEOUT=5/GRUB_TIMEOUT=0/' /etc/default/grub
+
   grub-mkconfig -o /boot/grub/grub.cfg
-
-  mkinitcpio -P
-  systemctl enable fstrim.timer
-
-  echo "GRUB and boot setup completed."
 }
 
-#########################
-# Execute all steps
-#########################
-multilib
-timezone
-locale
-network
-bluetooth
-audio
-webcam
-gpu
-tui
-gui
-dev
-users
-grub
+config() {
+
+  # '20-amdgpu.conf'
+  mv .config/20-amdgpu.conf /etc/X11/xorg.conf.d/20-amdgpu.conf
+
+  # 'xinitrc'
+  mv .config/.xinitrc /home/${username}/.xinitrc
+
+  # '.xbindkeysrc'
+  mv .config/.xbindkeysrc /home/${username}/.xbindkeysrc
+  mv .config/.get-vol.sh /home/${username}/.get-vol.sh
+  chmod u+x /home/${username}/.get-vol.sh
+
+  # 'Xresources'
+  mv .config/.Xresources /home/${username}/.Xresources
+
+  # 'picom'
+  mkdir -p /home/${username}/.config/picom
+  mv .config/picom.conf /home/${username}/.config/picom/picom.conf
+
+  # 'dunst'
+  mkdir -p /home/${username}/.config/dunst
+  mv .config/dunstrc /home/${username}/.config/dunst/dunstrc
+
+  # 'lxappearance'
+  mkdir -p /home/${username}/.config/gtk-3.0
+  mv .config/settings.ini /home/${username}/.config/gtk-3.0
+
+  # wallpaper for 'feh'
+  mkdir -p /home/${username}/Pictures
+  mv .config/wallpaper.jpg /home/${username}/Pictures/wallpaper.jpg
+
+  # 'touchpad'
+  mv .config/30-touch.conf /etc/X11/xorg.conf.d/30-touch.conf
+
+  # 'ghostty'
+  mkdir -p /home/${username}/.config/ghostty/themes
+  mv .config/config /home/${username}/.config/ghostty/config
+  mv .config/0x96f /home/${username}/.config/ghostty/themes/0x96f
+
+  # 'fish'
+  mkdir -p /home/${username}/.config/fish/functions
+  mv .config/config.fish /home/${username}/.config/fish/config.fish
+  mv fish_greeting.fish /home/${username}/.config/fish/functions/fish_greeting.fish
+
+  # 'starship'
+  mv .config/starship.toml /home/${username}/.config/starship.toml
+
+  # 'neovim'
+  mkdir -p /home/${username}/.config/nvim
+  mv .config/init.lua /home/${username}/.config/nvim/init.lua
+
+  # 'zed'
+  mkdir -p /home/${username}/.config/zed
+  mv .config/keymap.json /home/${username}/.config/zed/keymap.json
+  mv .config/settings.json /home/${username}/.config/zed/settings.json
+
+  # 'obs'
+  mkdir -p /home/${username}/.config/obs-studio
+  mv .config/basic /home/${username}/.config/obs-studio
+
+  # 'cmus  theme'
+  mkdir -p /home/${username}/.config/cmus
+  mv .config/catppuccin.theme /home/${username}/.config/cmus/catppuccin.theme
+
+  # reset permissions.
+  chown -R ${username} /home/${username}/
+  chown -R :${username} /home/${username}/
+
+}
+
+current_dir=$PWD
+
+# setup...
+
+multilib     # enable 32 bit apps.
+localization # set timezone & languages.
+connectivity # set wifi & bluetooth.
+audio        # set audio drivers.
+video        # set video drivers.
+terminal     # set terminal interface.
+desktop      # for graphical interface.
+users        # set user accounts.
+grub         # set bootloader.
+config       # set dot files.
+
+# clean dir & exit.
+
+rm -r .config
+rm setup.sh

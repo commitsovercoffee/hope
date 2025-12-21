@@ -1,172 +1,117 @@
 #!/bin/bash
 
-check_uefi() {
-  local fw_size_file="/sys/firmware/efi/fw_platform_size"
+# installation config ----------------------------------------------------------
 
-  if [[ ! -f "$fw_size_file" ]]; then
-    echo "ERROR: System is not booted in UEFI mode (BIOS/CSM detected)."
-    echo "Please reboot and select UEFI boot mode in your firmware settings."
-    exit 1
-  fi
+disk="nvme0n1"  # or nvme1n1.
+country="India" # for reflector mirrorlist.
 
-  local fw_size
-  fw_size=$(<"$fw_size_file")
+# helper functions -------------------------------------------------------------
 
-  case "$fw_size" in
-  64)
-    echo "UEFI 64-bit detected. Continuing installation."
-    ;;
-  32)
-    echo "ERROR: UEFI 32-bit detected."
-    echo "This installation requires 64-bit UEFI (x64)."
-    echo "Bootloader options are limited in 32-bit UEFI."
-    exit 1
-    ;;
-  *)
-    echo "ERROR: Unknown UEFI platform size: $fw_size"
-    exit 1
-    ;;
-  esac
-}
-
-prepare_disk() {
-  set -euo pipefail
-
-  local DISK
-  local PART_PREFIX
-
-  # Detect primary disk
-  if [[ -b /dev/nvme0n1 ]]; then
-    DISK="/dev/nvme0n1"
-    PART_PREFIX="p"
-    echo "Using NVMe disk: $DISK"
-
-    # Set optimal LBA format (ignore if unsupported)
-    nvme format --lbaf=1 "$DISK" || true
-
-  elif [[ -b /dev/sda ]]; then
-    DISK="/dev/sda"
-    PART_PREFIX=""
-    echo "Using SATA disk: $DISK"
-  else
-    echo "ERROR: No supported disk found (nvme0n1 or sda)."
-    exit 1
-  fi
-
-  # Calculate swap size (half of RAM, minimum 1G)
-  local SWAP_GB
-  SWAP_GB=$(free -g | awk '/Mem:/ {print int($2 / 2)}')
-  ((SWAP_GB < 1)) && SWAP_GB=1
-
-  echo "Swap size set to ${SWAP_GB}G"
-
-  # Wipe existing partition table and signatures
-  wipefs -a -f "$DISK"
-  sgdisk --zap-all "$DISK"
-
-  # Create GPT partitions
-  sgdisk \
-    -n 1:0:+512M -t 1:ef00 -c 1:"EFI System Partition" \
-    -n 2:0:+${SWAP_GB}G -t 2:8200 -c 2:"Linux Swap" \
-    -n 3:0:0 -t 3:8304 -c 3:"Linux Root (x86-64)" \
-    "$DISK"
-
-  # Ensure kernel sees new partitions
-  partprobe "$DISK"
+msg() {
+  clear
+  echo -e "\n$1\n"
   sleep 2
-
-  # Partition paths
-  local EFI_PART="${DISK}${PART_PREFIX}1"
-  local SWAP_PART="${DISK}${PART_PREFIX}2"
-  local ROOT_PART="${DISK}${PART_PREFIX}3"
-
-  # Format filesystems
-  mkfs.fat -F 32 "$EFI_PART"
-  mkswap "$SWAP_PART"
-  mkfs.ext4 -F "$ROOT_PART"
-
-  # Mount filesystems
-  mount "$ROOT_PART" /mnt
-  mount --mkdir "$EFI_PART" /mnt/boot
-
-  # Enable swap
-  swapon "$SWAP_PART"
-
-  echo "Disk preparation completed successfully."
 }
 
-install() {
-  set -euo pipefail
+# arch install -----------------------------------------------------------------
 
-  # Ensure mirrors are up to date (live environment)
-  pacman -Sy --noconfirm reflector
-  reflector --latest 10 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+preflight() {
 
-  # Base package list
-  local PKGS=(
-    base
-    base-devel
-    linux
-    linux-firmware
-  )
+  # verify boot mode.
+  [[ "$(cat /sys/firmware/efi/fw_platform_size)" == "64" ]] || {
+    msg "Not a 64-bit EFI system. Exiting..."
+    exit 1
+  }
 
-  # Detect AMD CPU
-  if lscpu | grep -qi "AuthenticAMD"; then
-    echo "AMD CPU detected — installing amd-ucode"
-    PKGS+=(amd-ucode)
-  else
-    echo "Non-AMD CPU detected — skipping amd-ucode"
-  fi
+  # verify internet connection.
+  curl -Is https://archlinux.org >/dev/null ||
+    {
+      msg "No internet connection. Exiting..."
+      exit 1
+    }
+}
 
-  # Install base system into /mnt
-  pacstrap -K /mnt "${PKGS[@]}"
+prepare_disks() {
 
+  wipefs -a -f /dev/${disk} || {
+    msg "Failed to wipe filesystem signatures on /dev/${disk}"
+    exit 1
+  }
+
+  # create partitions :
+  # 1. /dev/${disk}p1 i.e EFI  (+512M)
+  # 2. /dev/${disk}p2 i.e Swap (half of RAM)
+  # 3. /dev/${disk}p3 i.e Root (rest of disk)
+
+  swap_size="$(free -g | awk '/Mem:/ {print int($2/2)}')"
+
+  sgdisk --zap-all /dev/${disk} || exit 1
+
+  sgdisk \
+    -n 1:0:+512M -t 1:ef00 \
+    -n 2:0:+"${swap_size}"G -t 2:8200 \
+    -n 3:0:0 -t 3:8300 \
+    /dev/${disk} || {
+    msg "Partitioning failed"
+    exit 1
+  }
+
+  partprobe /dev/${disk}
+
+  # format the created partitions:
+
+  mkfs.ext4 /dev/${disk}p3 || {
+    msg "Failed to format root partition"
+    exit 1
+  }
+  mkswap /dev/${disk}p2
+  mkfs.fat -F 32 /dev/${disk}p1
+
+  # mount created partitions:
+
+  mount /dev/${disk}p3 /mnt || {
+    msg "Failed to mount root partition"
+    exit 1
+  }
+  mount --mkdir /dev/${disk}p1 /mnt/boot
+  swapon /dev/${disk}p2
+
+}
+
+install_essentials() {
+
+  # create (geographically closest) mirrorlist.
+  pacman -S reflector --noconfirm
+  reflector --country ${country} --protocol https --save /etc/pacman.d/mirrorlist
+
+  # install essential packages
+  pacstrap -K /mnt amd-ucode base linux linux-firmware linux-firmware-marvell sof-firmware
+
+}
+
+setup_arch() {
+
+  # generate fstab file to get filesystems mounted on startup.
   genfstab -U /mnt >>/mnt/etc/fstab
 
-  echo "Base system installed successfully."
-}
+  # move payload into /mnt.
+  mv ./hope/setup.sh /mnt/setup.sh
+  mv ./hope/.config /mnt/
 
-setup() {
-  set -euo pipefail
-
-  local SRC_DIR="./hope"
-  local TARGET="/mnt"
-
-  # Verify required files exist
-  if [[ ! -f "$SRC_DIR/setup.sh" ]]; then
-    echo "ERROR: $SRC_DIR/setup.sh not found."
-    exit 1
-  fi
-
-  if [[ ! -d "$SRC_DIR/.config" ]]; then
-    echo "ERROR: $SRC_DIR/.config not found."
-    exit 1
-  fi
-
-  # Copy files into target system
-  install -Dm755 "$SRC_DIR/setup.sh" "$TARGET/setup.sh"
-  cp -a "$SRC_DIR/.config" "$TARGET/"
-
-  # Run setup inside chroot
-  arch-chroot "$TARGET" /bin/bash /setup.sh
-
-  echo "Chroot setup completed."
+  # run the setup script from /mnt with arch-chroot.
+  arch-chroot /mnt bash setup.sh
 }
 
 setfont ter-132b
-check_uefi
-timedatectl
-prepare_disk
-install
-setup
+preflight
+prepare_disks
+install_essentials
+setup_arch
 
-echo "Installation complete. Unmounting filesystems and rebooting..."
-
-# Ensure all data is written to disk
-sync
-
-# Unmount all mounted filesystems under /mnt
-umount -R /mnt
-
-# Reboot into the new system
-reboot
+if mountpoint -q /mnt; then
+  umount -R /mnt || {
+    msg "Failed to unmount /mnt"
+    exit 1
+  }
+fi
+echo "Remove installation media and press Enter to reboot." && read -r && reboot
