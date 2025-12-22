@@ -189,17 +189,19 @@ grub() {
 
 current_dir=$PWD # note pwd
 
-multilib     # enable 32-bit apps.
-users        # create users.
-localization # set time & locale.
-connectivity # set network & bluetooth.
-audio        # set audio.
-graphics     # set video.
-terminal     # set terminal.
-desktop      # set dwm.
-grub         # set bootloader.
+setfont ter-132b # set font size.
+multilib         # enable 32-bit apps.
+users            # create users.
+localization     # set time & locale.
+connectivity     # set network & bluetooth.
+audio            # set audio.
+graphics         # set video.
+terminal         # set terminal.
+desktop          # set dwm.
+grub             # set bootloader.
 
-# clean dir & exit :
+# clean dir :
 
-rm -r .config
 rm setup.sh
+rm -r .config
+rm -r .settings

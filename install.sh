@@ -67,7 +67,7 @@ prepare_disks() {
 install_essentials() {
 
   # install essential packages.
-  pacstrap -K /mnt amd-ucode base linux linux-firmware linux-firmware-marvell sof-firmware neovim
+  pacstrap -K /mnt amd-ucode base base-devel linux linux-firmware linux-firmware-marvell sof-firmware neovim
 
   # generate fstab file.
   genfstab -U /mnt >>/mnt/etc/fstab
@@ -76,11 +76,10 @@ install_essentials() {
 
 setup_arch() {
 
-  # move setup script into /mnt.
+  # move payload into /mnt.
   mv ./hope/setup.sh /mnt/setup.sh
-
-  # move config files to /mnt.
   mv ./hope/.config /mnt/
+  mv ./hope/.settings /mnt/
 
   # run the setup script from /mnt with arch-chroot.
   arch-chroot /mnt bash setup.sh
