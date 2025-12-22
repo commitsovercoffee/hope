@@ -10,10 +10,7 @@ multilib() {
   echo "" >>/etc/pacman.conf
   echo "[multilib]" >>/etc/pacman.conf
   echo "Include = /etc/pacman.d/mirrorlist" >>/etc/pacman.conf
-
-  # refresh database.
-  pacman -Syy reflector --noconfirm
-  reflector --country India --protocol https --save /etc/pacman.d/mirrorlist
+  pacman -Syu
 
 }
 
@@ -159,14 +156,8 @@ grub() {
   # install required packages.
   pacman -S grub efibootmgr --noconfirm
 
-  # create directory to mount EFI partition.
-  mkdir -p /boot/efi
-
-  # mount the EFI partition.
-  mount /dev/nvme0n1p1 /boot/efi
-
   # install grub.
-  grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot/efi
+  grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot --recheck
 
   # enable logs.
   sed -i 's/loglevel=3 quiet/loglevel=3/' /etc/default/grub

@@ -18,35 +18,10 @@ preflight() {
 
 prepare_disks() {
 
-  # delete existing partition table.
-  wipefs -a -f /dev/nvme0n1
-
-  # create partitions :
-  # 1. /dev/nvme0n1p1 for efi  partition taking +512M.
-  # 2. /dev/nvme0n1p2 for swap partition taking half of RAM.
-  # 3. /dev/nvme0n1p3 for root partition taking rest of the disk.
-
-  (
-    echo n     # create new partition (for EFI).
-    echo p     # set partition type to primary.
-    echo       # set default partition number.
-    echo       # set default first sector.
-    echo +512M # set +512 as last sector.
-
-    echo n # create new partition (for SWAP).
-    echo p # set partition type to primary.
-    echo   # set default partition number.
-    echo   # set default first sector.
-    echo +$(free -g | grep Mem | awk '{print int($2 / 2)}')G
-
-    echo n # create new partition (for Root).
-    echo p # set partition type to primary.
-    echo   # set default partition number.
-    echo   # set default first sector.
-    echo   # set default last sector (use rest of the disk).
-
-    echo w # write changes.
-  ) | fdisk /dev/nvme0n1 -w always -W always
+  sgdisk --zap-all /dev/nvme0n1
+  sgdisk -n 1:0:+512M -t 1:ef00 /dev/nvme0n1
+  sgdisk -n 2:0:+$(free -g | awk '/Mem:/ {print int($2/2)}')G -t 2:8200 /dev/nvme0n1
+  sgdisk -n 3:0:0 -t 3:8300 /dev/nvme0n1
 
   # format the created paritions :
 
@@ -66,6 +41,10 @@ prepare_disks() {
 }
 
 install_essentials() {
+
+  # refresh database.
+  pacman -Syy reflector --noconfirm
+  reflector --country India --protocol https --save /etc/pacman.d/mirrorlist
 
   # install essential packages.
   pacstrap -K /mnt amd-ucode base base-devel linux linux-firmware linux-firmware-marvell sof-firmware neovim
