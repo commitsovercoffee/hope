@@ -48,6 +48,7 @@ apps=(
   'qbittorent'         # torrent client.
   'nicotine+'          # soul-seek client.
   'bitwarden'          # password manager.
+  'syncthing'          # file sync util.
 
   # tag 6 ~ file manager.
 
@@ -74,7 +75,12 @@ apps=(
 )
 
 for app in "${apps[@]}"; do
-  pacman -S "$app" --noconfirm --needed
+  sudo pacman -S "$app" --noconfirm --needed
 done
+
+# enable syncthing.
+sudo mv ./.settings/syncthing.service /etc/systemd/system
+systemctl start syncthing@hope.service
+systemctl enable syncthing@hope.service
 
 cowsay "installation complete."

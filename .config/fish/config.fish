@@ -2,7 +2,7 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
 end
 
-# Nav :
+# navigation -------------------------------------------------------------------
 
 alias ls="exa"
 alias cat=bat
@@ -10,7 +10,7 @@ alias mkdir='mkdir -pv'
 alias grep='grep --color=auto'
 alias open="xdg-open"
 
-# Pacman :
+# pacman -----------------------------------------------------------------------
 
 alias sync="sudo pacman -Syy"
 alias update="sudo pacman -Syu"
@@ -18,14 +18,11 @@ alias info="sudo pacman -Ss"
 alias install="sudo pacman -S"
 alias remove="sudo pacman -Rns"
 
-# Custom :
+# custom -----------------------------------------------------------------------
 
 alias vim=nvim
 alias top=btop
-alias find=fd
-
-alias irondome="sudo rsync -r --delete ~/Documents ~/Sync ~/Zion/Backup"
-alias bye="sudo rsync -r --delete ~/Documents ~/Sync ~/Zion/Backup; clear; cowsay 'see ya!';sleep 2; shutdown -h now"
+alias bye="sudo rsync -r --delete ~/Documents ~/Sync ~/Zion/Backup; sleep 2; sudo updatedb; sleep 2; clear; cowsay 'see ya!'; sleep 2; poweroff"
 
 function weather
     curl "wttr.in/$argv?format=3"

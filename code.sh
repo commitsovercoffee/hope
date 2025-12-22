@@ -17,11 +17,11 @@ apps=(
 )
 
 for app in "${apps[@]}"; do
-  pacman -S "$app" --noconfirm --needed
+  sudo pacman -S "$app" --noconfirm --needed
 done
 
 mkdir -p ~/Batcave
 git config --global user.email "commitsovercoffee@gmail.com"
 git config --global user.name "commitsovercoffee"
 
-cowsay "You are all set to code."
+cowsay "eat. sleep. code. repeat."
