@@ -93,8 +93,8 @@ graphics() {
 
 terminal() {
 
-  # install packages.
-  sync ghostty fish starship exa bat btop git tree neovim rsync cmus mpv tldr
+  # install terminal packages.
+  sync ghostty fish starship exa bat cowsay
 
   # set starship.
   starship preset nerd-font-symbols -o /home/hope/.config/starship.toml
@@ -133,7 +133,7 @@ desktop() {
   cp ./.settings/30-touch.conf /etc/X11/xorg.conf.d/
 
   # create home directories.
-  mkdir -p /home/hope/{Batcave,Desktop,Documents,Downloads,Music,Pictures,Sync,Videos,Zion}
+  mkdir -p /home/hope/{Desktop,Documents,Downloads,Music,Pictures,Sync,Videos,Zion}
 
   # copy dot files.
   mkdir -p /home/hope/.config
@@ -167,9 +167,9 @@ grub() {
 
 }
 
-# setup ...
+# setup...
 
-current_dir=$PWD # note pwd
+current_dir=$PWD
 
 multilib     # enable 32-bit apps.
 users        # create users.
@@ -181,7 +181,7 @@ terminal     # set terminal.
 desktop      # set dwm.
 grub         # set bootloader.
 
-# clean dir :
+# graceful exit ...
 
 rm setup.sh
 rm -r .config

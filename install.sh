@@ -50,7 +50,7 @@ install_essentials() {
   reflector --country India --protocol https --save /etc/pacman.d/mirrorlist
 
   # install essential packages.
-  pacstrap -K /mnt amd-ucode base base-devel linux linux-firmware linux-firmware-marvell sof-firmware neovim
+  pacstrap -K /mnt amd-ucode base base-devel linux linux-firmware linux-firmware-marvell sof-firmware
 
   # generate fstab file.
   genfstab -U /mnt >>/mnt/etc/fstab
@@ -69,7 +69,7 @@ setup_arch() {
 
 }
 
-# Install arch linux :
+# install...
 
 setfont ter-132b   # set font size.
 preflight          # verify booot mode.
