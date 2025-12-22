@@ -2,9 +2,9 @@
 
 ![](hope.png)
 
-Hope (Highly Optimised Productivity Environment) is a collection of scripts and dotfiles for my ever-evolving Arch setup. It installs the base system, configures essential settings, and installs all the apps I use, including their respective configs, recreating my exact workflow environment on any machine in no time.
+Hope (Highly Optimised Productivity Environment) is a collection of scripts and dotfiles designed to automate my [arch linux](https://archlinux.org/) setup. It handles everything from base installation to app configuration, instantly recreating my entire workflow on any machine.
 
-You can follow below steps to replicate my arch setup. Or fork it & make your own thing.
+Feel free to use the steps below to replicate my environment or fork the repo to build your own.
 
 ## Pre-requisites
 
@@ -21,12 +21,10 @@ You can follow below steps to replicate my arch setup. Or fork it & make your ow
 - Run below command from a live arch environment :
 
 ```bash
-pacman -Sy git;
-git clone https://github.com/commitsovercoffee/hope.git;
-bash ./hope/install.sh;
+pacman -Sy git
+git clone https://github.com/commitsovercoffee/hope.git
+cd hope; bash install.sh
 ```
-
-Once the installation is complete, your system will automatically reboot.
 
 ## Post Install
 
@@ -35,7 +33,19 @@ Once the installation is complete, your system will automatically reboot.
 - Look up my custom [keymaps](https://github.com/commitsovercoffee/dwm-remix/blob/18ea6642abae18e1c79c3359b02ee5e538a2a53a/config.def.h#L113).
 - Live happily ever after.
 
-PS Don't forget to configure [syncthing](http://localhost:8384/) for your devices.
+### Optional Scripts
+
+- `apps.sh`: Installs a curated list of applications and tools I commonly use.
+
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/commitsovercoffee/hope/main/apps.sh)
+```
+
+- `code.sh`: Bootstraps the machine for software development.
+
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/commitsovercoffee/hope/main/code.sh)
+```
 
 ## Status
 
