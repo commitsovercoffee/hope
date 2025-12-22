@@ -93,7 +93,7 @@ graphics() {
 
 terminal() {
 
-  # install terminal packages.
+  # install terminal essentials.
   sync ghostty fish starship exa bat cowsay
 
   # set starship.
@@ -110,6 +110,7 @@ desktop() {
   sync xorg-server xorg-xinit xorg-xrandr xorg-xclipboard xclip picom dunst libnotify xbindkeys brightnessctl lxrandr cbatticon slock feh gnome-themes-extra papirus-icon-theme lxappearance xfce4-appfinder xdg-user-dirs
 
   # clone my pre-patched dwm repo.
+  sync git
   git clone https://github.com/commitsovercoffee/dwm-remix.git /home/hope/.config/suckless/dwm-remix
 
   # install dynamic window manager.
