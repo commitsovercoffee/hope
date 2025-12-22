@@ -1,31 +1,45 @@
 {
-	"relative_line_numbers": "enabled",
-	"show_whitespaces": "selection",
-	"hard_tabs": true,
-	"disable_ai": true,
-	"auto_update": false,
-	"theme": "0x96f Theme",
-	"title_bar": {
-		"show_sign_in": false
-	},
-	"collaboration_panel": {
-		"button": false
-	},
-	"tabs": {
-		"file_icons": true
-	},
-	"vim_mode": true,
-	"wrap_guides": [80],
-	"format_on_save": "on",
-	"auto_install_extensions": {
-		"0x96f": true,
-		"basher": true,
-		"rainbow-csv": true,
-		"go-snippets": true,
-		"make": false,
-		"html": true,
-		"emmet": true,
-		"svelte": true,
-		"svelte-snippets": true
-	}
+  "auto_update": false,
+  "restore_on_startup": "last_workspace",
+  "confirm_quit": false,
+
+  "theme": {
+    "mode": "system",
+    "light": "Catppuccin Latte - No Italics",
+    "dark": "Catppuccin Mocha - No Italics"
+  },
+  "cursor_blink": false,
+  "scrollbar": {
+    "show": "never"
+  },
+  "tabs": {
+    "git_status": true,
+    "file_icons": true
+  },
+  "wrap_guides": [80],
+  "selection_highlight": true,
+  "git": {
+    "git_gutter": "tracked_files",
+    "inline_blame": {
+      "enabled": true
+    }
+  },
+
+  "vim_mode": true,
+  "auto_indent_on_paste": true,
+
+  "agent": {
+    "version": "2",
+    "enabled": false
+  },
+  "features": {
+    "edit_prediction_provider": "none"
+  },
+
+  "telemetry": {
+    "diagnostics": true,
+    "metrics": true
+  },
+
+  "auto_install_extensions": {}
 }

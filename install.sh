@@ -1,117 +1,98 @@
 #!/bin/bash
+# This script installs the base arch system.
 
-# installation config ----------------------------------------------------------
+check_uefi() {
 
-disk="nvme0n1"  # or nvme1n1.
-country="India" # for reflector mirrorlist.
-
-# helper functions -------------------------------------------------------------
-
-msg() {
-  clear
-  echo -e "\n$1\n"
-  sleep 2
-}
-
-# arch install -----------------------------------------------------------------
-
-preflight() {
-
-  # verify boot mode.
-  [[ "$(cat /sys/firmware/efi/fw_platform_size)" == "64" ]] || {
-    msg "Not a 64-bit EFI system. Exiting..."
-    exit 1
-  }
-
-  # verify internet connection.
-  curl -Is https://archlinux.org >/dev/null ||
-    {
-      msg "No internet connection. Exiting..."
-      exit 1
-    }
-}
-
-prepare_disks() {
-
-  wipefs -a -f /dev/${disk} || {
-    msg "Failed to wipe filesystem signatures on /dev/${disk}"
-    exit 1
-  }
-
-  # create partitions :
-  # 1. /dev/${disk}p1 i.e EFI  (+512M)
-  # 2. /dev/${disk}p2 i.e Swap (half of RAM)
-  # 3. /dev/${disk}p3 i.e Root (rest of disk)
-
-  swap_size="$(free -g | awk '/Mem:/ {print int($2/2)}')"
-
-  sgdisk --zap-all /dev/${disk} || exit 1
-
-  sgdisk \
-    -n 1:0:+512M -t 1:ef00 \
-    -n 2:0:+"${swap_size}"G -t 2:8200 \
-    -n 3:0:0 -t 3:8300 \
-    /dev/${disk} || {
-    msg "Partitioning failed"
-    exit 1
-  }
-
-  partprobe /dev/${disk}
-
-  # format the created partitions:
-
-  mkfs.ext4 /dev/${disk}p3 || {
-    msg "Failed to format root partition"
-    exit 1
-  }
-  mkswap /dev/${disk}p2
-  mkfs.fat -F 32 /dev/${disk}p1
-
-  # mount created partitions:
-
-  mount /dev/${disk}p3 /mnt || {
-    msg "Failed to mount root partition"
-    exit 1
-  }
-  mount --mkdir /dev/${disk}p1 /mnt/boot
-  swapon /dev/${disk}p2
+    # check if system is booted in UEFI mode.
+    if [ ! -d "/sys/firmware/efi/efivars" ]; then
+        # if not, display error & exit.
+        echo "[Error!] Reboot in UEFI mode and try again."
+        exit 1
+    fi
 
 }
 
-install_essentials() {
+prepare_disk() {
 
-  # create (geographically closest) mirrorlist.
-  pacman -S reflector --noconfirm
-  reflector --country ${country} --protocol https --save /etc/pacman.d/mirrorlist
+    # change to optimal logical sector size
+    nvme format --lbaf=1 /dev/nvme0n1
 
-  # install essential packages
-  pacstrap -K /mnt amd-ucode base linux linux-firmware linux-firmware-marvell sof-firmware
+    # delete existing partition table.
+    wipefs -a -f /dev/nvme0n1
+
+    # create partitions :
+    # 1. /dev/nvme0n1p1 for efi  partition taking +512M.
+    # 2. /dev/nvme0n1p2 for swap partition taking half of RAM.
+    # 3. /dev/nvme0n1p3 for root partition taking rest of the disk.
+
+    (
+        echo n     # create new partition (for EFI).
+        echo p     # set partition type to primary.
+        echo       # set default partition number.
+        echo       # set default first sector.
+        echo +512M # set +512 as last sector.
+
+        echo n # create new partition (for SWAP).
+        echo p # set partition type to primary.
+        echo   # set default partition number.
+        echo   # set default first sector.
+        echo +$(free -g | grep Mem | awk '{print int($2 / 2)}')G
+
+        echo n # create new partition (for Root).
+        echo p # set partition type to primary.
+        echo   # set default partition number.
+        echo   # set default first sector.
+        echo   # set default last sector (use rest of the disk).
+
+        echo w # write changes.
+    ) | fdisk /dev/nvme0n1 -w always -W always
+
+    # format the created paritions :
+
+    mkfs.fat -F32 /dev/nvme0n1p1 # efi partion.
+    mkswap /dev/nvme0n1p2        # swap partion.
+    mkfs.ext4 /dev/nvme0n1p3     # root partition.
+
+    # efi partition i.e /dev/nvme0n1p1 will be mounted later to /boot/efi
+
+    # enable swap.
+    swapon /dev/nvme0n1p2
+
+    # mount the filesystem.
+    mount /dev/nvme0n1p3 /mnt
 
 }
 
-setup_arch() {
+install() {
 
-  # generate fstab file to get filesystems mounted on startup.
-  genfstab -U /mnt >>/mnt/etc/fstab
+    # install essential packages.
+    pacstrap -K /mnt linux linux-firmware base base-devel
 
-  # move payload into /mnt.
-  mv ./hope/setup.sh /mnt/setup.sh
-  mv ./hope/.config /mnt/
+    # generate fstab file.
+    genfstab -U /mnt >>/mnt/etc/fstab
 
-  # run the setup script from /mnt with arch-chroot.
-  arch-chroot /mnt bash setup.sh
 }
 
-setfont ter-132b
-preflight
-prepare_disks
-install_essentials
-setup_arch
+setup() {
 
-if mountpoint -q /mnt; then
-  umount -R /mnt || {
-    msg "Failed to unmount /mnt"
-    exit 1
-  }
-fi
-echo "Remove installation media and press Enter to reboot." && read -r && reboot
+    # move setup script into /mnt.
+    mv ./hope/setup.sh /mnt/setup.sh
+
+    # move config files to /mnt.
+    mv ./hope/.config /mnt/
+
+    # run the setup script from /mnt with arch-chroot.
+    arch-chroot /mnt bash setup.sh
+
+}
+
+# Install arch linux :
+
+check_uefi   # verify boot mode.
+timedatectl  # update system clock.
+prepare_disk # partition & format disk.
+install      # install vanilla arch.
+setup        # setup system.
+
+umount -R /mnt
+reboot

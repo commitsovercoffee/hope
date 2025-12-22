@@ -321,7 +321,7 @@
     #default_icon = /path/to/icon
 
 [urgency_normal]
-
+  
     background = "#222222"
     foreground = "#bbbbbb"
     highlight = "#eeeeee"
