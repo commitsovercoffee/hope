@@ -8,7 +8,7 @@ mute=$(amixer get Master | grep -o '\[on\]' >/dev/null && echo "Not Muted" || ec
 
 # Output the volume or mute status
 if [[ $mute == "Muted" ]]; then
-	echo "Muted"
+  echo "Muted"
 else
-	echo "$volume"
+  echo "$volume"
 fi

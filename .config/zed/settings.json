@@ -1,0 +1,43 @@
+{
+	"relative_line_numbers": "enabled",
+	"show_whitespaces": "selection",
+	"hard_tabs": true,
+	"disable_ai": true,
+	"auto_update": false,
+	"theme": "0x96f Theme",
+	"title_bar": {
+		"show_sign_in": false,
+	},
+	"collaboration_panel": {
+		"button": false,
+	},
+	"tabs": {
+		"file_icons": true,
+	},
+	"vim_mode": true,
+	"wrap_guides": [80],
+	"format_on_save": "on",
+	"auto_install_extensions": {
+		"0x96f": true,
+		"basher": true,
+		"rainbow-csv": true,
+		"go-snippets": true,
+		"make": false,
+		"html": true,
+		"emmet": true,
+		"svelte": true,
+		"svelte-snippets": true,
+	},
+	"languages": {
+		"Shell Script": {
+			"format_on_save": "on",
+			"formatter": {
+				"external": {
+					"command": "shfmt",
+					// Change `--indent 2` to match your preferred tab_size
+					"arguments": ["--filename", "{buffer_path}", "--indent", "2"],
+				},
+			},
+		},
+	},
+}

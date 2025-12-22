@@ -1,0 +1,18 @@
+[
+	{
+		"context": "vim_mode==normal && !VimWaiting && !menu",
+		"bindings": {
+			"space e e": "project_panel::ToggleFocus",
+			"space g g": "git_panel::ToggleFocus",
+			"space t t": "workspace::ToggleBottomDock",
+			"space s s": "projects::OpenRecent",
+			"space f f": "file_finder::Toggle",
+			"space w w": "workspace::Save",
+			"space q q": "pane::CloseActiveItem",
+			"space o o": "outline::Toggle",
+			"space d f": "editor::Hover",
+			"space r n": "editor::Rename",
+			"space v": "editor::GoToDefinitionSplit",
+		},
+	},
+]
