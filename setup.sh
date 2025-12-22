@@ -43,9 +43,6 @@ localization() {
   # generate /etc/adjtime.
   hwclock --systohc
 
-  #enable network time sync
-  #timedatectl set-ntp true
-
   # uncomment required locales from '/etc/locale.gen'.
   sed -i 's/#en_US.UTF-8/en_US.UTF-8/' /etc/locale.gen
 
@@ -77,10 +74,6 @@ connectivity() {
   ufw default allow outgoing
   ufw default deny incoming
 
-  # lsmod | grep btusb
-  # rfkill unblock bluetooth
-  # systemctl enable bluetooth.service
-
 }
 
 audio() {
@@ -96,7 +89,8 @@ graphics() {
   sync mesa lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon libva-mesa-driver lib32-libva-mesa-driver
 
   # create xorg config.
-  mv ./.settings/20-amdgpu.conf /etc/X11/xorg.conf.d/20-amdgpu.conf
+  mkdir -p /etc/X11/xorg.conf.d
+  cp ./.settings/20-amdgpu.conf /etc/X11/xorg.conf.d/
 
 }
 
@@ -106,12 +100,7 @@ terminal() {
   sync ghostty fish starship exa bat btop git tree neovim rsync cmus mpv tldr
 
   # set starship.
-  mv ./.settings/starship.toml /home/hope/.config/starship.toml
   starship preset nerd-font-symbols -o /home/hope/.config/starship.toml
-
-  # set theme for fish shell.
-  # fish -c "fisher install catppuccin/fish"
-  # fish -c "fish_config theme save "Catppuccin Mocha""
 
   # set fish as default shell.
   chsh --shell /bin/fish hope
@@ -123,7 +112,7 @@ desktop() {
   # install display server & utils.
   sync xorg-server xorg-xinit xorg-xrandr xorg-xclipboard xclip picom dunst libnotify xbindkeys brightnessctl lxrandr cbatticon slock feh gnome-themes-extra papirus-icon-theme lxappearance xfce4-appfinder xdg-user-dirs
 
-  # clone my pre-patched dwm repo. (this command also creates .config dir as root)
+  # clone my pre-patched dwm repo.
   git clone https://github.com/commitsovercoffee/dwm-remix.git /home/hope/.config/suckless/dwm-remix
 
   # install dynamic window manager.
@@ -143,12 +132,14 @@ desktop() {
   chmod u+x /home/hope/.get-vol.sh
 
   # set touchpad.
-  mv ./.settings/30-touch.conf /etc/X11/xorg.conf.d/30-touch.conf
+  mkdir -p /etc/X11/xorg.conf.d
+  cp ./.settings/30-touch.conf /etc/X11/xorg.conf.d/
 
   # create home directories.
   mkdir -p /home/hope/{Batcave,Desktop,Documents,Downloads,Music,Pictures,Sync,Videos,Zion}
 
   # copy dot files.
+  mkdir -p /home/hope/.config
   cp -a ./.config/. /home/hope/.config/
 
   # set wallpaper.
@@ -169,10 +160,10 @@ grub() {
   pacman -S grub efibootmgr --noconfirm
 
   # create directory to mount EFI partition.
-  mkdir /boot/efi
+  # mkdir -p /boot/efi
 
   # mount the EFI partition.
-  mount /dev/nvme0n1p1 /boot/efi
+  # mount /dev/nvme0n1p1 /boot/efi
 
   # install grub.
   grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot/efi

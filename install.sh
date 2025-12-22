@@ -54,13 +54,14 @@ prepare_disks() {
   mkswap /dev/nvme0n1p2        # swap partion.
   mkfs.ext4 /dev/nvme0n1p3     # root partition.
 
-  # efi partition i.e /dev/nvme0n1p1 will be mounted later to /boot/efi
+  # mount the filesystem.
+  mount /dev/nvme0n1p3 /mnt
+
+  # mount efi.
+  mount --mkdir /dev/nvme0n1p1 /mnt/boot
 
   # enable swap.
   swapon /dev/nvme0n1p2
-
-  # mount the filesystem.
-  mount /dev/nvme0n1p3 /mnt
 
 }
 
@@ -77,9 +78,9 @@ install_essentials() {
 setup_arch() {
 
   # move payload into /mnt.
-  mv ./hope/setup.sh /mnt/setup.sh
-  mv ./hope/.config /mnt/
-  mv ./hope/.settings /mnt/
+  mv ./setup.sh /mnt/setup.sh
+  mv ./.config /mnt/
+  mv ./.settings /mnt/
 
   # run the setup script from /mnt with arch-chroot.
   arch-chroot /mnt bash setup.sh
