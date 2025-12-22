@@ -160,10 +160,10 @@ grub() {
   pacman -S grub efibootmgr --noconfirm
 
   # create directory to mount EFI partition.
-  # mkdir -p /boot/efi
+  mkdir -p /boot/efi
 
   # mount the EFI partition.
-  # mount /dev/nvme0n1p1 /boot/efi
+  mount /dev/nvme0n1p1 /boot/efi
 
   # install grub.
   grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot/efi
