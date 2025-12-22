@@ -26,6 +26,8 @@ multilib() {
 Include = /etc/pacman.d/mirrorlist
 EOF
 
+  pacman -Syy
+
 }
 
 localization() {
@@ -88,7 +90,8 @@ terminal() {
   sync ghostty fish starship exa bat rsync btop cmus
 
   # configure shell prompt.
-  starship preset nerd-font-symbols -o ~/.config/starship.toml
+  sudo -u ${username} mkdir -p /home/${username}/.config
+  sudo -u ${username} starship preset nerd-font-symbols -o /home/${username}/.config/starship.toml
 
   # set fish as default shell.
   chsh --shell /bin/fish ${username}
