@@ -30,6 +30,22 @@ EOF
 
 }
 
+users() {
+
+  # set the passwords.
+  echo "root:${super}" | chpasswd
+  useradd -m -G wheel -s /bin/bash ${username}
+  echo "${username}:${passwd}" | chpasswd
+
+  # enable sudo for wheel group.
+  sed -i 's/# %wheel ALL=(ALL:ALL) ALL/ %wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
+
+  # create user dirs.
+  su - ${username} -c "xdg-user-dirs-update"
+  su - ${username} -c "mkdir -p Batcave Sync Zion"
+
+}
+
 localization() {
 
   # set timezone.
@@ -87,11 +103,7 @@ video() {
 terminal() {
 
   # install packages.
-  sync ghostty fish starship exa bat rsync btop cmus
-
-  # configure shell prompt.
-  sudo -u ${username} mkdir -p /home/${username}/.config
-  sudo -u ${username} starship preset nerd-font-symbols -o /home/${username}/.config/starship.toml
+  sync ghostty fish starship exa bat btop git neovim rsync cmus
 
   # set fish as default shell.
   chsh --shell /bin/fish ${username}
@@ -101,31 +113,13 @@ terminal() {
 desktop() {
 
   # install display server & utils.
-  sync xorg-server xorg-xinit xorg-xrandr xorg-xclipboard xclip picom dunst libnotify xbindkeys brightnessctl lxrandr cbatticon xautolock slock feh gnome-themes-extra papirus-icon-theme lxappearance xfce4-appfinder xdg-user-dirs
+  sync xorg-server xorg-xinit xorg-xrandr xorg-xclipboard xclip picom dunst libnotify xbindkeys brightnessctl lxrandr cbatticon slock feh gnome-themes-extra papirus-icon-theme lxappearance xfce4-appfinder xdg-user-dirs
 
   # install my custom tiling window manager.
   git clone https://github.com/commitsovercoffee/dwm-remix.git /home/${username}/.config/suckless/dwm-remix
-  cd /home/${username}/.config/suckless/dwm-remix || exit
+  cd /home/${username}/.config/suckless/dwm-remix
   make clean install
-  cd "$current_dir" || exit
-}
-
-users() {
-
-  # set the passwords.
-
-  echo "root:${super}" | chpasswd
-  useradd -m -G wheel -s /bin/bash ${username}
-  echo "${username}:${passwd}" | chpasswd
-
-  # enable sudo for wheel group.
-  sed -i 's/# %wheel ALL=(ALL:ALL) ALL/ %wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
-
-  # create user dirs.
-  cd /home/${username} || exit
-  sudo -u ${username} xdg-user-dirs-update
-  mkdir -p {Batcave,Sync,Zion}
-  cd "$current_dir" || exit
+  cd "$current_dir"
 }
 
 grub() {
@@ -222,13 +216,13 @@ current_dir=$PWD
 # setup...
 
 multilib     # enable 32 bit apps.
+users        # set user accounts.
 localization # set timezone & languages.
 connectivity # set wifi & bluetooth.
 audio        # set audio drivers.
 video        # set video drivers.
 terminal     # set terminal interface.
 desktop      # for graphical interface.
-users        # set user accounts.
 grub         # set bootloader.
 config       # set dot files.
 
