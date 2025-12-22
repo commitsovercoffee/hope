@@ -23,6 +23,9 @@ prepare_disks() {
   sgdisk -n 2:0:+$(free -g | awk '/Mem:/ {print int($2/2)}')G -t 2:8200 /dev/nvme0n1
   sgdisk -n 3:0:0 -t 3:8300 /dev/nvme0n1
 
+  partprobe /dev/nvme0n1
+  sleep 2
+
   # format the created paritions :
 
   mkfs.fat -F32 /dev/nvme0n1p1 # efi partion.
@@ -75,9 +78,17 @@ install_essentials # install essential packages.
 setup_arch         # setup the arch installation.
 
 if mountpoint -q /mnt; then
+  swapoff -a || {
+    echo "Failed to disable swap"
+    exit 1
+  }
+
   umount -R /mnt || {
-    msg "Failed to unmount /mnt"
+    echo "Failed to unmount /mnt"
     exit 1
   }
 fi
-echo "Remove installation media and press Enter to reboot." && read -r && reboot
+
+echo "Remove installation media and press Enter to reboot."
+read -r
+reboot
